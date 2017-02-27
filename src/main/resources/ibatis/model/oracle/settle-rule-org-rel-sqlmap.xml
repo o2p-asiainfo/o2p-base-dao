@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="settleRuleOrgRel">
+<resultMap id="settleRuleOrgRel" class="com.ailk.eaap.op2.bo.SettleRuleOrgRel" >
+		<result column="RULE_ID" property="ruleId" javaType="java.math.BigDecimal" />
+    	<result column="ORG_ID" property="orgId" javaType="java.lang.Integer" />
+    	<result column="CREATE_DATE" property="createDate" />
+	</resultMap>
+
+
+  <select id="querySettleRuleOrgRelInfo" parameterClass="com.ailk.eaap.op2.bo.SettleRuleOrgRel"  resultMap="settleRuleOrgRel">
+      select  *  from settle_rule_org_rel 
+      <dynamic prepend=" where ">
+      	<isNotNull prepend="and" property="ruleId"> RULE_ID=#ruleId# </isNotNull>
+      	<isNotNull prepend="and" property="orgId"> ORG_ID=#orgId# </isNotNull>
+      </dynamic>
+ </select>
+ 
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.SettleRuleOrgRel">
+	 	insert into settle_rule_org_rel 
+	 	(CREATE_DATE 
+	  <dynamic>
+	    <isNotNull prepend="," property="ruleId">RULE_ID</isNotNull>
+	    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+	  </dynamic>
+	  )
+	  values(utc_timestamp()
+	  <dynamic>
+	    <isNotNull prepend="," property="ruleId">#ruleId#</isNotNull>
+	    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+	  </dynamic>
+	  )
+  </insert>
+
+  <update id="updateSettleRuleOrgRelInfo" parameterClass="com.ailk.eaap.op2.bo.SettleRuleOrgRel" >
+  	update settle_rule_org_rel set 
+  	 <dynamic>
+	    <isNotNull prepend="," property="ruleId">RULE_ID=#ruleId#</isNotNull>
+	    <isNotNull prepend="," property="orgId">ORG_ID=#orgId#</isNotNull>
+	  </dynamic>
+  </update>
+  
+</sqlMap>

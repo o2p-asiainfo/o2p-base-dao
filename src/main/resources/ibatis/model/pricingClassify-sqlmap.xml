@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="pricingClassify">
+	<select id="selectPricingClassify" parameterClass="com.ailk.eaap.op2.bo.PricingClassify" resultClass="com.ailk.eaap.op2.bo.PricingClassify">
+	  SELECT CD as cd,NAME as name,EXPLAIN as explain,STATUS_CD as statusCd,STATUS_DATE as statusDate FROM PRICING_CLASSIFY
+	  <dynamic prepend="WHERE">
+	  	<isNotNull prepend="AND" property="cd"> CD=#cd#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	
+</sqlMap>

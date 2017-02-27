@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="controlCounterms">
+	<select id="selectControlCounterms" resultClass="com.ailk.eaap.op2.bo.ControlCounterms">
+	 SELECT CC_CD ccCd,NAME name,CUTMS_TYPE cutmsType FROM CONTROL_COUNTERMS
+	 where TENANT_ID=#tenantId#
+	</select>
+</sqlMap>

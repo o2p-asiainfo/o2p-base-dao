@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="ctlCounterms2Tech">
+
+<update id="updateCtlCounterms2Tech" parameterClass="com.ailk.eaap.op2.bo.CtlCounterms2Tech">
+  UPDATE CTL_COUNTERMS_2_TECH
+  <dynamic prepend="SET">
+    <isNotNull prepend="," property="ccCd"> CC_CD=#ccCd#</isNotNull>
+    <isNotNull prepend="," property="cutmsValue"> CUTMS_VALUE=#cutmsValue#</isNotNull>
+    <isNotNull prepend="," property="effectState"> EFFECT_STATE=#effectState#</isNotNull>
+    <isNotNull prepend="," property="cycleType"> CYCLE_TYPE=#cycleType#</isNotNull>
+    <isNotNull prepend="," property="cycleValue"> CYCLE_VALUE=#cycleValue#</isNotNull>
+  </dynamic>
+  <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+  </dynamic>
+</update>
+
+<insert id="insertCtlCounterms2Tech" parameterClass="com.ailk.eaap.op2.bo.CtlCounterms2Tech">
+ INSERT INTO CTL_COUNTERMS_2_TECH
+ (CONFI_TIME,FLOW_CONTROL_CODE
+ <dynamic>
+	 <isNotNull prepend="," property="ccCd">CC_CD</isNotNull>
+	 <isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+	 <isNotNull prepend="," property="cutmsValue">CUTMS_VALUE</isNotNull>
+	 <isNotNull prepend="," property="effectState">EFFECT_STATE</isNotNull>
+	 <isNotNull prepend="," property="cycleType">CYCLE_TYPE</isNotNull>
+	 <isNotNull prepend="," property="cycleValue">CYCLE_VALUE</isNotNull>
+	 <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+ </dynamic>
+  )
+  VALUES
+  (SYS_EXTRACT_UTC(current_timestamp)+0, sys_guid()
+  <dynamic>
+	  <isNotNull prepend="," property="ccCd">#ccCd#</isNotNull>
+	  <isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+	  <isNotNull prepend="," property="cutmsValue">#cutmsValue#</isNotNull>
+	  <isNotNull prepend="," property="effectState">#effectState#</isNotNull>
+	  <isNotNull prepend="," property="cycleType">#cycleType#</isNotNull>
+	  <isNotNull prepend="," property="cycleValue">#cycleValue#</isNotNull>
+	  <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+  </dynamic>
+   )
+</insert>
+
+<select id="selectCtlCounterms2Tech" parameterClass="com.ailk.eaap.op2.bo.CtlCounterms2Tech" resultClass="com.ailk.eaap.op2.bo.CtlCounterms2Tech">
+ SELECT CC_CD ccCd,TECH_IMPL_ID techImplId,CUTMS_VALUE cutmsValue,EFFECT_STATE effectState,CYCLE_TYPE cycleType,CYCLE_VALUE cycleValue,CONFI_TIME confiTime FROM CTL_COUNTERMS_2_TECH
+  <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+  </dynamic>
+</select>
+</sqlMap>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="contractInteraction">
+	
+	<!-- 插入CONTRACT_INTERACTION对象 -->
+	<insert id="insertContractInteraction" parameterClass="com.ailk.eaap.op2.bo.ContractInteraction">
+	  insert into CONTRACT_INTERACTION$tabSuffix$
+	  (CREATE_TIME
+	  <dynamic>
+	  	<isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+	    <isNotNull prepend="," property="bizFuncCode">BIZ_FUNC_CODE</isNotNull>
+	    <isNotNull prepend="," property="bizIntfCode">BIZ_INTF_CODE</isNotNull>
+	    <isNotNull prepend="," property="contractVersion">CONTRACT_VERSION</isNotNull>
+	    <isNotNull prepend="," property="regSerCode">REG_SER_CODE</isNotNull>
+	    <isNotNull prepend="," property="regSerVersion">REG_SER_VERSION</isNotNull>
+	    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID</isNotNull>
+	    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID</isNotNull>
+	    <isNotNull prepend="," property="serviceLevel">SERVICE_LEVEL</isNotNull>
+	    <isNotNull prepend="," property="srcOrgCode">SRC_ORG_CODE</isNotNull>
+	    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE</isNotNull>
+	    <isNotNull prepend="," property="srcSysCode">SRC_SYS_CODE</isNotNull>
+	    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE</isNotNull>
+	    <isNotNull prepend="," property="testFlag">TEST_FLAG</isNotNull>
+	    <isNotNull prepend="," property="srcReqTime">SRC_REQ_TIME</isNotNull>
+	    <isNotNull prepend="," property="centerRecReqTime">CENTER_REC_REQ_TIME</isNotNull>
+	    <isNotNull prepend="," property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME</isNotNull>
+	    <isNotNull prepend="," property="dstRecTime">DST_REC_TIME</isNotNull>
+	    <isNotNull prepend="," property="dstReplyTime">DST_REPLY_TIME</isNotNull>
+	    <isNotNull prepend="," property="centerRecDstTime">CENTER_REC_DST_TIME</isNotNull>
+	    <isNotNull prepend="," property="centerFwd2SrcTime">CENTER_FWD_2_SRC_TIME</isNotNull>
+	    <isNotNull prepend="," property="srcConfirmTime">SRC_CONFIRM_TIME</isNotNull>
+	    <isNotNull prepend="," property="srcResponseTime">SRC_RESPONSE_TIME</isNotNull>
+	    <isNotNull prepend="," property="responseType">RESPONSE_TYPE</isNotNull>
+	    <isNotNull prepend="," property="responseCode">RESPONSE_CODE</isNotNull>
+	    <isNotNull prepend="," property="responseDes">RESPONSE_DES</isNotNull>
+	  </dynamic>
+	  )
+	  values
+	  (utc_timestamp()
+	   <dynamic >
+	    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+	    <isNotNull prepend="," property="bizFuncCode">#bizFuncCode#</isNotNull>
+	    <isNotNull prepend="," property="bizIntfCode">#bizIntfCode#</isNotNull>
+	    <isNotNull prepend="," property="contractVersion">#contractVersion#</isNotNull>
+	    <isNotNull prepend="," property="regSerCode">#regSerCode#</isNotNull>
+	    <isNotNull prepend="," property="regSerVersion">#regSerVersion#</isNotNull>
+	    <isNotNull prepend="," property="srcTranId">#srcTranId#</isNotNull>
+	    <isNotNull prepend="," property="dstTranId">#dstTranId#</isNotNull>
+	    <isNotNull prepend="," property="serviceLevel">#serviceLevel#</isNotNull>
+	    <isNotNull prepend="," property="srcOrgCode">#srcOrgCode#</isNotNull>
+	    <isNotNull prepend="," property="dstOrgCode">#dstOrgCode#</isNotNull>
+	    <isNotNull prepend="," property="srcSysCode">#srcSysCode#</isNotNull>
+	    <isNotNull prepend="," property="dstSysCode">#dstSysCode#</isNotNull>
+	    <isNotNull prepend="," property="testFlag">#testFlag#</isNotNull>
+	    <isNotNull prepend="," property="srcReqTime">#srcReqTime#</isNotNull>
+	    <isNotNull prepend="," property="centerRecReqTime">#centerRecReqTime#</isNotNull>
+	    <isNotNull prepend="," property="centerFwd2DstTime">#centerFwd2DstTime#</isNotNull>
+	    <isNotNull prepend="," property="dstRecTime">#dstRecTime#</isNotNull>
+	    <isNotNull prepend="," property="dstReplyTime">#dstReplyTime#</isNotNull>
+	    <isNotNull prepend="," property="centerRecDstTime">#centerRecDstTime#</isNotNull>
+	    <isNotNull prepend="," property="centerFwd2SrcTime">#centerFwd2SrcTime#</isNotNull>
+	    <isNotNull prepend="," property="srcConfirmTime">#srcConfirmTime#</isNotNull>
+	    <isNotNull prepend="," property="srcResponseTime">#srcResponseTime#</isNotNull>
+	    <isNotNull prepend="," property="responseType">#responseType#</isNotNull>
+	    <isNotNull prepend="," property="responseCode">#responseCode#</isNotNull>
+	    <isNotNull prepend="," property="responseDes">#responseDes#</isNotNull>
+	   </dynamic>
+	  )
+	</insert>
+</sqlMap>

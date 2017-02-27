@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="entMap">
+	<select id="getEntMapSeq" resultClass="java.lang.String">
+		SELECT SEQ_ENT_MAP.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="qryEntMapById" parameterClass="java.lang.String" resultClass="com.ailk.eaap.op2.bo.EntMap">
+		select ENT_MAP_ID entMapId,
+		   	   ENT_ID entId,
+		   	   ENT_TYPE entType,
+		   	   SRC_ENT_ID srcEntId,
+		   	   SRC_ENT_TYPE srcEntType,
+		   	   SRC_CODE srcCode,
+		   	   TENANT_ID tenantId,
+		   	   STATUS_CD statusCd 
+		from ENT_MAP  
+		where ENT_MAP_ID = #entMapId#
+		and tenant_id=#tenantId#
+	</select>
+	
+	<select id="qryEntMap" parameterClass="com.ailk.eaap.op2.bo.EntMap"  resultClass="com.ailk.eaap.op2.bo.EntMap">
+     select ENT_MAP_ID entMapId,
+		   	   ENT_ID entId,
+		   	   ENT_TYPE entType,
+		   	   SRC_ENT_ID srcEntId,
+		   	   SRC_ENT_TYPE srcEntType,
+		   	   SRC_CODE srcCode,
+		   	   TENANT_ID tenantId,
+		   	   STATUS_CD statusCd 
+		from ENT_MAP  
+      <dynamic prepend=" where ">
+      	<isNotNull prepend="and" property="entId"> ENT_ID = #entId# </isNotNull>
+      	<isNotNull prepend="and" property="entType"> ENT_TYPE = #entType# </isNotNull>
+      	<isNotNull prepend="and" property="srcEntId"> SRC_ENT_ID = #srcEntId# </isNotNull>
+      	<isNotNull prepend="and" property="srcEntType"> SRC_ENT_TYPE = #srcEntType# </isNotNull>
+      	<isNotNull prepend="and" property="srcCode"> SRC_CODE = #srcCode# </isNotNull>
+      	<isNotNull prepend="and" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+      	<isNotNull prepend="and" property="statusCd"> STATUS_CD = #statusCd#</isNotNull>
+      	<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+      </dynamic>
+       ORDER BY ENT_MAP_ID DESC 
+ </select>
+	
+	<insert id="addEntMap" parameterClass="com.ailk.eaap.op2.bo.EntMap">
+		INSERT INTO ENT_MAP 
+		(STATUS_DATE,CREATE_DATE  
+		<dynamic>
+			<isNotNull prepend="," property="entMapId">ENT_MAP_ID</isNotNull>
+			<isNotNull prepend="," property="entId">ENT_ID</isNotNull>
+			<isNotNull prepend="," property="entType">ENT_TYPE</isNotNull>
+			<isNotNull prepend="," property="srcEntId">SRC_ENT_ID</isNotNull>
+			<isNotNull prepend="," property="srcEntType">SRC_ENT_TYPE</isNotNull>
+			<isNotNull prepend="," property="srcCode">SRC_CODE</isNotNull>
+			<isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+			<isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+			<isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+		</dynamic>
+		)
+		VALUES
+		(SYS_EXTRACT_UTC(current_timestamp)+0 ,SYS_EXTRACT_UTC(current_timestamp)+0
+		<dynamic>
+			<isNotNull prepend="," property="entMapId">#entMapId#</isNotNull>
+			<isNotNull prepend="," property="entId">#entId#</isNotNull>
+			<isNotNull prepend="," property="entType">#entType#</isNotNull>
+			<isNotNull prepend="," property="srcEntId">#srcEntId#</isNotNull>
+			<isNotNull prepend="," property="srcEntType">#srcEntType#</isNotNull>
+			<isNotNull prepend="," property="srcCode">#srcCode#</isNotNull>
+			<isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+			<isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+			<isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+	
+	<update id="updateEntMap" parameterClass="com.ailk.eaap.op2.bo.EntMap">
+		update ENT_MAP SET STATUS_DATE = SYS_EXTRACT_UTC(current_timestamp)+0 
+		<dynamic>
+			<isNotNull prepend="," property="entId">ENT_ID = #entId#</isNotNull>
+			<isNotNull prepend="," property="entType">ENT_TYPE = #entType#</isNotNull>
+			<isNotNull prepend="," property="srcEntId">SRC_ENT_ID = #srcEntId#</isNotNull>
+			<isNotNull prepend="," property="srcEntType">SRC_ENT_TYPE = #srcEntType#</isNotNull>
+			<isNotNull prepend="," property="srcCode">SRC_CODE = #srcCode#</isNotNull>
+			<isNotNull prepend="," property="statusCd">STATUS_CD = #statusCd#</isNotNull>
+	    </dynamic>
+	    where ENT_MAP_ID = #entMapId#
+	    and tenant_id=#tenantId#
+	</update>
+	
+	<delete id="delEntMap" parameterClass="java.lang.String">
+		delete from ENT_MAP where ENT_MAP_ID = #entMapId#
+		and tenant_id=#tenantId#
+	</delete>
+	
+	<delete id="delEntMapByIdAndType" parameterClass="java.util.HashMap">
+		delete from ENT_MAP where SRC_ENT_ID = #srcEntId# and SRC_ENT_TYPE = #srcEntType# and STATUS_CD = #statusCd# and SRC_CODE = #srcCode# and TENANT_ID = #tenantId#
+	</delete>
+	
+</sqlMap>	 
+	 

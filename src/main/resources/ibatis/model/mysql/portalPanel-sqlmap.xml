@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="portalPanel">
+	<!-- 获取panel序列 -->
+ 	 <select id="selectPortalPanelSeq" resultClass="java.lang.String">
+		SELECT nextval('SEQ_PORTAL_PANEL')
+	 </select>
+	 
+	 <!-- 获取当前用户归属面板的最大排序数-->
+	 <select id="selectMaxDisplaySeq" parameterClass="com.ailk.eaap.op2.bo.PortalPanel" resultClass="java.lang.Integer">
+	 	SELECT MAX(DISPLAY_SEQ) FROM PORTAL_PANEL 
+	 	<dynamic prepend="WHERE">
+		   	<isNotNull prepend="and" property="sysPersonId"> SYS_PERSON_ID = #sysPersonId#</isNotNull>
+		   		<isNotNull prepend="and" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+		</dynamic>
+		AND STATE = 'A'
+	 </select>
+	 
+	 <!-- 获取当前用户已配置面板数目 -->
+	 <select id="selectCfgPanelNum" parameterClass="com.ailk.eaap.op2.bo.PortalPanel" resultClass="java.lang.Integer">
+	 	SELECT COUNT(1) FROM PORTAL_PANEL 
+	 	<dynamic prepend="WHERE">
+		   	<isNotNull prepend="and" property="sysPersonId"> SYS_PERSON_ID = #sysPersonId#</isNotNull>
+		   	<isNotNull prepend="and" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+		</dynamic>
+		AND STATE = 'A'
+	 </select>
+	 
+	  <!-- 查询该用户是否已配置该面板 -->
+	 <select id="selectCfgPanelIsExist" parameterClass="com.ailk.eaap.op2.bo.PortalPanel" resultClass="java.lang.Integer">
+	 	SELECT COUNT(1) FROM PORTAL_PANEL 
+	 	<dynamic prepend="WHERE">
+		   	<isNotNull prepend="and" property="sysPersonId"> SYS_PERSON_ID = #sysPersonId#</isNotNull>
+		   	<isNotNull prepend="and" property="title"> TITLE = #title#</isNotNull>
+		   	<isNotNull prepend="and" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+		</dynamic>
+		AND STATE = 'A'
+	 </select>
+	 
+	<!-- 业务监控视图-面板配置 -->
+    <select id="queryCfgPortalPanelInfo" parameterClass="com.ailk.eaap.op2.bo.PortalPanel" resultClass="com.ailk.eaap.op2.bo.PortalPanel">
+        SELECT T1.PORTAL_PANEL_ID AS portalPanelId,T1.SYS_PERSON_ID AS sysPersonId,T1.TITLE AS title,T1.DISPLAY_SEQ AS displaySeq,
+        T1.PATH AS path,T1.ATTR AS attr,T1.STATE AS state,T1.STATE_TIME AS stateTime,T1.CREATE_TIME AS createTime,T1.TIPS AS tips,T1.PANEL_TYPE AS panelType 
+        FROM PORTAL_PANEL T1 
+        where T1.TENANT_ID=#tenantId#
+         <dynamic>
+		   		<isNotNull prepend="and" property="sysPersonId"> T1.SYS_PERSON_ID = #sysPersonId#</isNotNull>
+		   		<isNotNull prepend="and" property="panelType"> T1.PANEL_TYPE = #panelType#</isNotNull>
+		 </dynamic>
+		  AND T1.STATE = 'A' ORDER BY T1.DISPLAY_SEQ ASC
+    </select>
+    
+    <!-- 业务监控视图-保存面板拖动顺序 -->
+    <update id="savePortalPanelCfg" parameterClass="com.ailk.eaap.op2.bo.PortalPanel">
+	  UPDATE PORTAL_PANEL
+	  <dynamic prepend="SET">
+	    <isNotNull prepend="," property="displaySeq">DISPLAY_SEQ=#displaySeq#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="portalPanelId"> PORTAL_PANEL_ID=#portalPanelId#</isNotNull>
+	    <isNotNull prepend="AND" property="sysPersonId"> SYS_PERSON_ID=#sysPersonId#</isNotNull>
+	    <isNotNull prepend="AND" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+	  </dynamic>
+	</update>
+	
+	<insert id="insertPortalPanel" parameterClass="com.ailk.eaap.op2.bo.PortalPanel">
+  	INSERT INTO PORTAL_PANEL
+  	(PORTAL_PANEL_ID,SYS_PERSON_ID,TITLE,DISPLAY_SEQ,PATH,ATTR,STATE,STATE_TIME,CREATE_TIME,TIPS,PANEL_TYPE,TENANT_ID)
+  	VALUES (#portalPanelId#,#sysPersonId#,#title#,#displaySeq#,#path#,#attr#,#state#,utc_timestamp(),utc_timestamp(),#tips#,#panelType#,#tenantId#)
+	</insert>
+	
+	<update id="deletePortalPanel" parameterClass="com.ailk.eaap.op2.bo.PortalPanel">
+	  UPDATE PORTAL_PANEL
+	  <dynamic prepend="SET">
+	    <isNotNull prepend="," property="state"> STATE=#state#</isNotNull>
+	    <isNotNull prepend="," property="stateTime"> STATE_TIME=#stateTime#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="portalPanelId"> PORTAL_PANEL_ID=#portalPanelId#</isNotNull>
+	    <isNotNull prepend="AND" property="sysPersonId"> SYS_PERSON_ID=#sysPersonId#</isNotNull>
+	        <isNotNull prepend="AND" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+	  </dynamic>
+	</update>
+</sqlMap>

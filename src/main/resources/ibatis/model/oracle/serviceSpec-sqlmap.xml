@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="serviceSpec">
+     <select id="selectSeqServiceSpec" resultClass="java.lang.String">
+	    SELECT SEQ_SERVICE_SPEC.NEXTVAL FROM DUAL
+	 </select>
+	 
+	 <select id="selectSeqServiceSpeceAttrRel" resultClass="java.lang.String">
+ 		SELECT SEQ_SERVICE_SPEC_ATTR_REL.NEXTVAL FROM DUAL
+	 </select>
+	 
+	 <select id="selectSeqServiceSpeceValueRel" resultClass="java.lang.String">
+	 	SELECT SEQ_SERVICE_SPEC_REL_VALUE.NEXTVAL FROM DUAL
+	 </select>
+	
+	<select id="selectServiceSpec" parameterClass="com.ailk.eaap.op2.bo.ServiceSpec" resultClass="com.ailk.eaap.op2.bo.ServiceSpec">
+		select service_id serviceId,
+             service_code serviceCode,
+             service_name serviceName,
+             service_desc serviceDesc,
+             manage_grade manageGrade, 
+             service_type serviceType,
+	         service_provider_id serviceProviderId,
+             status_cd statusCd,
+             cooperation_type cooperationType,
+             AUDIT_FLOW_ID AUDITFLOWID ,
+             SERVICE_PUBLISHER servicePublisher ,
+             create_date createDate ,
+             s_file_id sFileId
+		from service_spec Where status_cd!='1300' and cooperation_type = '1' 
+		<dynamic>
+			<isNotNull prepend="and" property="serviceId"> service_id=#serviceId#</isNotNull>
+			<isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+			<isNotNull prepend="and" property="serviceName"> service_name like ('%'||#serviceName#||'%')</isNotNull>
+			<isNotNull prepend="and" property="serviceCode"> service_code=#serviceCode#</isNotNull>
+		</dynamic>
+		UNION
+	  select service_id serviceId,
+             service_code serviceCode,
+             service_name serviceName,
+             service_desc serviceDesc,
+             manage_grade manageGrade, 
+             service_type serviceType,
+	         service_provider_id serviceProviderId,
+             status_cd statusCd,
+             cooperation_type cooperationType,
+             AUDIT_FLOW_ID AUDITFLOWID ,
+             SERVICE_PUBLISHER servicePublisher ,
+             create_date createDate ,
+             s_file_id sFileId
+		from service_spec Where status_cd!='1300' 
+			<dynamic>
+				<isNotNull prepend="and" property="serviceId"> service_id=#serviceId#</isNotNull>
+				<isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+				<isNotNull prepend="and" property="serviceCode"> service_code=#serviceCode#</isNotNull>
+				<isNotNull prepend="and" property="serviceName"> service_name like ('%'||#serviceName#||'%')</isNotNull>
+				<isNotNull prepend="and" property="serviceType"> service_type=#serviceType#</isNotNull>
+				<isNotNull prepend="and" property="serviceProviderId"> service_provider_id=#serviceProviderId# </isNotNull>
+			</dynamic>
+		
+	</select>
+	
+	<select id="serviceSpecificationCodeCheck" parameterClass="com.ailk.eaap.op2.bo.ServiceSpec" resultClass="com.ailk.eaap.op2.bo.ServiceSpec">
+		  SELECT service_id serviceId,
+	             service_code serviceCode,
+	             service_name serviceName,
+	             service_desc serviceDesc,
+	             manage_grade manageGrade, 
+	             service_type serviceType,
+		         service_provider_id serviceProviderId,
+	             status_cd statusCd,
+	             cooperation_type cooperationType,
+	             audit_flow_id auditFlowId ,
+	             service_publisher servicePublisher ,
+	             create_date createDate,
+	             s_file_id sFileId
+			FROM service_spec Where status_cd!='1300' 
+			<dynamic>
+				<isNotNull prepend="and" property="serviceId"> service_id !=#serviceId#</isNotNull>
+				<isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+				<isNotNull prepend="and" property="serviceCode"> service_code=#serviceCode#</isNotNull>
+				<isNotNull prepend="and" property="serviceProviderId"> service_provider_id=#serviceProviderId# </isNotNull>
+			</dynamic>
+	</select>
+	
+	<select id="selectServiceSpecByPer" parameterClass="com.ailk.eaap.op2.bo.ServiceSpec" resultClass="com.ailk.eaap.op2.bo.ServiceSpec">
+		select service_id serviceId,
+             service_code serviceCode,
+             service_name serviceName,
+             service_desc serviceDesc,
+             manage_grade manageGrade, 
+             service_type serviceType,
+	         service_provider_id serviceProviderId,
+             status_cd statusCd,
+             cooperation_type cooperationType,
+             AUDIT_FLOW_ID auditFlowId ,
+             SERVICE_PUBLISHER servicePublisher ,
+             create_date createDate ,
+             s_file_id sFileId
+		from service_spec Where status_cd!='1300' 
+		<dynamic>
+			<isNotNull prepend="and" property="serviceId"> service_id=#serviceId#</isNotNull>
+			<isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+			<isNotNull prepend="and" property="cooperationType"> cooperation_type=#cooperationType#</isNotNull>
+			<isNotNull prepend="and" property="serviceProviderId"> service_provider_id=#serviceProviderId#</isNotNull>
+			<isNotNull prepend="and" property="servicePublisher"> SERVICE_PUBLISHER=#servicePublisher#</isNotNull>
+			<isNotNull prepend="and" property="serviceName"> service_name like ('%'||#serviceName#||'%')</isNotNull>
+		</dynamic>
+		ORDER BY create_date desc 
+	</select>
+
+    <select id="selectServiceSpecNum" parameterClass="com.ailk.eaap.op2.bo.ServiceSpec" resultClass="java.lang.String">
+	   SELECT COUNT(1) FROM (
+	   select service_id serviceId,
+             service_code serviceCode,
+             service_name serviceName,
+             service_desc serviceDesc,
+             manage_grade manageGrade, 
+             service_type serviceType,
+	         service_provider_id serviceProviderId,
+             status_cd statusCd,
+             cooperation_type cooperationType,
+             AUDIT_FLOW_ID AUDITFLOWID ,
+             SERVICE_PUBLISHER servicePublisher 
+		from service_spec Where status_cd!='1300' and cooperation_type = '1' 
+		<dynamic>
+			<isNotNull prepend="and" property="serviceId"> service_id=#serviceId#</isNotNull>
+		    <isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+		UNION
+	   service_spec  Where status_cd!='1300' 
+	  <dynamic>
+				<isNotNull prepend="and" property="serviceId"> service_id=#serviceId#</isNotNull>
+			    <isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+				<isNotNull prepend="and" property="serviceCode"> service_code=#serviceCode#</isNotNull>
+				<isNotNull prepend="and" property="serviceName"> service_name=#serviceName#</isNotNull>
+				<isNotNull prepend="and" property="serviceType"> service_type=#serviceType#</isNotNull>
+				<isNotNull prepend="and" property="serviceProviderId"> service_provider_id=#serviceProviderId#</isNotNull>
+			</dynamic>
+		) parama
+	</select>
+	
+	<update id="updateServiceSpec" parameterClass="com.ailk.eaap.op2.bo.ServiceSpec">
+  	UPDATE service_spec SET STATUS_DATE = utc_timestamp() 
+	  <dynamic>
+	    <isNotNull prepend="," property="serviceCode">service_code=#serviceCode#</isNotNull>
+	    <isNotNull prepend="," property="serviceName">service_name=#serviceName#</isNotNull>
+	    <isNotNull prepend="," property="serviceDesc">service_desc=#serviceDesc#</isNotNull>
+	    <isNotNull prepend="," property="manageGrade">manage_grade=#manageGrade#</isNotNull>
+	    <isNotNull prepend="," property="serviceType">service_type=#serviceType#</isNotNull>
+	    <isNotNull prepend="," property="serviceProviderId">service_provider_id=#serviceProviderId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="effDate">EFF_DATE=#effDate#</isNotNull>
+	    <isNotNull prepend="," property="expDate">EXP_DATE=#expDate#</isNotNull>
+	    <isNotNull prepend="," property="cooperationType">COOPERATION_TYPE=#cooperationType#</isNotNull>
+	    <isNotNull prepend="," property="auditFlowId">AUDIT_FLOW_ID=#auditFlowId#</isNotNull>
+	    <isNotNull prepend="," property="servicePublisher">SERVICE_PUBLISHER = #servicePublisher#</isNotNull>
+	    <isNotNull prepend="," property="sFileId">s_file_id=#sFileId#</isNotNull>
+	  </dynamic>
+	  where  service_id=#serviceId# and tenant_id=#tenantId#
+	  </update>
+	  
+	  <delete id="delServiceSpec" parameterClass="java.lang.String">
+	  DELETE FROM service_spec WHERE service_id=#serviceId# 
+	  </delete>
+	
+	 <select id="selectServiceSpecById" parameterClass="com.ailk.eaap.op2.bo.ServiceSpec" resultClass="com.ailk.eaap.op2.bo.ServiceSpec">
+		select service_id serviceId,
+             service_code serviceCode,
+             service_name serviceName,
+             service_desc serviceDesc,
+             manage_grade manageGrade, 
+             service_type serviceType,
+	         service_provider_id serviceProviderId,
+             status_cd statusCd,
+             cooperation_type cooperationType,
+             AUDIT_FLOW_ID auditFlowId ,
+             SERVICE_PUBLISHER servicePublisher ,
+             create_date createDate,
+             s_file_id sFileId
+		from service_spec 
+		where service_id=#serviceId# and tenant_id=#tenantId#
+	</select>
+	
+	<select id="selectServiceSpecAttr" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	select a.service_spec_attr_rel_id serviceSpecAttrId,
+	   s.service_id,
+       s.service_name ,
+       a.default_value ,
+       c.char_spec_id ,
+       c.code ,
+       c.DESCRIPTION ,
+       c.CHAR_SPEC_NAME ,
+       c.VALUE_TYPE,
+       c.IS_CUSTOMIZED,
+       c.SPEC_MAINTAIN_TYPE  
+ 	from service_spec s,SERVICE_SPEC_ATTR_REL a ,char_spec c 
+	where a.status_cd = '1000' and s.service_id = #serviceId# and s.service_id = a.service_id and a.attr_spec_id = c.char_spec_id  
+	and s.tenant_id=#tenantId#
+	and a.tenant_id=#tenantId#
+	and c.tenant_id=#tenantId#
+	ORDER BY c.CHAR_SPEC_ID DESC 
+	</select>
+	
+	<insert id="addServiceSpecAttr" parameterClass="com.ailk.eaap.op2.bo.ServiceSpecAttr">
+	  insert into service_spec_attr_rel(service_spec_attr_rel_id,service_id,attr_spec_id,default_value,status_cd,mapping_Id,create_date,status_date,tenant_id) 
+	  values(#serviceSpecAttrRelId#,#serviceId#,#attrSpecId#,#defaultValue#,#statusCd#,#mappingId#,utc_timestamp() ,utc_timestamp(),#tenantId# );
+	</insert>
+	
+	<update id="updateServiceSpecAttr" parameterClass="com.ailk.eaap.op2.bo.ServiceSpecAttr">
+	   update service_spec_attr_rel  set status_cd = #statusCd# where service_id=#serviceId# and tenant_id=#tenantId#
+	</update>
+	
+	<delete id="delServiceSpecAttr" parameterClass="com.ailk.eaap.op2.bo.ServiceSpecAttr">
+	   delete from service_spec_attr_rel  
+	   <dynamic prepend=" where ">
+			<isNotNull prepend="and" property="serviceId"> service_id=#serviceId#</isNotNull>
+			<isNotNull prepend="and" property="serviceSpecAttrRelId"> service_spec_attr_rel_id=#serviceSpecAttrRelId#</isNotNull>
+			<isNotNull prepend="and" property="attrSpecId"> attr_spec_id=#attrSpecId#</isNotNull>
+			<isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+		</dynamic> 
+	</delete>
+	
+	<insert id="addServiceSpecAttrValue" parameterClass="com.ailk.eaap.op2.bo.ServiceSpecAttrValue" >
+	  insert into service_spec_attr_rel_value(service_spec_attr_rel_value_id,service_spec_attr_id,attr_value_id,rule_type,tenant_id) 
+	  values(#serviceSpecAttrValueId#,#serviceSpecAttrId#,#attrValueId#,#ruleType#,#tenantId#);
+	</insert>
+	
+	<delete id="delServiceSpecAttrValue" parameterClass="com.ailk.eaap.op2.bo.ServiceSpecAttrValue">
+	   delete from service_spec_attr_rel_value 
+	   <dynamic prepend=" where ">
+			<isNotNull prepend="and" property="serviceSpecAttrId"> service_spec_attr_id=#serviceSpecAttrId#</isNotNull>
+			<isNotNull prepend="and" property="serviceSpecAttrValueId"> service_spec_attr_rel_value_id=#serviceSpecAttrValueId#</isNotNull>
+			<isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+		</dynamic> 
+	</delete>
+	
+	<insert id="insertServiceSpec" parameterClass="com.ailk.eaap.op2.bo.ServiceSpec">
+	 	INSERT INTO service_spec 
+  	  (STATUS_DATE,CREATE_DATE
+  	   <dynamic>
+	  	<isNotNull prepend="," property="serviceId">service_id</isNotNull>
+	    <isNotNull prepend="," property="serviceCode">service_code</isNotNull>
+	    <isNotNull prepend="," property="serviceName">service_name</isNotNull>
+	    <isNotNull prepend="," property="serviceDesc">service_desc</isNotNull>
+	    <isNotNull prepend="," property="manageGrade">MANAGE_GRADE</isNotNull>
+	    <isNotNull prepend="," property="serviceType">service_type</isNotNull>
+	    <isNotNull prepend="," property="serviceProviderId">service_provider_id</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="effDate">EFF_DATE</isNotNull>
+	    <isNotNull prepend="," property="expDate">EXP_DATE</isNotNull>
+	    <isNotNull prepend="," property="cooperationType">cooperation_type</isNotNull>
+	    <isNotNull prepend="," property="auditFlowId">AUDIT_FLOW_ID</isNotNull>
+	    <isNotNull prepend="," property="servicePublisher">SERVICE_PUBLISHER</isNotNull>
+	    <isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+	  </dynamic>
+	   )
+	  VALUES
+	  (utc_timestamp(),utc_timestamp()
+	  <dynamic>
+	    <isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+	    <isNotNull prepend="," property="serviceCode">#serviceCode#</isNotNull>
+	    <isNotNull prepend="," property="serviceName">#serviceName#</isNotNull>
+	    <isNotNull prepend="," property="serviceDesc">#serviceDesc#</isNotNull>
+	    <isNotNull prepend="," property="manageGrade">#manageGrade#</isNotNull>
+	    <isNotNull prepend="," property="serviceType">#serviceType#</isNotNull>
+	    <isNotNull prepend="," property="serviceProviderId">#serviceProviderId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="effDate">#effDate#</isNotNull>
+	    <isNotNull prepend="," property="expDate">#expDate#</isNotNull>
+	    <isNotNull prepend="," property="cooperationType">#cooperationType#</isNotNull>
+	    <isNotNull prepend="," property="auditFlowId">#auditFlowId#</isNotNull>
+	    <isNotNull prepend="," property="servicePublisher">#servicePublisher#</isNotNull>
+	    <isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+	  </dynamic>
+	  )
+	 </insert>
+	
+	<select id="selectServiceSpecAttrValue" parameterClass="com.ailk.eaap.op2.bo.ServiceSpecAttrValue" resultClass="com.ailk.eaap.op2.bo.ServiceSpecAttrValue">
+	   select service_spec_attr_rel_value_id serviceSpecAttrValueId,
+	          service_spec_attr_id serviceSpecAttrId,
+	          attr_value_id attrValueId,
+	          rule_type ruleType 
+	   from service_spec_attr_rel_value 
+	   <dynamic prepend=" where ">
+			<isNotNull prepend="and" property="serviceSpecAttrId"> service_spec_attr_id=#serviceSpecAttrId#</isNotNull>
+			<isNotNull prepend="and" property="serviceSpecAttrValueId"> service_spec_attr_rel_value_id=#serviceSpecAttrValueId#</isNotNull>
+			<isNotNull prepend="and" property="tenantId">  tenant_id=#tenantId#</isNotNull>
+		</dynamic>  
+	</select>
+	
+</sqlMap>

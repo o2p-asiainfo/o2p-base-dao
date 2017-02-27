@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="prodOfferCatalogitem">
+	<select id="selectProdOfferCatalogitem" parameterClass="com.ailk.eaap.op2.bo.ProdOfferCatalogitem" resultClass="com.ailk.eaap.op2.bo.ProdOfferCatalogitem">
+	  SELECT CATALOG_ID catalogId,
+	         CATALOG_NAME catalogName,
+	         CATALOG_TYPE catalogType,
+	         CATALOG_DESC catalogDesc,
+	         CATALOG_CODE catalogCode,
+	         CATALOG_USAGE catalogUsage,
+	         COMMON_REGION_ID commonRegionId
+ 	    FROM PROD_OFFER_CATALOGITEM
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="catalogType"> CATALOG_TYPE=#catalogType#</isNotNull>
+	  </dynamic>
+	</select>
+</sqlMap>

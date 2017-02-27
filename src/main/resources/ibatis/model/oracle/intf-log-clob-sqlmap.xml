@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="intf_log_clob" >
+  <resultMap id="BaseResultMap" class="com.ailk.eaap.op2.bo.IntfClobLog" >
+    <result column="OLC_ID" property="olcId" jdbcType="DECIMAL" />
+    <result column="ENDPOINT_INTERACTION_ID" property="endpointInteractionId" jdbcType="DECIMAL" />
+    <result column="CONTRACT_INTERACTION_ID" property="contractInteractionId" jdbcType="VARCHAR" />
+    <result column="ENDPOINT_ID" property="endpointId" jdbcType="DECIMAL" />
+    <result column="SRC_TRAN_ID" property="srcTranId" jdbcType="VARCHAR" />
+    <result column="SRC_ORG_CODE" property="srcOrgCode" jdbcType="VARCHAR" />
+    <result column="SRC_SYS_CODE" property="srcSysCode" jdbcType="VARCHAR" />
+    <result column="DST_TRAN_ID" property="dstTranId" jdbcType="VARCHAR" />
+    <result column="DST_ORG_CODE" property="dstOrgCode" jdbcType="VARCHAR" />
+    <result column="DST_SYS_CODE" property="dstSysCode" jdbcType="VARCHAR" />
+    <result column="SRC_IP" property="srcIp" jdbcType="VARCHAR" />
+    <result column="REQ_OR_RES" property="reqOrRes" jdbcType="CHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" class="com.ailk.eaap.op2.bo.IntfClobLog" extends="intf_log_clob.BaseResultMap" >
+    <result column="MSG" property="msg" jdbcType="CLOB" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    OLC_ID, ENDPOINT_INTERACTION_ID, CONTRACT_INTERACTION_ID, ENDPOINT_ID, SRC_TRAN_ID, 
+    SRC_ORG_CODE, SRC_SYS_CODE, DST_TRAN_ID, DST_ORG_CODE, DST_SYS_CODE, SRC_IP, REQ_OR_RES, 
+    CREATE_TIME
+  </sql>
+  <sql id="Blob_Column_List" >
+    MSG
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterClass="com.ailk.eaap.op2.bo.IntfClobLog" >
+    select 
+    <include refid="intf_log_clob.Base_Column_List" />
+    ,
+    <include refid="intf_log_clob.Blob_Column_List" />
+    from intf_log_clob
+    where OLC_ID = #olcId:DECIMAL#
+  </select>
+  
+  <select id="selectIntfLogClob" resultMap="ResultMapWithBLOBs" parameterClass="com.ailk.eaap.op2.bo.IntfClobLog" >
+    select 
+    <include refid="intf_log_clob.Base_Column_List" />
+    ,
+    <include refid="intf_log_clob.Blob_Column_List" />
+    from intf_log_clob
+    	where 1 = 1 
+    	<dynamic>
+  			<isNotNull prepend="and" property="olcId"> 
+  				OLC_ID = #olcId#
+  			</isNotNull>
+  			<isNotNull prepend="and" property="contractInteractionId"> 
+  				CONTRACT_INTERACTION_ID = #contractInteractionId#  
+  			</isNotNull>
+   		</dynamic>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="com.ailk.eaap.op2.bo.IntfClobLog" >
+    delete from intf_log_clob
+    where OLC_ID = #olcId:DECIMAL#
+  </delete>
+ 
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.IntfClobLog" >
+    <selectKey resultClass="long" keyProperty="olcId">
+		 SELECT SEQ_INTF_LOG_CLOB.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into intf_log_clob (CREATE_TIME
+    <dynamic>
+      <isNotNull prepend="," property="olcId" >
+        OLC_ID
+      </isNotNull>
+      <isNotNull prepend="," property="endpointInteractionId" >
+        ENDPOINT_INTERACTION_ID
+      </isNotNull>
+      <isNotNull prepend="," property="contractInteractionId" >
+        CONTRACT_INTERACTION_ID
+      </isNotNull>
+      <isNotNull prepend="," property="endpointId" >
+        ENDPOINT_ID
+      </isNotNull>
+      <isNotNull prepend="," property="srcTranId" >
+        SRC_TRAN_ID
+      </isNotNull>
+      <isNotNull prepend="," property="srcOrgCode" >
+        SRC_ORG_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="srcSysCode" >
+        SRC_SYS_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="dstTranId" >
+        DST_TRAN_ID
+      </isNotNull>
+      <isNotNull prepend="," property="dstOrgCode" >
+        DST_ORG_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="dstSysCode" >
+        DST_SYS_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="srcIp" >
+        SRC_IP
+      </isNotNull>
+      <isNotNull prepend="," property="reqOrRes" >
+        REQ_OR_RES
+      </isNotNull>
+      <isNotNull prepend="," property="msg" >
+        MSG
+      </isNotNull>
+      )
+    </dynamic>
+    values (SYS_EXTRACT_UTC(current_timestamp)+0
+    <dynamic>
+      <isNotNull prepend="," property="olcId" >
+        #olcId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="endpointInteractionId" >
+        #endpointInteractionId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="contractInteractionId" >
+        #contractInteractionId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="endpointId" >
+        #endpointId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="srcTranId" >
+        #srcTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcOrgCode" >
+        #srcOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcSysCode" >
+        #srcSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstTranId" >
+        #dstTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstOrgCode" >
+        #dstOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstSysCode" >
+        #dstSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcIp" >
+        #srcIp:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="reqOrRes" >
+        #reqOrRes:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="msg" >
+        #msg:CLOB#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ailk.eaap.op2.bo.IntfClobLog" >
+    update intf_log_clob
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="endpointInteractionId" >
+        ENDPOINT_INTERACTION_ID = #endpointInteractionId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="contractInteractionId" >
+        CONTRACT_INTERACTION_ID = #contractInteractionId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="endpointId" >
+        ENDPOINT_ID = #endpointId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="srcTranId" >
+        SRC_TRAN_ID = #srcTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcOrgCode" >
+        SRC_ORG_CODE = #srcOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcSysCode" >
+        SRC_SYS_CODE = #srcSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstTranId" >
+        DST_TRAN_ID = #dstTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstOrgCode" >
+        DST_ORG_CODE = #dstOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstSysCode" >
+        DST_SYS_CODE = #dstSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcIp" >
+        SRC_IP = #srcIp:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="reqOrRes" >
+        REQ_OR_RES = #reqOrRes:CHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="createTime" >
+        CREATE_TIME = #createTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="msg" >
+        MSG = #msg:CLOB#
+      </isNotNull>
+    </dynamic>
+    where OLC_ID = #olcId:DECIMAL#
+  </update>
+  
+</sqlMap>

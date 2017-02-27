@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="techImpAtt">
+ <!-- 获取表序列 -->
+ <select id="selectTechImpAttSeq" resultClass="java.lang.String">
+   SELECT nextval('SEQ_TECH_IMP_ATT') from dual
+</select>
+
+<update id="updateTechImplAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt">
+  UPDATE TECH_IMP_ATT
+  <dynamic prepend="SET">
+    <isNotNull prepend="," property="attrSpecId"> ATTR_SPEC_ID=#attrSpecId#</isNotNull>
+    <isNotNull prepend="," property="attrSpecValue"> ATTR_SPEC_VALUE=#attrSpecValue#</isNotNull>
+    <isNotNull prepend="," property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="state"> STATE=#state#</isNotNull>
+  </dynamic>
+  <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="techImpAttId"> TECH_IMP_ATT_ID=#techImpAttId#</isNotNull>
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+  </dynamic>
+</update>
+
+<insert id="insertTechImplAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt">
+ INSERT INTO TECH_IMP_ATT
+ (CREATE_TIME,LASTEST_TIME,TENANT_ID
+ <dynamic>
+	 <isNotNull prepend="," property="techImpAttId">TECH_IMP_ATT_ID</isNotNull>
+	 <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID</isNotNull>
+	 <isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+	 <isNotNull prepend="," property="attrSpecValue">ATTR_SPEC_VALUE</isNotNull>
+	 <isNotNull prepend="," property="state">STATE</isNotNull>
+ </dynamic>
+  )
+  VALUES
+  (utc_timestamp(),utc_timestamp(),#tenantId#
+  <dynamic>
+	  <isNotNull prepend="," property="techImpAttId">#techImpAttId#</isNotNull>
+	  <isNotNull prepend="," property="attrSpecId">#attrSpecId#</isNotNull>
+	  <isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+	  <isNotNull prepend="," property="attrSpecValue">#attrSpecValue#</isNotNull>
+	  <isNotNull prepend="," property="state">#state#</isNotNull>
+  </dynamic>
+   )
+</insert>
+
+<select id="selectTechImplAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt" resultClass="com.ailk.eaap.op2.bo.TechImpAtt">
+ SELECT TECH_IMP_ATT_ID techImpAttId,ATTR_SPEC_ID attrSpecId,TECH_IMPL_ID techImplId,ATTR_SPEC_VALUE attrSpecValue,CREATE_TIME createTime,LASTEST_TIME lastestTime,STATE state FROM TECH_IMP_ATT
+  <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="techImpAttId"> TECH_IMP_ATT_ID=#techImpAttId#</isNotNull>
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> TENANT_ID=#tenantId#</isNotNull>
+  </dynamic>
+</select>
+
+<delete id="deleteTechImplAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt">
+  DELETE TECH_IMP_ATT WHERE TECH_IMPL_ID=#techImplId#
+</delete>
+</sqlMap>

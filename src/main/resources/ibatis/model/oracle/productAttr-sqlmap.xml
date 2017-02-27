@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="productAtrr">
+	<!-- 获取产品表序列 -->
+	<select id="selectProductAtrrSeq" resultClass="java.lang.String">
+		SELECT SEQ_PRODUCT_ATTR.NEXTVAL FROM DUAL
+	 </select>
+   	<select id="selectProductAtrr" parameterClass="com.ailk.eaap.op2.bo.ProductAttr"
+		resultClass="com.ailk.eaap.op2.bo.ProductAttr">
+		SELECT ATTR_SPEC_ID attrSpecId,DEFAULT_VALUE defaultValue from PRODUCT_ATTR
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="productId">
+				PRODUCT_ID=#productId#</isNotNull>
+		</dynamic>
+		<dynamic>
+			<isNotNull prepend="AND" property="displayType">
+				DISPLAY_TYPE=#displayType#</isNotNull>
+		</dynamic>
+	</select>
+	<insert id="insertProdAttr" parameterClass="com.ailk.eaap.op2.bo.ProductAttr">
+		INSERT INTO PRODUCT_ATTR
+		(
+		<dynamic>
+			<isNotNull property="productAttrId">PRODUCT_ATTR_ID</isNotNull>
+			<isNotNull prepend="," property="productId">PRODUCT_ID</isNotNull>
+			<isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID</isNotNull>
+			<isNotNull prepend="," property="defaultValue">DEFAULT_VALUE</isNotNull>
+			<isNotNull prepend="," property="displayType">DISPLAY_TYPE</isNotNull>
+			<isNotNull prepend="," property="productAttrDesc">PRODUCT_ATTR_DESC</isNotNull>
+			<isNotNull prepend="," property="mappingId">MAPPING_ID</isNotNull>
+    		<isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+		</dynamic>
+		)
+		VALUES
+		(
+		<dynamic>
+			<isNotNull  property="productAttrId">#productAttrId#</isNotNull>
+			<isNotNull prepend="," property="productId">#productId#</isNotNull>
+			<isNotNull prepend="," property="attrSpecId">#attrSpecId#</isNotNull>
+			<isNotNull prepend="," property="defaultValue">#defaultValue#</isNotNull>
+			<isNotNull prepend="," property="displayType">#displayType#</isNotNull>
+			<isNotNull prepend="," property="productAttrDesc">#productAttrDesc#</isNotNull>
+			<isNotNull prepend="," property="mappingId">#mappingId#</isNotNull>
+    		<isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+	<update id="updateProductAttr" parameterClass="com.ailk.eaap.op2.bo.ProductAttr">
+		update PRODUCT_ATTR
+       <dynamic prepend="set">
+			<isNotNull prepend="," property="defaultValue">DEFAULT_VALUE=#defaultValue#</isNotNull>
+			<isNotNull prepend="," property="displayType">DISPLAY_TYPE=#displayType#</isNotNull>
+			<isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+		</dynamic>
+	   WHERE PRODUCT_ID=#productId#
+	</update>
+	
+	<delete id="deleteProductAttr" parameterClass="com.ailk.eaap.op2.bo.ProductAttr">
+		delete PRODUCT_ATTR
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="attrSpecId">ATTR_SPEC_ID=#attrSpecId#
+			</isNotNull>
+		</dynamic>
+		<dynamic>
+			<isNotNull prepend="and" property="productId">PRODUCT_ID=#productId#
+			</isNotNull>
+		</dynamic>
+		<dynamic>
+			<isNotNull prepend="and" property="displayType">DISPLAY_TYPE=#displayType#
+			</isNotNull>
+		</dynamic>
+	</delete>
+</sqlMap>	 
+	 

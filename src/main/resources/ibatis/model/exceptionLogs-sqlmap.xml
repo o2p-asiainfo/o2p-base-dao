@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="exceptionLogs">
+
+	<!-- 获取EXCEPTION_LOGS序列 -->
+	<select id="getSequenceValue" resultClass="java.lang.String">
+		select SEQ_EXCEPTION_LOGS.nextval from dual
+	</select>
+
+	<!-- 插入EXCEPTION_LOGS对象 -->
+	<insert id="insertExceptionLogs" parameterClass="com.ailk.eaap.op2.bo.ExceptionLogs">
+	  insert into EXCEPTION_LOGS$tabSuffix$
+	  (CREATE_TIME
+	  <dynamic>
+	  	<isNotNull prepend="," property="exceptionInstId">EXCEPTION_INST_ID</isNotNull>
+	    <isNotNull prepend="," property="exceptionSpecId">EXCEPTION_SPEC_ID</isNotNull>
+	    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+	    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID</isNotNull>
+	    <isNotNull prepend="," property="exceptionMessage">EXCEPTION_MESSAGE</isNotNull>
+	    <isNotNull prepend="," property="content">CONTENT</isNotNull>
+	    <isNotNull prepend="," property="staffNbr">STAFF_NBR</isNotNull>
+	  </dynamic>
+	  )
+	  values
+	  (sysdate
+	  <dynamic>
+	  	<isNotNull prepend="," property="exceptionInstId">SEQ_EXCEPTION_LOGS.nextval</isNotNull>
+	    <isNotNull prepend="," property="exceptionSpecId">#exceptionSpecId#</isNotNull>
+	    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+	    <isNotNull prepend="," property="srcTranId">#srcTranId#</isNotNull>
+	    <isNotNull prepend="," property="exceptionMessage">#exceptionMessage#</isNotNull>
+	    <isNotNull prepend="," property="content">#content#</isNotNull>
+	    <isNotNull prepend="," property="staffNbr">#staffNbr#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+</sqlMap>

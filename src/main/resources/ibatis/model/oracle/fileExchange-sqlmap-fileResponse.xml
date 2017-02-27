@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="fileResponse">
+	
+   <typeAlias alias="contractFormatBean" type="com.asiainfo.integretion.o2p.cachecontroller.fileexchange.FileExchangeContractFormat"/>
+   <resultMap class="contractFormatBean" id="contractFormatBeanMap">
+ 		  <result property="tcpCtrFId" column="tcp_ctr_f_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="contractVersionId" column="contract_version_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="reqRsp" column="req_rsp"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="conType" column="con_type"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="xsdHeaderFor" column="xsd_header_for"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="xsdFormat" column="xsd_format"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="xsdDemo" column="xsd_demo"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="createTime" column="create_time"  nullValue=""  jdbcType="DATE"/>
+		  <result property="lastestTime" column="lastest_time"  nullValue=""  jdbcType="DATE"/>
+		  <result property="descriptor" column="descriptor"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="casbList" column="tcp_ctr_f_id"  select="fileResponse.GET_CONTRACT_ATTR_SPEC_BY_ID"  nullValue=""  jdbcType="DECIMAL"/>
+   </resultMap>	
+ 
+    <typeAlias alias="contractAttrSpecBean" type="com.asiainfo.integretion.o2p.cachecontroller.fileexchange.ContractAttrSpecBean"/>
+   	<resultMap class="contractAttrSpecBean" id="contractAttrSpecBeanMap">
+ 		  <result property="contractAttrSpecId" column="contract_2_attr_spec_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="tcpCtrFId" column="tcp_ctr_f_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="attrSpecBean" column="attr_spec_id" select="fileResponse.GET_ATTR_SPEC_BY_ID" nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="value" column="value"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="state" column="state"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap>	
+   
+   <typeAlias alias="attrSpecBean" type="com.asiainfo.integretion.o2p.cachecontroller.bo.AttrSpec"/>
+	<resultMap class="attrSpecBean" id="attrSpecBeanMap">
+ 		  <result property="attrSpecId" column="attr_spec_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="attrSpecName" column="attr_spec_name"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="attrSpecCode" column="attr_spec_code"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="defaultValue" column="default_value"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nullable" column="nullable"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="state" column="state"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="attrSpecDesc" column="attr_spec_desc"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap>	
+
+	<select id="GET_CONTRACT_FORMAT" parameterClass="java.util.HashMap" resultMap="contractFormatBeanMap"   >
+		select f.tcp_ctr_f_id,
+	       f.contract_version_id,
+	       f.req_rsp,
+	       f.con_type,
+	       f.xsd_header_for,
+	       f.xsd_format,
+	       f.xsd_demo,
+	       f.create_time,
+	       f.lastest_time,
+	       f.descriptor
+	  from contract_format f
+	 where f.state = 'A'
+	   and f.contract_version_id = #contractVersionId#
+	   and f.con_type = #conType#
+	   and f.req_rsp = 'RSP'
+	   and f.tenant_id=#tenantId#
+	</select>
+	
+	<!-- <select id="GET_CONTRACT_ATTR_SPEC_BY_ID"  resultMap="contractAttrSpecBeanMap"   >
+		select contract_2_attr_spec_id, tcp_ctr_f_id, attr_spec_id, value, state
+		  from contract_2_attr_spec
+		 where tcp_ctr_f_id = #attrSpecId#
+	</select>
+	
+	<select id="GET_ATTR_SPEC_BY_ID"  resultMap="attrSpecBeanMap"   >
+		select attr_spec_id,
+	       attr_spec_name,
+	       attr_spec_code,
+	       default_value,
+	       nullable,
+	       state,
+	       attr_spec_desc
+	  from attr_spec
+	 where state = 'A'
+	   and attr_spec_id = #attrSpecId#
+	</select> -->
+	
+		<select id="GET_CONTRACT_ATTR_SPEC_BY_ID" parameterClass="java.util.HashMap"  resultMap="contractAttrSpecBeanMap"   >
+		select contract_2_attr_spec_id, tcp_ctr_f_id, attr_spec_id, value, state
+		  from contract_2_attr_spec
+		  and tenant_id=#tenantId#
+	</select>
+	
+	<select id="GET_ATTR_SPEC_BY_ID"  parameterClass="java.util.HashMap" resultMap="attrSpecBeanMap"   >
+		select attr_spec_id,
+	       attr_spec_name,
+	       attr_spec_code,
+	       default_value,
+	       nullable,
+	       state,
+	       attr_spec_desc
+	  from attr_spec
+	 where state = 'A'
+	 and tenant_id=#tenantId#
+	</select>
+	
+</sqlMap>

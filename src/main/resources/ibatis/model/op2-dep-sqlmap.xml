@@ -1,0 +1,1125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="op2-dep">
+  <!--sqlmap config-->
+<delete id="deleteUseStatCntSec" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_SEC">
+  delete USE_STAT_CNT_SEC
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="transsctId">TRANSSCT_ID=#transsctId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateUseStatCntSec" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_SEC">
+  update USE_STAT_CNT_SEC
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">BIZ_INTF_CODE=#bizIntfCode#</isNotNull>
+    <isNotNull prepend="," property="contractVersion">CONTRACT_VERSION=#contractVersion#</isNotNull>
+    <isNotNull prepend="," property="sysCode">SYS_CODE=#sysCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="totalNoGrant">TOTAL_NO_GRANT=#totalNoGrant#</isNotNull>
+    <isNotNull prepend="," property="qos">QOS=#qos#</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="transsctId">TRANSSCT_ID=#transsctId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertUseStatCntSec" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_SEC">
+  insert into USE_STAT_CNT_SEC
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">BIZ_INTF_CODE</isNotNull>
+    <isNotNull prepend="," property="contractVersion">CONTRACT_VERSION</isNotNull>
+    <isNotNull prepend="," property="sysCode">SYS_CODE</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR</isNotNull>
+    <isNotNull prepend="," property="totalNoGrant">TOTAL_NO_GRANT</isNotNull>
+    <isNotNull prepend="," property="qos">QOS</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">#bizCode#</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">#bizIntfCode#</isNotNull>
+    <isNotNull prepend="," property="contractVersion">#contractVersion#</isNotNull>
+    <isNotNull prepend="," property="sysCode">#sysCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="totalNoGrant">#totalNoGrant#</isNotNull>
+    <isNotNull prepend="," property="qos">#qos#</isNotNull>
+    <isNotNull prepend="," property="countTime">#countTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectUseStatCntSec" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_SEC" resultClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_SEC">
+  select * from USE_STAT_CNT_SEC
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="transsctId">TRANSSCT_ID=#transsctId#</isNotNull>
+    <isNotNull prepend="and" property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="and" property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="and" property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="and" property="contractVersion">CONTRACT_VERSION=#contractVersion#</isNotNull>
+    <isNotNull prepend="and" property="sysCode">SYS_CODE=#sysCode#</isNotNull>
+    <isNotNull prepend="and" property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="and" property="bizIntfCode">BIZ_INTF_CODE=#bizIntfCode#</isNotNull>
+    <isNotNull prepend="and" property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="and" property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="and" property="totalNoGrant">TOTAL_NO_GRANT=#totalNoGrant#</isNotNull>
+    <isNotNull prepend="and" property="qos">QOS=#qos#</isNotNull>
+    <isNotNull prepend="and" property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteUseStatCntRecent" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_RECENT">
+  delete USE_STAT_CNT_RECENT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="transscrId">TRANSSCR_ID=#transscrId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateUseStatCntRecent" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_RECENT">
+  update USE_STAT_CNT_RECENT
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">BIZ_INTF_CODE=#bizIntfCode#</isNotNull>
+    <isNotNull prepend="," property="contractVersion">CONTRACT_VERSION=#contractVersion#</isNotNull>
+    <isNotNull prepend="," property="sysCode">SYS_CODE=#sysCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="totalNoGrant">TOTAL_NO_GRANT=#totalNoGrant#</isNotNull>
+    <isNotNull prepend="," property="qos">QOS=#qos#</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="transscrId">TRANSSCR_ID=#transscrId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertUseStatCntRecent" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_RECENT">
+  insert into USE_STAT_CNT_RECENT
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">BIZ_INTF_CODE</isNotNull>
+    <isNotNull prepend="," property="contractVersion">CONTRACT_VERSION</isNotNull>
+    <isNotNull prepend="," property="sysCode">SYS_CODE</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR</isNotNull>
+    <isNotNull prepend="," property="totalNoGrant">TOTAL_NO_GRANT</isNotNull>
+    <isNotNull prepend="," property="qos">QOS</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">#bizCode#</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">#bizIntfCode#</isNotNull>
+    <isNotNull prepend="," property="contractVersion">#contractVersion#</isNotNull>
+    <isNotNull prepend="," property="sysCode">#sysCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="totalNoGrant">#totalNoGrant#</isNotNull>
+    <isNotNull prepend="," property="qos">#qos#</isNotNull>
+    <isNotNull prepend="," property="countTime">#countTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectUseStatCntRecent" parameterClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_RECENT" resultClass="com.ailk.eaap.op2.bo.USE_STAT_CNT_RECENT">
+  select * from USE_STAT_CNT_RECENT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="transscrId">TRANSSCR_ID=#transscrId#</isNotNull>
+    <isNotNull prepend="and" property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="and" property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="and" property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="and" property="bizIntfCode">BIZ_INTF_CODE=#bizIntfCode#</isNotNull>
+    <isNotNull prepend="and" property="contractVersion">CONTRACT_VERSION=#contractVersion#</isNotNull>
+    <isNotNull prepend="and" property="sysCode">SYS_CODE=#sysCode#</isNotNull>
+    <isNotNull prepend="and" property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="and" property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="and" property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="and" property="totalNoGrant">TOTAL_NO_GRANT=#totalNoGrant#</isNotNull>
+    <isNotNull prepend="and" property="qos">QOS=#qos#</isNotNull>
+    <isNotNull prepend="and" property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteUsableState" parameterClass="com.ailk.eaap.op2.bo.USABLE_STATE">
+  delete USABLE_STATE
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="useableInsId">USEABLE_INS_ID=#useableInsId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateUsableState" parameterClass="com.ailk.eaap.op2.bo.USABLE_STATE">
+  update USABLE_STATE
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="techImplId">TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="stateTime">STATE_TIME=#stateTime#</isNotNull>
+    <isNotNull prepend="," property="reqDesc">REQ_DESC=#reqDesc#</isNotNull>
+    <isNotNull prepend="," property="usaWay">USA_WAY=#usaWay#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="useableInsId">USEABLE_INS_ID=#useableInsId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertUsableState" parameterClass="com.ailk.eaap.op2.bo.USABLE_STATE">
+  insert into USABLE_STATE
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="stateTime">STATE_TIME</isNotNull>
+    <isNotNull prepend="," property="reqDesc">REQ_DESC</isNotNull>
+    <isNotNull prepend="," property="usaWay">USA_WAY</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="stateTime">#stateTime#</isNotNull>
+    <isNotNull prepend="," property="reqDesc">#reqDesc#</isNotNull>
+    <isNotNull prepend="," property="usaWay">#usaWay#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectUsableState" parameterClass="com.ailk.eaap.op2.bo.USABLE_STATE" resultClass="com.ailk.eaap.op2.bo.USABLE_STATE">
+  select * from USABLE_STATE
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="useableInsId">USEABLE_INS_ID=#useableInsId#</isNotNull>
+    <isNotNull prepend="and" property="techImplId">TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="stateTime">STATE_TIME=#stateTime#</isNotNull>
+    <isNotNull prepend="and" property="reqDesc">REQ_DESC=#reqDesc#</isNotNull>
+    <isNotNull prepend="and" property="usaWay">USA_WAY=#usaWay#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteRegStatSec" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_SEC">
+  delete REG_STAT_SEC
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="usingtscId">USINGTSC_ID=#usingtscId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateRegStatSec" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_SEC">
+  update REG_STAT_SEC
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="," property="intfCode">INTF_CODE=#intfCode#</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">REG_SER_VERSION=#regSerVersion#</isNotNull>
+    <isNotNull prepend="," property="dstCode">DST_CODE=#dstCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="qos">QOS=#qos#</isNotNull>
+    <isNotNull prepend="," property="avgUsing">AVG_USING=#avgUsing#</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="usingtscId">USINGTSC_ID=#usingtscId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertRegStatSec" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_SEC">
+  insert into REG_STAT_SEC
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE</isNotNull>
+    <isNotNull prepend="," property="intfCode">INTF_CODE</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">REG_SER_VERSION</isNotNull>
+    <isNotNull prepend="," property="dstCode">DST_CODE</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR</isNotNull>
+    <isNotNull prepend="," property="qos">QOS</isNotNull>
+    <isNotNull prepend="," property="avgUsing">AVG_USING</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">#bizCode#</isNotNull>
+    <isNotNull prepend="," property="intfCode">#intfCode#</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">#regSerVersion#</isNotNull>
+    <isNotNull prepend="," property="dstCode">#dstCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="qos">#qos#</isNotNull>
+    <isNotNull prepend="," property="avgUsing">#avgUsing#</isNotNull>
+    <isNotNull prepend="," property="countTime">#countTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectRegStatSec" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_SEC" resultClass="com.ailk.eaap.op2.bo.REG_STAT_SEC">
+  select * from REG_STAT_SEC
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="usingtscId">USINGTSC_ID=#usingtscId#</isNotNull>
+    <isNotNull prepend="and" property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="and" property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="and" property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="and" property="intfCode">INTF_CODE=#intfCode#</isNotNull>
+    <isNotNull prepend="and" property="dstCode">DST_CODE=#dstCode#</isNotNull>
+    <isNotNull prepend="and" property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="and" property="regSerVersion">REG_SER_VERSION=#regSerVersion#</isNotNull>
+    <isNotNull prepend="and" property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="and" property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="and" property="qos">QOS=#qos#</isNotNull>
+    <isNotNull prepend="and" property="avgUsing">AVG_USING=#avgUsing#</isNotNull>
+    <isNotNull prepend="and" property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteRegStatRecent" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_RECENT">
+  delete REG_STAT_RECENT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="usingtsrId">USINGTSR_ID=#usingtsrId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateRegStatRecent" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_RECENT">
+  update REG_STAT_RECENT
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="," property="intfCode">INTF_CODE=#intfCode#</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">REG_SER_VERSION=#regSerVersion#</isNotNull>
+    <isNotNull prepend="," property="dstCode">DST_CODE=#dstCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="avgUsingDst">AVG_USING_DST=#avgUsingDst#</isNotNull>
+    <isNotNull prepend="," property="avgUsing">AVG_USING=#avgUsing#</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="usingtsrId">USINGTSR_ID=#usingtsrId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertRegStatRecent" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_RECENT">
+  insert into REG_STAT_RECENT
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">DATE_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="dateType">DATE_TYPE</isNotNull>
+    <isNotNull prepend="," property="bizCode">BIZ_CODE</isNotNull>
+    <isNotNull prepend="," property="intfCode">INTF_CODE</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">REG_SER_VERSION</isNotNull>
+    <isNotNull prepend="," property="dstCode">DST_CODE</isNotNull>
+    <isNotNull prepend="," property="totalTrans">TOTAL_TRANS</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">TOTAL_BIZ_ERR</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">TOTAL_SYS_ERR</isNotNull>
+    <isNotNull prepend="," property="avgUsingDst">AVG_USING_DST</isNotNull>
+    <isNotNull prepend="," property="avgUsing">AVG_USING</isNotNull>
+    <isNotNull prepend="," property="countTime">COUNT_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="dateTranId">#dateTranId#</isNotNull>
+    <isNotNull prepend="," property="dateType">#dateType#</isNotNull>
+    <isNotNull prepend="," property="bizCode">#bizCode#</isNotNull>
+    <isNotNull prepend="," property="intfCode">#intfCode#</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">#regSerVersion#</isNotNull>
+    <isNotNull prepend="," property="dstCode">#dstCode#</isNotNull>
+    <isNotNull prepend="," property="totalTrans">#totalTrans#</isNotNull>
+    <isNotNull prepend="," property="totalBizErr">#totalBizErr#</isNotNull>
+    <isNotNull prepend="," property="totalSysErr">#totalSysErr#</isNotNull>
+    <isNotNull prepend="," property="avgUsingDst">#avgUsingDst#</isNotNull>
+    <isNotNull prepend="," property="avgUsing">#avgUsing#</isNotNull>
+    <isNotNull prepend="," property="countTime">#countTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectRegStatRecent" parameterClass="com.ailk.eaap.op2.bo.REG_STAT_RECENT" resultClass="com.ailk.eaap.op2.bo.REG_STAT_RECENT">
+  select * from REG_STAT_RECENT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="usingtsrId">USINGTSR_ID=#usingtsrId#</isNotNull>
+    <isNotNull prepend="and" property="dateTranId">DATE_TRAN_ID=#dateTranId#</isNotNull>
+    <isNotNull prepend="and" property="dateType">DATE_TYPE=#dateType#</isNotNull>
+    <isNotNull prepend="and" property="regSerVersion">REG_SER_VERSION=#regSerVersion#</isNotNull>
+    <isNotNull prepend="and" property="dstCode">DST_CODE=#dstCode#</isNotNull>
+    <isNotNull prepend="and" property="totalTrans">TOTAL_TRANS=#totalTrans#</isNotNull>
+    <isNotNull prepend="and" property="intfCode">INTF_CODE=#intfCode#</isNotNull>
+    <isNotNull prepend="and" property="bizCode">BIZ_CODE=#bizCode#</isNotNull>
+    <isNotNull prepend="and" property="totalBizErr">TOTAL_BIZ_ERR=#totalBizErr#</isNotNull>
+    <isNotNull prepend="and" property="totalSysErr">TOTAL_SYS_ERR=#totalSysErr#</isNotNull>
+    <isNotNull prepend="and" property="avgUsingDst">AVG_USING_DST=#avgUsingDst#</isNotNull>
+    <isNotNull prepend="and" property="avgUsing">AVG_USING=#avgUsing#</isNotNull>
+    <isNotNull prepend="and" property="countTime">COUNT_TIME=#countTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteProductUseCount" parameterClass="com.ailk.eaap.op2.bo.PRODUCT_USE_COUNT">delete PRODUCT_USE_COUNT</delete>
+<update id="updateProductUseCount" parameterClass="com.ailk.eaap.op2.bo.PRODUCT_USE_COUNT">
+  update PRODUCT_USE_COUNT
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="proUserCountId">PRO_USER_COUNT_ID=#proUserCountId#</isNotNull>
+    <isNotNull prepend="," property="productCode">PRODUCT_CODE=#productCode#</isNotNull>
+    <isNotNull prepend="," property="orgId">ORG_ID=#orgId#</isNotNull>
+    <isNotNull prepend="," property="usedCount">USED_COUNT=#usedCount#</isNotNull>
+    <isNotNull prepend="," property="cycleBegTime">CYCLE_BEG_TIME=#cycleBegTime#</isNotNull>
+    <isNotNull prepend="," property="cycleEndTime">CYCLE_END_TIME=#cycleEndTime#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertProductUseCount" parameterClass="com.ailk.eaap.op2.bo.PRODUCT_USE_COUNT">
+  insert into PRODUCT_USE_COUNT
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="proUserCountId">PRO_USER_COUNT_ID</isNotNull>
+    <isNotNull prepend="," property="productCode">PRODUCT_CODE</isNotNull>
+    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+    <isNotNull prepend="," property="usedCount">USED_COUNT</isNotNull>
+    <isNotNull prepend="," property="cycleBegTime">CYCLE_BEG_TIME</isNotNull>
+    <isNotNull prepend="," property="cycleEndTime">CYCLE_END_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="proUserCountId">#proUserCountId#</isNotNull>
+    <isNotNull prepend="," property="productCode">#productCode#</isNotNull>
+    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+    <isNotNull prepend="," property="usedCount">#usedCount#</isNotNull>
+    <isNotNull prepend="," property="cycleBegTime">#cycleBegTime#</isNotNull>
+    <isNotNull prepend="," property="cycleEndTime">#cycleEndTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectProductUseCount" parameterClass="com.ailk.eaap.op2.bo.PRODUCT_USE_COUNT" resultClass="com.ailk.eaap.op2.bo.PRODUCT_USE_COUNT">
+  select * from PRODUCT_USE_COUNT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="proUserCountId">PRO_USER_COUNT_ID=#proUserCountId#</isNotNull>
+    <isNotNull prepend="and" property="productCode">PRODUCT_CODE=#productCode#</isNotNull>
+    <isNotNull prepend="and" property="orgId">ORG_ID=#orgId#</isNotNull>
+    <isNotNull prepend="and" property="usedCount">USED_COUNT=#usedCount#</isNotNull>
+    <isNotNull prepend="and" property="cycleEndTime">CYCLE_END_TIME=#cycleEndTime#</isNotNull>
+    <isNotNull prepend="and" property="cycleBegTime">CYCLE_BEG_TIME=#cycleBegTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deletePhoneBillInfo" parameterClass="com.ailk.eaap.op2.bo.PHONE_BILL_INFO">
+  delete PHONE_BILL_INFO
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="phBiInfoId">PH_BI_INFO_ID=#phBiInfoId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updatePhoneBillInfo" parameterClass="com.ailk.eaap.op2.bo.PHONE_BILL_INFO">
+  update PHONE_BILL_INFO
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="srcCompId">SRC_COMP_ID=#srcCompId#</isNotNull>
+    <isNotNull prepend="," property="accountId">ACCOUNT_ID=#accountId#</isNotNull>
+    <isNotNull prepend="," property="phoneBillMoney">PHONE_BILL_MONEY=#phoneBillMoney#</isNotNull>
+    <isNotNull prepend="," property="pbBeginTime">PB_BEGIN_TIME=#pbBeginTime#</isNotNull>
+    <isNotNull prepend="," property="pbEndTime">PB_END_TIME=#pbEndTime#</isNotNull>
+    <isNotNull prepend="," property="pbSyncTime">PB_SYNC_TIME=#pbSyncTime#</isNotNull>
+    <isNotNull prepend="," property="pbState">PB_STATE=#pbState#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="phBiInfoId">PH_BI_INFO_ID=#phBiInfoId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertPhoneBillInfo" parameterClass="com.ailk.eaap.op2.bo.PHONE_BILL_INFO">
+  insert into PHONE_BILL_INFO
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+    <isNotNull prepend="," property="srcCompId">SRC_COMP_ID</isNotNull>
+    <isNotNull prepend="," property="accountId">ACCOUNT_ID</isNotNull>
+    <isNotNull prepend="," property="phoneBillMoney">PHONE_BILL_MONEY</isNotNull>
+    <isNotNull prepend="," property="pbBeginTime">PB_BEGIN_TIME</isNotNull>
+    <isNotNull prepend="," property="pbEndTime">PB_END_TIME</isNotNull>
+    <isNotNull prepend="," property="pbSyncTime">PB_SYNC_TIME</isNotNull>
+    <isNotNull prepend="," property="pbState">PB_STATE</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="srcCompId">#srcCompId#</isNotNull>
+    <isNotNull prepend="," property="accountId">#accountId#</isNotNull>
+    <isNotNull prepend="," property="phoneBillMoney">#phoneBillMoney#</isNotNull>
+    <isNotNull prepend="," property="pbBeginTime">#pbBeginTime#</isNotNull>
+    <isNotNull prepend="," property="pbEndTime">#pbEndTime#</isNotNull>
+    <isNotNull prepend="," property="pbSyncTime">#pbSyncTime#</isNotNull>
+    <isNotNull prepend="," property="pbState">#pbState#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectPhoneBillInfo" parameterClass="com.ailk.eaap.op2.bo.PHONE_BILL_INFO" resultClass="com.ailk.eaap.op2.bo.PHONE_BILL_INFO">
+  select * from PHONE_BILL_INFO
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="phBiInfoId">PH_BI_INFO_ID=#phBiInfoId#</isNotNull>
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="srcCompId">SRC_COMP_ID=#srcCompId#</isNotNull>
+    <isNotNull prepend="and" property="accountId">ACCOUNT_ID=#accountId#</isNotNull>
+    <isNotNull prepend="and" property="phoneBillMoney">PHONE_BILL_MONEY=#phoneBillMoney#</isNotNull>
+    <isNotNull prepend="and" property="pbEndTime">PB_END_TIME=#pbEndTime#</isNotNull>
+    <isNotNull prepend="and" property="pbSyncTime">PB_SYNC_TIME=#pbSyncTime#</isNotNull>
+    <isNotNull prepend="and" property="pbState">PB_STATE=#pbState#</isNotNull>
+    <isNotNull prepend="and" property="pbBeginTime">PB_BEGIN_TIME=#pbBeginTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteOriLogClobXx" parameterClass="com.ailk.eaap.op2.bo.ORI_LOG_CLOB_XX">
+  delete ORI_LOG_CLOB_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="olcId">OLC_ID=#olcId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateOriLogClobXx" parameterClass="com.ailk.eaap.op2.bo.ORI_LOG_CLOB_XX">
+  update ORI_LOG_CLOB_XX
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="endpointInteractionId">ENDPOINT_INTERACTION_ID=#endpointInteractionId#</isNotNull>
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="srcOrgCode">SRC_ORG_CODE=#srcOrgCode#</isNotNull>
+    <isNotNull prepend="," property="srcSysCode">SRC_SYS_CODE=#srcSysCode#</isNotNull>
+    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID=#dstTranId#</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE=#dstOrgCode#</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE=#dstSysCode#</isNotNull>
+    <isNotNull prepend="," property="srcIp">SRC_IP=#srcIp#</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">REQ_OR_RES=#reqOrRes#</isNotNull>
+    <isNotNull prepend="," property="msg">MSG=#msg#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="olcId">OLC_ID=#olcId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertOriLogClobXx" parameterClass="com.ailk.eaap.op2.bo.ORI_LOG_CLOB_XX">
+  insert into ORI_LOG_CLOB_XX
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="endpointInteractionId">ENDPOINT_INTERACTION_ID</isNotNull>
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="srcOrgCode">SRC_ORG_CODE</isNotNull>
+    <isNotNull prepend="," property="srcSysCode">SRC_SYS_CODE</isNotNull>
+    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE</isNotNull>
+    <isNotNull prepend="," property="srcIp">SRC_IP</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">REQ_OR_RES</isNotNull>
+    <isNotNull prepend="," property="msg">MSG</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="endpointInteractionId">#endpointInteractionId#</isNotNull>
+    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="srcOrgCode">#srcOrgCode#</isNotNull>
+    <isNotNull prepend="," property="srcSysCode">#srcSysCode#</isNotNull>
+    <isNotNull prepend="," property="dstTranId">#dstTranId#</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">#dstOrgCode#</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">#dstSysCode#</isNotNull>
+    <isNotNull prepend="," property="srcIp">#srcIp#</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">#reqOrRes#</isNotNull>
+    <isNotNull prepend="," property="msg">#msg#</isNotNull>
+    <isNotNull prepend="," property="createTime">#createTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectOriLogClobXx" parameterClass="com.ailk.eaap.op2.bo.ORI_LOG_CLOB_XX" resultClass="com.ailk.eaap.op2.bo.ORI_LOG_CLOB_XX">
+  select * from ORI_LOG_CLOB_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="olcId">OLC_ID=#olcId#</isNotNull>
+    <isNotNull prepend="and" property="endpointInteractionId">ENDPOINT_INTERACTION_ID=#endpointInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="and" property="srcSysCode">SRC_SYS_CODE=#srcSysCode#</isNotNull>
+    <isNotNull prepend="and" property="dstTranId">DST_TRAN_ID=#dstTranId#</isNotNull>
+    <isNotNull prepend="and" property="dstOrgCode">DST_ORG_CODE=#dstOrgCode#</isNotNull>
+    <isNotNull prepend="and" property="dstSysCode">DST_SYS_CODE=#dstSysCode#</isNotNull>
+    <isNotNull prepend="and" property="srcOrgCode">SRC_ORG_CODE=#srcOrgCode#</isNotNull>
+    <isNotNull prepend="and" property="srcIp">SRC_IP=#srcIp#</isNotNull>
+    <isNotNull prepend="and" property="reqOrRes">REQ_OR_RES=#reqOrRes#</isNotNull>
+    <isNotNull prepend="and" property="msg">MSG=#msg#</isNotNull>
+    <isNotNull prepend="and" property="createTime">CREATE_TIME=#createTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteInteractionXx" parameterClass="com.ailk.eaap.op2.bo.INTERACTION_XX">
+  delete INTERACTION_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateInteractionXx" parameterClass="com.ailk.eaap.op2.bo.INTERACTION_XX">
+  update INTERACTION_XX
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="createtime">CREATETIME=#createtime#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="stateTime">STATE_TIME=#stateTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertInteractionXx" parameterClass="com.ailk.eaap.op2.bo.INTERACTION_XX">
+  insert into INTERACTION_XX
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="createtime">CREATETIME</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="stateTime">STATE_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="createtime">#createtime#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="stateTime">#stateTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectInteractionXx" parameterClass="com.ailk.eaap.op2.bo.INTERACTION_XX" resultClass="com.ailk.eaap.op2.bo.INTERACTION_XX">
+  select * from INTERACTION_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="createtime">CREATETIME=#createtime#</isNotNull>
+    <isNotNull prepend="and" property="stateTime">STATE_TIME=#stateTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteFtpTraceLog" parameterClass="com.ailk.eaap.op2.bo.FTP_TRACE_LOG">
+  delete FTP_TRACE_LOG
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="ftpTraceLogId">FTP_TRACE_LOG_ID=#ftpTraceLogId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateFtpTraceLog" parameterClass="com.ailk.eaap.op2.bo.FTP_TRACE_LOG">
+  update FTP_TRACE_LOG
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="transactionId">TRANSACTION_ID=#transactionId#</isNotNull>
+    <isNotNull prepend="," property="fileName">FILE_NAME=#fileName#</isNotNull>
+    <isNotNull prepend="," property="fileSize">FILE_SIZE=#fileSize#</isNotNull>
+    <isNotNull prepend="," property="fileCreateTime">FILE_CREATE_TIME=#fileCreateTime#</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">REQ_OR_RES=#reqOrRes#</isNotNull>
+    <isNotNull prepend="," property="fromPath">FROM_PATH=#fromPath#</isNotNull>
+    <isNotNull prepend="," property="toPath">TO_PATH=#toPath#</isNotNull>
+    <isNotNull prepend="," property="beginTime">BEGIN_TIME=#beginTime#</isNotNull>
+    <isNotNull prepend="," property="endTime">END_TIME=#endTime#</isNotNull>
+    <isNotNull prepend="," property="operType">OPER_TYPE=#operType#</isNotNull>
+    <isNotNull prepend="," property="status">STATUS=#status#</isNotNull>
+    <isNotNull prepend="," property="remarks">REMARKS=#remarks#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="ftpTraceLogId">FTP_TRACE_LOG_ID=#ftpTraceLogId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertFtpTraceLog" parameterClass="com.ailk.eaap.op2.bo.FTP_TRACE_LOG">
+  insert into FTP_TRACE_LOG
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="transactionId">TRANSACTION_ID</isNotNull>
+    <isNotNull prepend="," property="fileName">FILE_NAME</isNotNull>
+    <isNotNull prepend="," property="fileSize">FILE_SIZE</isNotNull>
+    <isNotNull prepend="," property="fileCreateTime">FILE_CREATE_TIME</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">REQ_OR_RES</isNotNull>
+    <isNotNull prepend="," property="fromPath">FROM_PATH</isNotNull>
+    <isNotNull prepend="," property="toPath">TO_PATH</isNotNull>
+    <isNotNull prepend="," property="beginTime">BEGIN_TIME</isNotNull>
+    <isNotNull prepend="," property="endTime">END_TIME</isNotNull>
+    <isNotNull prepend="," property="operType">OPER_TYPE</isNotNull>
+    <isNotNull prepend="," property="status">STATUS</isNotNull>
+    <isNotNull prepend="," property="remarks">REMARKS</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="transactionId">#transactionId#</isNotNull>
+    <isNotNull prepend="," property="fileName">#fileName#</isNotNull>
+    <isNotNull prepend="," property="fileSize">#fileSize#</isNotNull>
+    <isNotNull prepend="," property="fileCreateTime">#fileCreateTime#</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">#reqOrRes#</isNotNull>
+    <isNotNull prepend="," property="fromPath">#fromPath#</isNotNull>
+    <isNotNull prepend="," property="toPath">#toPath#</isNotNull>
+    <isNotNull prepend="," property="beginTime">#beginTime#</isNotNull>
+    <isNotNull prepend="," property="endTime">#endTime#</isNotNull>
+    <isNotNull prepend="," property="operType">#operType#</isNotNull>
+    <isNotNull prepend="," property="status">#status#</isNotNull>
+    <isNotNull prepend="," property="remarks">#remarks#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectFtpTraceLog" parameterClass="com.ailk.eaap.op2.bo.FTP_TRACE_LOG" resultClass="com.ailk.eaap.op2.bo.FTP_TRACE_LOG">
+  select * from FTP_TRACE_LOG
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="ftpTraceLogId">FTP_TRACE_LOG_ID=#ftpTraceLogId#</isNotNull>
+    <isNotNull prepend="and" property="transactionId">TRANSACTION_ID=#transactionId#</isNotNull>
+    <isNotNull prepend="and" property="fileName">FILE_NAME=#fileName#</isNotNull>
+    <isNotNull prepend="and" property="fileSize">FILE_SIZE=#fileSize#</isNotNull>
+    <isNotNull prepend="and" property="fileCreateTime">FILE_CREATE_TIME=#fileCreateTime#</isNotNull>
+    <isNotNull prepend="and" property="reqOrRes">REQ_OR_RES=#reqOrRes#</isNotNull>
+    <isNotNull prepend="and" property="fromPath">FROM_PATH=#fromPath#</isNotNull>
+    <isNotNull prepend="and" property="toPath">TO_PATH=#toPath#</isNotNull>
+    <isNotNull prepend="and" property="beginTime">BEGIN_TIME=#beginTime#</isNotNull>
+    <isNotNull prepend="and" property="endTime">END_TIME=#endTime#</isNotNull>
+    <isNotNull prepend="and" property="operType">OPER_TYPE=#operType#</isNotNull>
+    <isNotNull prepend="and" property="status">STATUS=#status#</isNotNull>
+    <isNotNull prepend="and" property="remarks">REMARKS=#remarks#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteFtpErrLog" parameterClass="com.ailk.eaap.op2.bo.FTP_ERR_LOG">
+  delete FTP_ERR_LOG
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="ftpErrLogId">FTP_ERR_LOG_ID=#ftpErrLogId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateFtpErrLog" parameterClass="com.ailk.eaap.op2.bo.FTP_ERR_LOG">
+  update FTP_ERR_LOG
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="ftpTraceLogId">FTP_TRACE_LOG_ID=#ftpTraceLogId#</isNotNull>
+    <isNotNull prepend="," property="transactionId">TRANSACTION_ID=#transactionId#</isNotNull>
+    <isNotNull prepend="," property="filePath">FILE_PATH=#filePath#</isNotNull>
+    <isNotNull prepend="," property="errSpecId">ERR_SPEC_ID=#errSpecId#</isNotNull>
+    <isNotNull prepend="," property="errMsg">ERR_MSG=#errMsg#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="ftpErrLogId">FTP_ERR_LOG_ID=#ftpErrLogId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertFtpErrLog" parameterClass="com.ailk.eaap.op2.bo.FTP_ERR_LOG">
+  insert into FTP_ERR_LOG
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="ftpTraceLogId">FTP_TRACE_LOG_ID</isNotNull>
+    <isNotNull prepend="," property="transactionId">TRANSACTION_ID</isNotNull>
+    <isNotNull prepend="," property="filePath">FILE_PATH</isNotNull>
+    <isNotNull prepend="," property="errSpecId">ERR_SPEC_ID</isNotNull>
+    <isNotNull prepend="," property="errMsg">ERR_MSG</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="ftpTraceLogId">#ftpTraceLogId#</isNotNull>
+    <isNotNull prepend="," property="transactionId">#transactionId#</isNotNull>
+    <isNotNull prepend="," property="filePath">#filePath#</isNotNull>
+    <isNotNull prepend="," property="errSpecId">#errSpecId#</isNotNull>
+    <isNotNull prepend="," property="errMsg">#errMsg#</isNotNull>
+    <isNotNull prepend="," property="createTime">#createTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectFtpErrLog" parameterClass="com.ailk.eaap.op2.bo.FTP_ERR_LOG" resultClass="com.ailk.eaap.op2.bo.FTP_ERR_LOG">
+  select * from FTP_ERR_LOG
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="ftpErrLogId">FTP_ERR_LOG_ID=#ftpErrLogId#</isNotNull>
+    <isNotNull prepend="and" property="ftpTraceLogId">FTP_TRACE_LOG_ID=#ftpTraceLogId#</isNotNull>
+    <isNotNull prepend="and" property="transactionId">TRANSACTION_ID=#transactionId#</isNotNull>
+    <isNotNull prepend="and" property="filePath">FILE_PATH=#filePath#</isNotNull>
+    <isNotNull prepend="and" property="errSpecId">ERR_SPEC_ID=#errSpecId#</isNotNull>
+    <isNotNull prepend="and" property="errMsg">ERR_MSG=#errMsg#</isNotNull>
+    <isNotNull prepend="and" property="createTime">CREATE_TIME=#createTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteExceptionLogsXx" parameterClass="com.ailk.eaap.op2.bo.EXCEPTION_LOGS_XX">
+  delete EXCEPTION_LOGS_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="exceptionInstId">EXCEPTION_INST_ID=#exceptionInstId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateExceptionLogsXx" parameterClass="com.ailk.eaap.op2.bo.EXCEPTION_LOGS_XX">
+  update EXCEPTION_LOGS_XX
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="exceptionSpecId">EXCEPTION_SPEC_ID=#exceptionSpecId#</isNotNull>
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="exceptionMessage">EXCEPTION_MESSAGE=#exceptionMessage#</isNotNull>
+    <isNotNull prepend="," property="content">CONTENT=#content#</isNotNull>
+    <isNotNull prepend="," property="staffNbr">STAFF_NBR=#staffNbr#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="exceptionInstId">EXCEPTION_INST_ID=#exceptionInstId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertExceptionLogsXx" parameterClass="com.ailk.eaap.op2.bo.EXCEPTION_LOGS_XX">
+  insert into EXCEPTION_LOGS_XX
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="exceptionSpecId">EXCEPTION_SPEC_ID</isNotNull>
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME</isNotNull>
+    <isNotNull prepend="," property="exceptionMessage">EXCEPTION_MESSAGE</isNotNull>
+    <isNotNull prepend="," property="content">CONTENT</isNotNull>
+    <isNotNull prepend="," property="staffNbr">STAFF_NBR</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="exceptionSpecId">#exceptionSpecId#</isNotNull>
+    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="createTime">#createTime#</isNotNull>
+    <isNotNull prepend="," property="exceptionMessage">#exceptionMessage#</isNotNull>
+    <isNotNull prepend="," property="content">#content#</isNotNull>
+    <isNotNull prepend="," property="staffNbr">#staffNbr#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectExceptionLogsXx" parameterClass="com.ailk.eaap.op2.bo.EXCEPTION_LOGS_XX" resultClass="com.ailk.eaap.op2.bo.EXCEPTION_LOGS_XX">
+  select * from EXCEPTION_LOGS_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="exceptionInstId">EXCEPTION_INST_ID=#exceptionInstId#</isNotNull>
+    <isNotNull prepend="and" property="exceptionSpecId">EXCEPTION_SPEC_ID=#exceptionSpecId#</isNotNull>
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="and" property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="exceptionMessage">EXCEPTION_MESSAGE=#exceptionMessage#</isNotNull>
+    <isNotNull prepend="and" property="content">CONTENT=#content#</isNotNull>
+    <isNotNull prepend="and" property="staffNbr">STAFF_NBR=#staffNbr#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteEndpointInteractionXx" parameterClass="com.ailk.eaap.op2.bo.ENDPOINT_INTERACTION_XX">
+  delete ENDPOINT_INTERACTION_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="endpointInteractionId">ENDPOINT_INTERACTION_ID=#endpointInteractionId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateEndpointInteractionXx" parameterClass="com.ailk.eaap.op2.bo.ENDPOINT_INTERACTION_XX">
+  update ENDPOINT_INTERACTION_XX
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+    <isNotNull prepend="," property="endpointId">ENDPOINT_ID=#endpointId#</isNotNull>
+    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">REQ_OR_RES=#reqOrRes#</isNotNull>
+    <isNotNull prepend="," property="queueMsgId">QUEUE_MSG_ID=#queueMsgId#</isNotNull>
+    <isNotNull prepend="," property="resQueue">RES_QUEUE=#resQueue#</isNotNull>
+    <isNotNull prepend="," property="reqQueue">REQ_QUEUE=#reqQueue#</isNotNull>
+    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID=#dstTranId#</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE=#dstOrgCode#</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE=#dstSysCode#</isNotNull>
+    <isNotNull prepend="," property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME=#centerFwd2DstTime#</isNotNull>
+    <isNotNull prepend="," property="dstReplyTime">DST_REPLY_TIME=#dstReplyTime#</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="endpointInteractionId">ENDPOINT_INTERACTION_ID=#endpointInteractionId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertEndpointInteractionXx" parameterClass="com.ailk.eaap.op2.bo.ENDPOINT_INTERACTION_XX">
+  insert into ENDPOINT_INTERACTION_XX
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+    <isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+    <isNotNull prepend="," property="endpointId">ENDPOINT_ID</isNotNull>
+    <isNotNull prepend="," property="createDate">CREATE_DATE</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">REQ_OR_RES</isNotNull>
+    <isNotNull prepend="," property="queueMsgId">QUEUE_MSG_ID</isNotNull>
+    <isNotNull prepend="," property="resQueue">RES_QUEUE</isNotNull>
+    <isNotNull prepend="," property="reqQueue">REQ_QUEUE</isNotNull>
+    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE</isNotNull>
+    <isNotNull prepend="," property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME</isNotNull>
+    <isNotNull prepend="," property="dstReplyTime">DST_REPLY_TIME</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+    <isNotNull prepend="," property="endpointId">#endpointId#</isNotNull>
+    <isNotNull prepend="," property="createDate">#createDate#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="reqOrRes">#reqOrRes#</isNotNull>
+    <isNotNull prepend="," property="queueMsgId">#queueMsgId#</isNotNull>
+    <isNotNull prepend="," property="resQueue">#resQueue#</isNotNull>
+    <isNotNull prepend="," property="reqQueue">#reqQueue#</isNotNull>
+    <isNotNull prepend="," property="dstTranId">#dstTranId#</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">#dstOrgCode#</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">#dstSysCode#</isNotNull>
+    <isNotNull prepend="," property="centerFwd2DstTime">#centerFwd2DstTime#</isNotNull>
+    <isNotNull prepend="," property="dstReplyTime">#dstReplyTime#</isNotNull>
+    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectEndpointInteractionXx" parameterClass="com.ailk.eaap.op2.bo.ENDPOINT_INTERACTION_XX" resultClass="com.ailk.eaap.op2.bo.ENDPOINT_INTERACTION_XX">
+  select * from ENDPOINT_INTERACTION_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="endpointId">ENDPOINT_ID=#endpointId#</isNotNull>
+    <isNotNull prepend="and" property="createDate">CREATE_DATE=#createDate#</isNotNull>
+    <isNotNull prepend="and" property="endpointInteractionId">ENDPOINT_INTERACTION_ID=#endpointInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+    <isNotNull prepend="and" property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="and" property="reqOrRes">REQ_OR_RES=#reqOrRes#</isNotNull>
+    <isNotNull prepend="and" property="queueMsgId">QUEUE_MSG_ID=#queueMsgId#</isNotNull>
+    <isNotNull prepend="and" property="resQueue">RES_QUEUE=#resQueue#</isNotNull>
+    <isNotNull prepend="and" property="reqQueue">REQ_QUEUE=#reqQueue#</isNotNull>
+    <isNotNull prepend="and" property="dstTranId">DST_TRAN_ID=#dstTranId#</isNotNull>
+    <isNotNull prepend="and" property="dstOrgCode">DST_ORG_CODE=#dstOrgCode#</isNotNull>
+    <isNotNull prepend="and" property="dstSysCode">DST_SYS_CODE=#dstSysCode#</isNotNull>
+    <isNotNull prepend="and" property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME=#centerFwd2DstTime#</isNotNull>
+    <isNotNull prepend="and" property="dstReplyTime">DST_REPLY_TIME=#dstReplyTime#</isNotNull>
+    <isNotNull prepend="and" property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteCtgLogsXx" parameterClass="com.ailk.eaap.op2.bo.CTG_LOGS_XX">
+  delete CTG_LOGS_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="logsSeq">LOGS_SEQ=#logsSeq#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateCtgLogsXx" parameterClass="com.ailk.eaap.op2.bo.CTG_LOGS_XX">
+  update CTG_LOGS_XX
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="errCode">ERR_CODE=#errCode#</isNotNull>
+    <isNotNull prepend="," property="funName">FUN_NAME=#funName#</isNotNull>
+    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+    <isNotNull prepend="," property="errorMsg">ERROR_MSG=#errorMsg#</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+    <isNotNull prepend="," property="status">STATUS=#status#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="logsSeq">LOGS_SEQ=#logsSeq#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertCtgLogsXx" parameterClass="com.ailk.eaap.op2.bo.CTG_LOGS_XX">
+  insert into CTG_LOGS_XX
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+    <isNotNull prepend="," property="errCode">ERR_CODE</isNotNull>
+    <isNotNull prepend="," property="funName">FUN_NAME</isNotNull>
+    <isNotNull prepend="," property="createDate">CREATE_DATE</isNotNull>
+    <isNotNull prepend="," property="errorMsg">ERROR_MSG</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+    <isNotNull prepend="," property="status">STATUS</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+    <isNotNull prepend="," property="errCode">#errCode#</isNotNull>
+    <isNotNull prepend="," property="funName">#funName#</isNotNull>
+    <isNotNull prepend="," property="createDate">#createDate#</isNotNull>
+    <isNotNull prepend="," property="errorMsg">#errorMsg#</isNotNull>
+    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+    <isNotNull prepend="," property="status">#status#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectCtgLogsXx" parameterClass="com.ailk.eaap.op2.bo.CTG_LOGS_XX" resultClass="com.ailk.eaap.op2.bo.CTG_LOGS_XX">
+  select * from CTG_LOGS_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="logsSeq">LOGS_SEQ=#logsSeq#</isNotNull>
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="funName">FUN_NAME=#funName#</isNotNull>
+    <isNotNull prepend="and" property="createDate">CREATE_DATE=#createDate#</isNotNull>
+    <isNotNull prepend="and" property="errorMsg">ERROR_MSG=#errorMsg#</isNotNull>
+    <isNotNull prepend="and" property="errCode">ERR_CODE=#errCode#</isNotNull>
+    <isNotNull prepend="and" property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+    <isNotNull prepend="and" property="status">STATUS=#status#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteContConverter" parameterClass="com.ailk.eaap.op2.bo.CONT_CONVERTER">
+  delete CONT_CONVERTER
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contConverterId">CONT_CONVERTER_ID=#contConverterId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateContConverter" parameterClass="com.ailk.eaap.op2.bo.CONT_CONVERTER">
+  update CONT_CONVERTER
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="convertConditionType">CONVERT_CONDITION_TYPE=#convertConditionType#</isNotNull>
+    <isNotNull prepend="," property="convertContentType">CONVERT_CONTENT_TYPE=#convertContentType#</isNotNull>
+    <isNotNull prepend="," property="convertContentCodition">CONVERT_CONTENT_CODITION=#convertContentCodition#</isNotNull>
+    <isNotNull prepend="," property="ignorecapital">IGNORECAPITAL=#ignorecapital#</isNotNull>
+    <isNotNull prepend="," property="scopeType">SCOPE_TYPE=#scopeType#</isNotNull>
+    <isNotNull prepend="," property="coditionExpression">CODITION_EXPRESSION=#coditionExpression#</isNotNull>
+    <isNotNull prepend="," property="contentSeparater">CONTENT_SEPARATER=#contentSeparater#</isNotNull>
+    <isNotNull prepend="," property="contentMapRegular">CONTENT_MAP_REGULAR=#contentMapRegular#</isNotNull>
+    <isNotNull prepend="," property="regularParam">REGULAR_PARAM=#regularParam#</isNotNull>
+    <isNotNull prepend="," property="convertContentMethod">CONVERT_CONTENT_METHOD=#convertContentMethod#</isNotNull>
+    <isNotNull prepend="," property="mapType">MAP_TYPE=#mapType#</isNotNull>
+    <isNotNull prepend="," property="mapSource">MAP_SOURCE=#mapSource#</isNotNull>
+    <isNotNull prepend="," property="methodId">METHOD_ID=#methodId#</isNotNull>
+    <isNotNull prepend="," property="descriptions">DESCRIPTIONS=#descriptions#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contConverterId">CONT_CONVERTER_ID=#contConverterId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertContConverter" parameterClass="com.ailk.eaap.op2.bo.CONT_CONVERTER">
+  insert into CONT_CONVERTER
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="convertConditionType">CONVERT_CONDITION_TYPE</isNotNull>
+    <isNotNull prepend="," property="convertContentType">CONVERT_CONTENT_TYPE</isNotNull>
+    <isNotNull prepend="," property="convertContentCodition">CONVERT_CONTENT_CODITION</isNotNull>
+    <isNotNull prepend="," property="ignorecapital">IGNORECAPITAL</isNotNull>
+    <isNotNull prepend="," property="scopeType">SCOPE_TYPE</isNotNull>
+    <isNotNull prepend="," property="coditionExpression">CODITION_EXPRESSION</isNotNull>
+    <isNotNull prepend="," property="contentSeparater">CONTENT_SEPARATER</isNotNull>
+    <isNotNull prepend="," property="contentMapRegular">CONTENT_MAP_REGULAR</isNotNull>
+    <isNotNull prepend="," property="regularParam">REGULAR_PARAM</isNotNull>
+    <isNotNull prepend="," property="convertContentMethod">CONVERT_CONTENT_METHOD</isNotNull>
+    <isNotNull prepend="," property="mapType">MAP_TYPE</isNotNull>
+    <isNotNull prepend="," property="mapSource">MAP_SOURCE</isNotNull>
+    <isNotNull prepend="," property="methodId">METHOD_ID</isNotNull>
+    <isNotNull prepend="," property="descriptions">DESCRIPTIONS</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="convertConditionType">#convertConditionType#</isNotNull>
+    <isNotNull prepend="," property="convertContentType">#convertContentType#</isNotNull>
+    <isNotNull prepend="," property="convertContentCodition">#convertContentCodition#</isNotNull>
+    <isNotNull prepend="," property="ignorecapital">#ignorecapital#</isNotNull>
+    <isNotNull prepend="," property="scopeType">#scopeType#</isNotNull>
+    <isNotNull prepend="," property="coditionExpression">#coditionExpression#</isNotNull>
+    <isNotNull prepend="," property="contentSeparater">#contentSeparater#</isNotNull>
+    <isNotNull prepend="," property="contentMapRegular">#contentMapRegular#</isNotNull>
+    <isNotNull prepend="," property="regularParam">#regularParam#</isNotNull>
+    <isNotNull prepend="," property="convertContentMethod">#convertContentMethod#</isNotNull>
+    <isNotNull prepend="," property="mapType">#mapType#</isNotNull>
+    <isNotNull prepend="," property="mapSource">#mapSource#</isNotNull>
+    <isNotNull prepend="," property="methodId">#methodId#</isNotNull>
+    <isNotNull prepend="," property="descriptions">#descriptions#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectContConverter" parameterClass="com.ailk.eaap.op2.bo.CONT_CONVERTER" resultClass="com.ailk.eaap.op2.bo.CONT_CONVERTER">
+  select * from CONT_CONVERTER
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="convertContentType">CONVERT_CONTENT_TYPE=#convertContentType#</isNotNull>
+    <isNotNull prepend="and" property="convertContentCodition">CONVERT_CONTENT_CODITION=#convertContentCodition#</isNotNull>
+    <isNotNull prepend="and" property="contConverterId">CONT_CONVERTER_ID=#contConverterId#</isNotNull>
+    <isNotNull prepend="and" property="convertConditionType">CONVERT_CONDITION_TYPE=#convertConditionType#</isNotNull>
+    <isNotNull prepend="and" property="ignorecapital">IGNORECAPITAL=#ignorecapital#</isNotNull>
+    <isNotNull prepend="and" property="scopeType">SCOPE_TYPE=#scopeType#</isNotNull>
+    <isNotNull prepend="and" property="coditionExpression">CODITION_EXPRESSION=#coditionExpression#</isNotNull>
+    <isNotNull prepend="and" property="contentSeparater">CONTENT_SEPARATER=#contentSeparater#</isNotNull>
+    <isNotNull prepend="and" property="contentMapRegular">CONTENT_MAP_REGULAR=#contentMapRegular#</isNotNull>
+    <isNotNull prepend="and" property="regularParam">REGULAR_PARAM=#regularParam#</isNotNull>
+    <isNotNull prepend="and" property="convertContentMethod">CONVERT_CONTENT_METHOD=#convertContentMethod#</isNotNull>
+    <isNotNull prepend="and" property="mapType">MAP_TYPE=#mapType#</isNotNull>
+    <isNotNull prepend="and" property="mapSource">MAP_SOURCE=#mapSource#</isNotNull>
+    <isNotNull prepend="and" property="methodId">METHOD_ID=#methodId#</isNotNull>
+    <isNotNull prepend="and" property="descriptions">DESCRIPTIONS=#descriptions#</isNotNull>
+    <isNotNull prepend="and" property="state">STATE=#state#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteContractInteractionXx" parameterClass="com.ailk.eaap.op2.bo.CONTRACT_INTERACTION_XX">
+  delete CONTRACT_INTERACTION_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateContractInteractionXx" parameterClass="com.ailk.eaap.op2.bo.CONTRACT_INTERACTION_XX">
+  update CONTRACT_INTERACTION_XX
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="bizFuncCode">BIZ_FUNC_CODE=#bizFuncCode#</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">BIZ_INTF_CODE=#bizIntfCode#</isNotNull>
+    <isNotNull prepend="," property="contractVersion">CONTRACT_VERSION=#contractVersion#</isNotNull>
+    <isNotNull prepend="," property="regSerCode">REG_SER_CODE=#regSerCode#</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">REG_SER_VERSION=#regSerVersion#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID=#dstTranId#</isNotNull>
+    <isNotNull prepend="," property="serviceLevel">SERVICE_LEVEL=#serviceLevel#</isNotNull>
+    <isNotNull prepend="," property="srcOrgCode">SRC_ORG_CODE=#srcOrgCode#</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE=#dstOrgCode#</isNotNull>
+    <isNotNull prepend="," property="srcSysCode">SRC_SYS_CODE=#srcSysCode#</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE=#dstSysCode#</isNotNull>
+    <isNotNull prepend="," property="testFlag">TEST_FLAG=#testFlag#</isNotNull>
+    <isNotNull prepend="," property="srcReqTime">SRC_REQ_TIME=#srcReqTime#</isNotNull>
+    <isNotNull prepend="," property="centerRecReqTime">CENTER_REC_REQ_TIME=#centerRecReqTime#</isNotNull>
+    <isNotNull prepend="," property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME=#centerFwd2DstTime#</isNotNull>
+    <isNotNull prepend="," property="dstRecTime">DST_REC_TIME=#dstRecTime#</isNotNull>
+    <isNotNull prepend="," property="dstReplyTime">DST_REPLY_TIME=#dstReplyTime#</isNotNull>
+    <isNotNull prepend="," property="centerRecDstTime">CENTER_REC_DST_TIME=#centerRecDstTime#</isNotNull>
+    <isNotNull prepend="," property="centerFwd2SrcTime">CENTER_FWD_2_SRC_TIME=#centerFwd2SrcTime#</isNotNull>
+    <isNotNull prepend="," property="srcConfirmTime">SRC_CONFIRM_TIME=#srcConfirmTime#</isNotNull>
+    <isNotNull prepend="," property="srcResponseTime">SRC_RESPONSE_TIME=#srcResponseTime#</isNotNull>
+    <isNotNull prepend="," property="responseType">RESPONSE_TYPE=#responseType#</isNotNull>
+    <isNotNull prepend="," property="responseCode">RESPONSE_CODE=#responseCode#</isNotNull>
+    <isNotNull prepend="," property="responseDes">RESPONSE_DES=#responseDes#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertContractInteractionXx" parameterClass="com.ailk.eaap.op2.bo.CONTRACT_INTERACTION_XX">
+  insert into CONTRACT_INTERACTION_XX
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="bizFuncCode">BIZ_FUNC_CODE</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">BIZ_INTF_CODE</isNotNull>
+    <isNotNull prepend="," property="contractVersion">CONTRACT_VERSION</isNotNull>
+    <isNotNull prepend="," property="regSerCode">REG_SER_CODE</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">REG_SER_VERSION</isNotNull>
+    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID</isNotNull>
+    <isNotNull prepend="," property="serviceLevel">SERVICE_LEVEL</isNotNull>
+    <isNotNull prepend="," property="srcOrgCode">SRC_ORG_CODE</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE</isNotNull>
+    <isNotNull prepend="," property="srcSysCode">SRC_SYS_CODE</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE</isNotNull>
+    <isNotNull prepend="," property="testFlag">TEST_FLAG</isNotNull>
+    <isNotNull prepend="," property="srcReqTime">SRC_REQ_TIME</isNotNull>
+    <isNotNull prepend="," property="centerRecReqTime">CENTER_REC_REQ_TIME</isNotNull>
+    <isNotNull prepend="," property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME</isNotNull>
+    <isNotNull prepend="," property="dstRecTime">DST_REC_TIME</isNotNull>
+    <isNotNull prepend="," property="dstReplyTime">DST_REPLY_TIME</isNotNull>
+    <isNotNull prepend="," property="centerRecDstTime">CENTER_REC_DST_TIME</isNotNull>
+    <isNotNull prepend="," property="centerFwd2SrcTime">CENTER_FWD_2_SRC_TIME</isNotNull>
+    <isNotNull prepend="," property="srcConfirmTime">SRC_CONFIRM_TIME</isNotNull>
+    <isNotNull prepend="," property="srcResponseTime">SRC_RESPONSE_TIME</isNotNull>
+    <isNotNull prepend="," property="responseType">RESPONSE_TYPE</isNotNull>
+    <isNotNull prepend="," property="responseCode">RESPONSE_CODE</isNotNull>
+    <isNotNull prepend="," property="responseDes">RESPONSE_DES</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME</isNotNull>
+  </dynamic>
+  values
+  <dynamic open="(" close=")">
+    <isNotNull prepend="," property="bizFuncCode">#bizFuncCode#</isNotNull>
+    <isNotNull prepend="," property="bizIntfCode">#bizIntfCode#</isNotNull>
+    <isNotNull prepend="," property="contractVersion">#contractVersion#</isNotNull>
+    <isNotNull prepend="," property="regSerCode">#regSerCode#</isNotNull>
+    <isNotNull prepend="," property="regSerVersion">#regSerVersion#</isNotNull>
+    <isNotNull prepend="," property="srcTranId">#srcTranId#</isNotNull>
+    <isNotNull prepend="," property="dstTranId">#dstTranId#</isNotNull>
+    <isNotNull prepend="," property="serviceLevel">#serviceLevel#</isNotNull>
+    <isNotNull prepend="," property="srcOrgCode">#srcOrgCode#</isNotNull>
+    <isNotNull prepend="," property="dstOrgCode">#dstOrgCode#</isNotNull>
+    <isNotNull prepend="," property="srcSysCode">#srcSysCode#</isNotNull>
+    <isNotNull prepend="," property="dstSysCode">#dstSysCode#</isNotNull>
+    <isNotNull prepend="," property="testFlag">#testFlag#</isNotNull>
+    <isNotNull prepend="," property="srcReqTime">#srcReqTime#</isNotNull>
+    <isNotNull prepend="," property="centerRecReqTime">#centerRecReqTime#</isNotNull>
+    <isNotNull prepend="," property="centerFwd2DstTime">#centerFwd2DstTime#</isNotNull>
+    <isNotNull prepend="," property="dstRecTime">#dstRecTime#</isNotNull>
+    <isNotNull prepend="," property="dstReplyTime">#dstReplyTime#</isNotNull>
+    <isNotNull prepend="," property="centerRecDstTime">#centerRecDstTime#</isNotNull>
+    <isNotNull prepend="," property="centerFwd2SrcTime">#centerFwd2SrcTime#</isNotNull>
+    <isNotNull prepend="," property="srcConfirmTime">#srcConfirmTime#</isNotNull>
+    <isNotNull prepend="," property="srcResponseTime">#srcResponseTime#</isNotNull>
+    <isNotNull prepend="," property="responseType">#responseType#</isNotNull>
+    <isNotNull prepend="," property="responseCode">#responseCode#</isNotNull>
+    <isNotNull prepend="," property="responseDes">#responseDes#</isNotNull>
+    <isNotNull prepend="," property="createTime">#createTime#</isNotNull>
+  </dynamic>
+</insert>
+<select id="selectContractInteractionXx" parameterClass="com.ailk.eaap.op2.bo.CONTRACT_INTERACTION_XX" resultClass="com.ailk.eaap.op2.bo.CONTRACT_INTERACTION_XX">
+  select * from CONTRACT_INTERACTION_XX
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractInteractionId">CONTRACT_INTERACTION_ID=#contractInteractionId#</isNotNull>
+    <isNotNull prepend="and" property="bizFuncCode">BIZ_FUNC_CODE=#bizFuncCode#</isNotNull>
+    <isNotNull prepend="and" property="contractVersion">CONTRACT_VERSION=#contractVersion#</isNotNull>
+    <isNotNull prepend="and" property="regSerCode">REG_SER_CODE=#regSerCode#</isNotNull>
+    <isNotNull prepend="and" property="bizIntfCode">BIZ_INTF_CODE=#bizIntfCode#</isNotNull>
+    <isNotNull prepend="and" property="regSerVersion">REG_SER_VERSION=#regSerVersion#</isNotNull>
+    <isNotNull prepend="and" property="srcTranId">SRC_TRAN_ID=#srcTranId#</isNotNull>
+    <isNotNull prepend="and" property="dstTranId">DST_TRAN_ID=#dstTranId#</isNotNull>
+    <isNotNull prepend="and" property="serviceLevel">SERVICE_LEVEL=#serviceLevel#</isNotNull>
+    <isNotNull prepend="and" property="srcOrgCode">SRC_ORG_CODE=#srcOrgCode#</isNotNull>
+    <isNotNull prepend="and" property="dstOrgCode">DST_ORG_CODE=#dstOrgCode#</isNotNull>
+    <isNotNull prepend="and" property="srcSysCode">SRC_SYS_CODE=#srcSysCode#</isNotNull>
+    <isNotNull prepend="and" property="dstSysCode">DST_SYS_CODE=#dstSysCode#</isNotNull>
+    <isNotNull prepend="and" property="testFlag">TEST_FLAG=#testFlag#</isNotNull>
+    <isNotNull prepend="and" property="srcReqTime">SRC_REQ_TIME=#srcReqTime#</isNotNull>
+    <isNotNull prepend="and" property="centerRecReqTime">CENTER_REC_REQ_TIME=#centerRecReqTime#</isNotNull>
+    <isNotNull prepend="and" property="dstRecTime">DST_REC_TIME=#dstRecTime#</isNotNull>
+    <isNotNull prepend="and" property="dstReplyTime">DST_REPLY_TIME=#dstReplyTime#</isNotNull>
+    <isNotNull prepend="and" property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME=#centerFwd2DstTime#</isNotNull>
+    <isNotNull prepend="and" property="centerFwd2SrcTime">CENTER_FWD_2_SRC_TIME=#centerFwd2SrcTime#</isNotNull>
+    <isNotNull prepend="and" property="centerRecDstTime">CENTER_REC_DST_TIME=#centerRecDstTime#</isNotNull>
+    <isNotNull prepend="and" property="srcResponseTime">SRC_RESPONSE_TIME=#srcResponseTime#</isNotNull>
+    <isNotNull prepend="and" property="srcConfirmTime">SRC_CONFIRM_TIME=#srcConfirmTime#</isNotNull>
+    <isNotNull prepend="and" property="responseType">RESPONSE_TYPE=#responseType#</isNotNull>
+    <isNotNull prepend="and" property="responseCode">RESPONSE_CODE=#responseCode#</isNotNull>
+    <isNotNull prepend="and" property="responseDes">RESPONSE_DES=#responseDes#</isNotNull>
+    <isNotNull prepend="and" property="createTime">CREATE_TIME=#createTime#</isNotNull>
+  </dynamic>
+</select>
+</sqlMap>

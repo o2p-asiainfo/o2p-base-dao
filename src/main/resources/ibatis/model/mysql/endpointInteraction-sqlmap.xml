@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="endpointInteraction">
+	
+	<!-- 获取ENDPOINT_INTERACTION序列 -->
+	<select id="getSequenceValue" resultClass="java.lang.String">
+		select SEQ_END_INTERACTION.nextval from dual
+	</select>
+	
+	<!-- 插入ENDPOINT_INTERACTION对象 -->
+	<insert id="insertEndpointInteraction" parameterClass="com.ailk.eaap.op2.bo.EndpointInteraction">
+	  insert into ENDPOINT_INTERACTION$tabSuffix$
+	  (CREATE_DATE
+	  <dynamic>
+	  	<isNotNull prepend="," property="endpointInteractionId">ENDPOINT_INTERACTION_ID</isNotNull>
+	    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+	    <isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+	    <isNotNull prepend="," property="endpointId">ENDPOINT_ID</isNotNull>
+	    <isNotNull prepend="," property="srcTranId">SRC_TRAN_ID</isNotNull>
+	    <isNotNull prepend="," property="reqOrRes">REQ_OR_RES</isNotNull>
+	    <isNotNull prepend="," property="queueMsgId">QUEUE_MSG_ID</isNotNull>
+	    <isNotNull prepend="," property="resQueue">RES_QUEUE</isNotNull>
+	    <isNotNull prepend="," property="reqQueue">REQ_QUEUE</isNotNull>
+	    <isNotNull prepend="," property="dstTranId">DST_TRAN_ID</isNotNull>
+	    <isNotNull prepend="," property="dstOrgCode">DST_ORG_CODE</isNotNull>
+	    <isNotNull prepend="," property="dstSysCode">DST_SYS_CODE</isNotNull>
+	    <isNotNull prepend="," property="centerFwd2DstTime">CENTER_FWD_2_DST_TIME</isNotNull>
+	    <isNotNull prepend="," property="dstReplyTime">DST_REPLY_TIME</isNotNull>
+	    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+	  </dynamic>
+	  )
+	  values
+	  (utc_timestamp()
+	   <dynamic >
+	  	<isNotNull prepend="," property="endpointInteractionId">#endpointInteractionId#</isNotNull>
+	    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+	    <isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+	    <isNotNull prepend="," property="endpointId">#endpointId#</isNotNull>
+	    <isNotNull prepend="," property="srcTranId">#srcTranId#</isNotNull>
+	    <isNotNull prepend="," property="reqOrRes">#reqOrRes#</isNotNull>
+	    <isNotNull prepend="," property="queueMsgId">#queueMsgId#</isNotNull>
+	    <isNotNull prepend="," property="resQueue">#resQueue#</isNotNull>
+	    <isNotNull prepend="," property="reqQueue">#reqQueue#</isNotNull>
+	    <isNotNull prepend="," property="dstTranId">#dstTranId#</isNotNull>
+	    <isNotNull prepend="," property="dstOrgCode">#dstOrgCode#</isNotNull>
+	    <isNotNull prepend="," property="dstSysCode">#dstSysCode#</isNotNull>
+	    <isNotNull prepend="," property="centerFwd2DstTime">#centerFwd2DstTime#</isNotNull>
+	    <isNotNull prepend="," property="dstReplyTime">#dstReplyTime#</isNotNull>
+	    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+	   </dynamic>
+	  )
+	</insert>
+</sqlMap>

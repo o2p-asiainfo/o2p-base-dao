@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="partnerPaymentPlan">
+
+ 	 <select id="selectPartnerPaymentPlanSeq" resultClass="java.lang.String">
+		SELECT SEQ_PARTNER_PAYMENT_PLAN.NEXTVAL FROM DUAL
+	 </select>
+	 
+	 <select id="getPartnerPaymentPlan" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.PartnerPaymentPlan">
+	  SELECT P2.PAYMENT_PLAN_ID paymentPlanId,P2.ACCOUNT_ID accountId,P2.PAYMENT_METHOD_CD paymentMethodCd,P2.PAYMENT_BANK_ID paymentBankId,P2.PAYMENT_BANK_NAME paymentBankName,
+	  	P2.PAYMENT_ACCOUNT paymentAccount,P2.PAYMENT_ACCOUNT_NAME paymentAccountName,P2.PAYMENT_ACCOUNT_TYPE paymentAccountType,P2.PRIORITY priority,P2.STATUS_CD statusCd,P2.STATUS_DATE statusDate
+	  FROM ORG O,PARTNER_ACCOUNT P1,PARTNER_PAYMENT_PLAN P2 WHERE O.ORG_ID = P1.ORG_ID AND P1.ACCOUNT_ID = P2.ACCOUNT_ID
+	  <dynamic>
+	    <isNotNull prepend="and" property="orgId"> O.ORG_ID=#orgId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	  <insert id="insertPartnerPaymentPlan" parameterClass="com.ailk.eaap.op2.bo.PartnerPaymentPlan">
+		  insert into PARTNER_PAYMENT_PLAN
+		  (STATUS_CD,STATUS_DATE  
+		  <dynamic >
+		    <isNotNull prepend=","  property="paymentPlanId">PAYMENT_PLAN_ID</isNotNull>
+		    <isNotNull prepend="," property="accountId">ACCOUNT_ID</isNotNull>
+		    <isNotNull prepend="," property="paymentMethodCd">PAYMENT_METHOD_CD</isNotNull>
+		    <isNotNull prepend="," property="paymentBankId">PAYMENT_BANK_ID</isNotNull>
+		    <isNotNull prepend="," property="paymentBankName">PAYMENT_BANK_NAME</isNotNull>
+		    <isNotNull prepend="," property="paymentAccount">PAYMENT_ACCOUNT</isNotNull>
+		    <isNotNull prepend="," property="paymentAccountName">PAYMENT_ACCOUNT_NAME</isNotNull>
+		    <isNotNull prepend="," property="paymentAccountType">PAYMENT_ACCOUNT_TYPE</isNotNull>
+		    <isNotNull prepend="," property="priority">PRIORITY</isNotNull>
+		  </dynamic>
+		  )
+		  values
+		  ('10' ,sysdate
+		   <dynamic >
+		    <isNotNull prepend="," property="paymentPlanId">#paymentPlanId#</isNotNull>
+		    <isNotNull prepend="," property="accountId">#accountId#</isNotNull>
+		    <isNotNull prepend="," property="paymentMethodCd">#paymentMethodCd#</isNotNull>
+		    <isNotNull prepend="," property="paymentBankId">#paymentBankId#</isNotNull>
+		    <isNotNull prepend="," property="paymentBankName">#paymentBankName#</isNotNull>
+		    <isNotNull prepend="," property="paymentAccount">#paymentAccount#</isNotNull>
+		    <isNotNull prepend="," property="paymentAccountName">#paymentAccountName#</isNotNull>
+		    <isNotNull prepend="," property="paymentAccountType">#paymentAccountType#</isNotNull>
+		    <isNotNull prepend="," property="priority">#priority#</isNotNull>
+		   </dynamic>
+		  )
+	</insert>
+	
+</sqlMap>

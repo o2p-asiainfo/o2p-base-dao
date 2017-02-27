@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="getconfig">
+     
+
+<select id="getBusCode" parameterClass="java.lang.String" resultClass="com.ailk.eaap.op2.bo.BizFunction">
+  select CODE code , STATE state from BIZ_FUNCTION
+ <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="code">  CODE=#code#</isNotNull>
+  </dynamic>
+</select>
+
+</sqlMap>

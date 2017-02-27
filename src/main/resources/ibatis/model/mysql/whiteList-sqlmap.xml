@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="whiteList">
+     
+    <delete id="deleteWhiteList" parameterClass="com.ailk.eaap.op2.bo.WhiteList">
+	  delete from white_list
+	</delete>
+	
+	<select id="selectwhiteList" parameterClass="com.ailk.eaap.op2.bo.WhiteList" resultClass="com.ailk.eaap.op2.bo.WhiteList">
+	  select white_id whiteId,
+             MAC mac
+		from white_list
+	</select>
+
+	<insert id="insertWhiteList" parameterClass="com.ailk.eaap.op2.bo.WhiteList">
+	 <selectKey resultClass="int" keyProperty="whiteId">
+		SELECT nextval('SEQ_WHITE_LIST');
+	 </selectKey>
+	  insert into white_list
+	  (
+	  <dynamic>
+	    <isNotNull property="whiteId">WHITE_ID</isNotNull>
+	    <isNotNull prepend="," property="mac">MAC</isNotNull>
+	  </dynamic>
+	  )
+	  values
+	  (
+	  <dynamic>
+	  	<isNotNull property="whiteId">#whiteId#</isNotNull>
+	    <isNotNull prepend="," property="mac">#mac#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+</sqlMap>

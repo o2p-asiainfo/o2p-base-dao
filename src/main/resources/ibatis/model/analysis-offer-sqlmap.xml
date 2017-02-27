@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="analysis-offer">
+  <!--sqlmap config-->
+  <select id="queryOfferForCountAnalysis" resultClass="java.lang.String">
+	select count(*)
+          from (select offer_code,
+                       offer_name,
+                       sum(offer_count) offer_count,
+                       sum(net) net,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.prov_code,t.prov_name,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_month t where 1=1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                      <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+                  </dynamic>
+                        union
+                        select at.prov_code,at.prov_name, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_month at where 1=1
+                                    <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                      <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+                  </dynamic>
+                  ) aa
+                 group by offer_code, offer_name
+                 ) aaa
+	 </select>
+  
+  
+<select id="queryOfferAnalysis"    parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.OfferAnalysisBO">
+
+select aaaa.offerSort,
+       aaaa.offerId,
+       aaaa.offerName,
+       aaaa.totalOfferUser,
+       aaaa.growOffer,
+       aaaa.growTbOfferRate,
+       aaaa.growHbOfferRate
+  from (select ROWNUM              AS offerSort,
+               aaa.offer_code      offerId,
+               aaa.offer_name      offerName,
+               aaa.offer_count     totalOfferUser,
+               aaa.net             growOffer,
+               aaa.growTbOfferRate growTbOfferRate,
+               aaa.growHbOfferRate growHbOfferRate
+          from (select offer_code,
+                       offer_name,
+                       sum(offer_count) offer_count,
+                       sum(net) net,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.prov_code,t.prov_name,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_month t where 1=1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                      <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+                  </dynamic>
+                        union
+                        select at.prov_code,at.prov_name, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_month at where 1=1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                      <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+                  </dynamic>
+                          ) aa
+                 group by offer_code, offer_name
+                 order by offer_count desc) aaa) aaaa
+<dynamic  prepend="where" >                                          
+<isNotEmpty prepend="and" property="start_row">   <![CDATA[offerSort > #start_row#]]> </isNotEmpty>
+<isNotEmpty prepend="and" property="end_row"> <![CDATA[offerSort <= #end_row#]]> </isNotEmpty>
+</dynamic>
+
+</select>
+
+<select id="queryOfferPieAnalysis"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.OfferAnalysisBO">
+ 
+(select   aaaa.offerId,
+       aaaa.offerName,
+       aaaa.totalOfferUser
+  from (select ROWNUM              AS myrow,
+               aaa.offer_code      offerId,
+               aaa.offer_name      offerName,
+               aaa.offer_count     totalOfferUser
+          from (select offer_code,
+                       offer_name,
+                       sum(offer_count) offer_count
+                  from (select t.offer_code,t.offer_name,
+                               t.offer_count
+                          from offer_c_analy_match_month t
+                          where t.offer_code  <![CDATA[<>]]> '其他'
+                        union
+                        select at.offer_code,at.offer_name,
+                               at.offer_count
+                          from add_offer_c_analy_match_month at
+                          where at.offer_code <![CDATA[<>]]>  '其他'   
+                          ) aa
+                 group by offer_code, offer_name
+                 order by offer_count desc) aaa) aaaa
+                 where myrow <![CDATA[<=]]>  10)        
+                 union           
+  select 
+  '其它' offerId,
+  '其它'  offerName,
+  (x.offer_count + xx.offer_count - xxx.totalOfferUser) as totalOfferUser
+    from (select nvl(sum(tt.offer_count), 0) as offer_count
+            from offer_c_analy_match_month tt) x,
+         (select nvl(sum(att.offer_count), 0) as offer_count
+            from add_offer_c_analy_match_month att) xx,
+         
+         (select nvl(sum(totalOfferUser),0) as totalOfferUser
+            from (select aaaa.offerId, aaaa.offerName, aaaa.totalOfferUser
+                    from (select ROWNUM              AS myrow,
+                                 aaa.offer_code      offerId,
+                                 aaa.offer_name      offerName,
+                                 aaa.offer_count     totalOfferUser
+                            from (select offer_code,
+                                         offer_name,
+                                         sum(offer_count) offer_count 
+                                    from (select   t.offer_code,
+                                                 t.offer_name,
+                                                 t.offer_count
+                                            from offer_c_analy_match_month t
+                                           where t.offer_code <![CDATA[<>]]> '其他'
+                                          union
+                                          select 
+                                                 at.offer_code,
+                                                 at.offer_name,
+                                                 at.offer_count
+                                            from add_offer_c_analy_match_month at
+                                           where at.offer_code <![CDATA[<>]]> '其他'
+                                                        ) aa
+                                   group by offer_code, offer_name
+                                   order by offer_count desc) aaa) aaaa
+                   where myrow <![CDATA[<=]]> 10)) xxx
+ 
+</select>
+
+
+<select id="queryOfferProvAnalysis"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.OfferProvAnalysisBO">
+
+ select prov_code provCode,
+                       prov_name provName,
+                       sum(offer_count) totalOfferUser,
+                       sum(net) growOffer,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.prov_code,t.prov_name,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_month t
+                        union
+                        select at.prov_code,at.prov_name, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_month at
+                          ) aa
+                 group by prov_code, prov_name
+</select>
+
+<select id="queryOfferTimeAnalysis"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.OfferTimeAnalysisBO">
+select by_month  as queryTime,
+                       sum(offer_count) totalOfferUser,
+                       sum(net) growOffer,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.by_month,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_month t
+                        union
+                        select at.by_month, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_month at
+                          ) aa
+                 group by by_month
+</select>
+
+
+<select id="queryOfferAnalysisPieByPara"  parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.OfferAnalysisBO">
+(select   aaaa.offerId,
+       aaaa.offerName,
+       aaaa.totalOfferUser
+  from (select ROWNUM              AS myrow,
+               aaa.offer_code      offerId,
+               aaa.offer_name      offerName,
+               aaa.offer_count     totalOfferUser
+          from (select offer_code,
+                       offer_name,
+                       sum(offer_count) offer_count
+                  from (select t.offer_code,t.offer_name,
+                               t.offer_count
+                          from offer_c_analy_match_month t
+                          where t.offer_code  <![CDATA[<>]]> '其他'
+                  <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                      <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+                  </dynamic>
+                        union
+                        select at.offer_code,at.offer_name,
+                               at.offer_count
+                          from add_offer_c_analy_match_month at
+                          where at.offer_code <![CDATA[<>]]>  '其他'
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty>  
+                  </dynamic>       
+                          ) aa
+                 group by offer_code, offer_name
+                 order by offer_count desc) aaa) aaaa
+                 where myrow <![CDATA[<=]]>  10)        
+                 union           
+ ( select 
+  '其它' offerId,
+  '其它'  offerName,
+  (x.offer_count + xx.offer_count - xxx.totalOfferUser) as totalOfferUser
+    from (select nvl(sum(tt.offer_count), 0) as offer_count
+            from offer_c_analy_match_month tt) x,
+         (select nvl(sum(att.offer_count), 0) as offer_count
+            from add_offer_c_analy_match_month att) xx,
+         
+         (select sum(totalOfferUser) as totalOfferUser
+            from (select aaaa.offerId, aaaa.offerName, aaaa.totalOfferUser
+                    from (select ROWNUM              AS myrow,
+                                 aaa.offer_code      offerId,
+                                 aaa.offer_name      offerName,
+                                 aaa.offer_count     totalOfferUser
+                            from (select offer_code,
+                                         offer_name,
+                                         sum(offer_count) offer_count 
+                                    from (select   t.offer_code,
+                                                 t.offer_name,
+                                                 t.offer_count
+                                            from offer_c_analy_match_month t
+                                           where t.offer_code <![CDATA[<>]]> '其他'
+                 <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty>  
+                  </dynamic>    
+                                          union
+                                          select 
+                                                 at.offer_code,
+                                                 at.offer_name,
+                                                 at.offer_count
+                                            from add_offer_c_analy_match_month at
+                                           where at.offer_code <![CDATA[<>]]> '其他'
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty>  
+                  </dynamic>                        ) aa
+                                   group by offer_code, offer_name
+                                   order by offer_count desc) aaa) aaaa
+                   where myrow <![CDATA[<=]]> 10)) xxx
+  )
+</select>
+
+<select id="queryOfferAnalysisProvByPara"  parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.OfferProvAnalysisBO">
+
+ select prov_code provCode,
+                       prov_name provName,
+                       sum(offer_count) totalOfferUser,
+                       sum(net) growOffer,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.prov_code,t.prov_name,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_month t where 1= 1
+                  <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty>  
+                  </dynamic> 
+                        union
+                        select at.prov_code,at.prov_name, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_month at where 1= 1
+                    <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty>  
+                  </dynamic> 
+                          ) aa
+                 group by prov_code, prov_name
+                 
+</select>
+
+<select id="queryOfferAnalysisMonthByPara"  parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.OfferTimeAnalysisBO">
+select by_month  as queryTime,
+                       sum(offer_count) totalOfferUser,
+                       sum(net) growOffer,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.by_month,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_month t where 1= 1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty>  
+                  </dynamic>
+                        union
+                        select at.by_month, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_month  at where 1= 1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_month <= #etime# ]]></isNotEmpty>  
+                  </dynamic>
+                          ) aa
+                 group by by_month
+</select>
+
+<select id="queryOfferAnalysisYearByPara"  parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.OfferTimeAnalysisBO">
+
+select by_year  as queryTime,
+                       sum(offer_count) totalOfferUser,
+                       sum(net) growOffer,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.by_year,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_year t where 1= 1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_year >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_year <= #etime# ]]></isNotEmpty>  
+                  </dynamic>
+                        union
+                        select at.by_year, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_year at where 1= 1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_year >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_year <= #etime# ]]></isNotEmpty>  
+                  </dynamic>
+                          ) aa
+                 group by by_year 
+</select>
+
+<select id="queryOfferAnalysisDateByPara"  parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.OfferTimeAnalysisBO">
+ select by_day  as queryTime,
+                       sum(offer_count) totalOfferUser,
+                       sum(net) growOffer,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+                       end growTbOfferRate,
+                       case
+                         when (sum(year_ratio) = 0) then
+                          0
+                         else
+                          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+                       end growHbOfferRate
+                  from (select t.by_day,t.prod_code, t.prod_name,t.offer_code,t.offer_name,
+                               t.offer_count, t.net, t.year_ratio,t.month_ratio
+                          from offer_c_analy_match_day t where 1= 1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> t.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> t.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> t.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_day >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_day <= #etime# ]]></isNotEmpty>  
+                  </dynamic>
+                        union
+                        select at.by_day, at.prod_code,at.prod_name, at.offer_code,at.offer_name,
+                               at.offer_count, at.net,at.year_ratio,at.month_ratio
+                          from add_offer_c_analy_match_day at where 1= 1
+                   <dynamic>
+                      <isNotEmpty prepend="and" property="product"> at.prod_code in ($product$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="province"> at.prov_code in ($province$)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="offer"> at.OFFER_CODE in (#offer#)  </isNotEmpty>
+                      <isNotEmpty prepend="and" property="btime">  <![CDATA[ by_day >= #btime# ]]></isNotEmpty>
+                       <isNotEmpty prepend="and" property="etime">  <![CDATA[ by_day <= #etime# ]]></isNotEmpty>  
+                  </dynamic>
+                          ) aa
+                 group by by_day   
+</select>
+
+</sqlMap>

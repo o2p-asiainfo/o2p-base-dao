@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="app">
+     <select id="selectSeqApp" resultClass="java.lang.String">
+		   SELECT SEQ_APP.NEXTVAL FROM DUAL
+	 </select>
+     
+      <delete id="deleteApp" parameterClass="com.ailk.eaap.op2.bo.App">
+	  delete APP
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="appId"> APP_ID=#appId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateApp" parameterClass="com.ailk.eaap.op2.bo.App">
+	  update APP
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="appName">APP_NAME=#appName#</isNotNull>
+	    <isNotNull prepend="," property="appDeve">APP_DEVE=#appDeve#</isNotNull>
+	    <isNotNull prepend="," property="componentId">COMPONENT_ID=#componentId#</isNotNull>
+	    <isNotNull prepend="," property="appType">APP_TYPE=#appType#</isNotNull>
+	    <isNotNull prepend="," property="appOauthType">APP_OAUTH_TYPE=#appOauthType#</isNotNull>
+	    <isNotNull prepend="," property="appkey">APPKEY=#appkey#</isNotNull>
+	    <isNotNull prepend="," property="appsecure">APPSECURE=#appsecure#</isNotNull>
+	    <isNotNull prepend="," property="appCreateTime">APP_CREATE_TIME=#appCreateTime#</isNotNull>
+	   <isNotNull prepend="," property="sfileId">S_FILE_ID=#sfileId#</isNotNull>
+	   <isNotNull prepend="," property="audutFlowId">AUDIT_FLOW_ID=#audutFlowId#</isNotNull>
+	    <isNotNull prepend="," property="appState">APP_STATE=#appState#</isNotNull>
+	    <isNotNull prepend="," property="appCallbackUrl">APP_CALLBACK_URL=#appCallbackUrl#</isNotNull>
+	    <isNotNull prepend="," property="appSumma">APP_SUMMA=#appSumma#</isNotNull>
+	    <isNotNull prepend="," property="appDesc">APP_DESC=#appDesc#</isNotNull>
+	    <isNotNull prepend="," property="appUrl">APP_URL=#appUrl#</isNotNull>
+	    <isNotNull prepend="," property="audutFlowId">AUDIT_FLOW_ID=#audutFlowId#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="appId">APP_ID=#appId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertApp" parameterClass="com.ailk.eaap.op2.bo.App">
+	  insert into APP
+	  (APP_CREATE_TIME,APP_STATE
+	  <dynamic>
+	    <isNotNull prepend="," property="appId">APP_ID</isNotNull>
+	    <isNotNull prepend="," property="appName">APP_NAME</isNotNull>
+	    <isNotNull prepend="," property="appDeve">APP_DEVE</isNotNull>
+	    <isNotNull prepend="," property="componentId">COMPONENT_ID</isNotNull>
+	    <isNotNull prepend="," property="appType">APP_TYPE</isNotNull>
+	    <isNotNull prepend="," property="appOauthType">APP_OAUTH_TYPE</isNotNull>
+	    <isNotNull prepend="," property="appkey">APPKEY</isNotNull>
+	    <isNotNull prepend="," property="appsecure">APPSECURE</isNotNull>
+	    <isNotNull prepend="," property="sfileId">S_FILE_ID</isNotNull>
+	    <isNotNull prepend="," property="audutFlowId">AUDIT_FLOW_ID</isNotNull>
+	    <isNotNull prepend="," property="appCallbackUrl">APP_CALLBACK_URL</isNotNull>
+	    <isNotNull prepend="," property="appUrl">APP_URL</isNotNull>
+	    <isNotNull prepend="," property="appDesc">APP_DESC</isNotNull>
+	    <isNotNull prepend="," property="appSumma">APP_SUMMA</isNotNull>
+	  </dynamic>
+	  )
+	  values
+	  (sysdate,'A'
+	  <dynamic>
+	    <isNotNull prepend="," property="appId">#appId#</isNotNull>
+	    <isNotNull prepend="," property="appName">#appName#</isNotNull>
+	    <isNotNull prepend="," property="appDeve">#appDeve#</isNotNull>
+	    <isNotNull prepend="," property="componentId">#componentId#</isNotNull>
+	    <isNotNull prepend="," property="appType">#appType#</isNotNull>
+	    <isNotNull prepend="," property="appOauthType">#appOauthType#</isNotNull>
+	    <isNotNull prepend="," property="appkey">#appkey#</isNotNull>
+	    <isNotNull prepend="," property="appsecure">#appsecure#</isNotNull>
+	   <isNotNull prepend="," property="sfileId">#sfileId#</isNotNull>
+	   <isNotNull prepend="," property="audutFlowId">#audutFlowId#</isNotNull>
+	    <isNotNull prepend="," property="appCallbackUrl">#appCallbackUrl#</isNotNull>
+	    <isNotNull prepend="," property="appUrl">#appUrl#</isNotNull>
+	    <isNotNull prepend="," property="appDesc">#appDesc#</isNotNull>
+	    <isNotNull prepend="," property="appSumma">#appSumma#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	<select id="selectApp" parameterClass="com.ailk.eaap.op2.bo.App" resultClass="com.ailk.eaap.op2.bo.App">
+	   select  APP_ID appId, APP_NAME appName, APP_DEVE appDeve, COMPONENT_ID componentId, APP_TYPE appType, APP_OAUTH_TYPE appOauthType,
+	   APPKEY appkey, APPSECURE appsecure, APP_CREATE_TIME appCreateTime, S_FILE_ID sfileId ,  AUDIT_FLOW_ID audutFlowId ,  APP_STATE appState,APP_CALLBACK_URL appCallbackUrl,APP_URL appUrl, APP_DESC appDesc, APP_SUMMA appSumma
+	   from APP
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="appId"> APP_ID=#appId#</isNotNull>
+	    <isNotNull prepend="and" property="appName"> APP_NAME=#appName#</isNotNull>
+	    <isNotNull prepend="and" property="appDeve"> APP_DEVE=#appDeve#</isNotNull>
+	    <isNotNull prepend="and" property="componentId"> COMPONENT_ID=#componentId#</isNotNull>
+	    <isNotNull prepend="and" property="appType"> APP_TYPE=#appType#</isNotNull>
+	    <isNotNull prepend="and" property="appOauthType"> APP_OAUTH_TYPE=#appOauthType#</isNotNull>
+	    <isNotNull prepend="and" property="appkey"> APPKEY=#appkey#</isNotNull>
+	    <isNotNull prepend="and" property="appsecure"> APPSECURE=#appsecure#</isNotNull>
+	    <isNotNull prepend="and" property="appCreateTime"> APP_CREATE_TIME=#appCreateTime#</isNotNull>
+	   <isNotNull prepend="and" property="sfileId"> S_FILE_ID=#sfileId#</isNotNull>
+	   <isNotNull prepend="and" property="audutFlowId"> AUDIT_FLOW_ID=#audutFlowId#</isNotNull>
+	    <isNotNull prepend="and" property="appState"> APP_STATE=#appState#</isNotNull>
+	    <isNotNull prepend="and" property="appCallbackUrl"> APP_CALLBACK_URL=#appCallbackUrl#</isNotNull>
+	    <isNotNull prepend="and" property="appUrl"> APP_URL=#appUrl#</isNotNull>
+	    <isNotNull prepend="and" property="appDesc"> APP_DESC=#appDesc#</isNotNull>
+	    <isNotNull prepend="and" property="appSumma"> APP_SUMMA=#appSumma#</isNotNull>
+	  </dynamic>
+	   and APP_STATE!='X'
+	</select>
+
+</sqlMap>

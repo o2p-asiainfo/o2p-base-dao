@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="applyResourceType">
+<select id="selectApplyResType" parameterClass="com.ailk.eaap.op2.bo.ApplyResourceType" resultClass="com.ailk.eaap.op2.bo.ApplyResourceType">
+SELECT RES_TYPE_ID resTypeId,APPLY_TYPE_ID applyTypeId,RES_TYPE_NAME resTypeName,RES_TYPE_DESC resTypeDesc,UP_TYPE_ID upTypeId FROM APPLY_RESOURCE_TYPE where INSTR(RES_TYPE_NAME,CHR(32))=0   
+  <dynamic>
+    <isNotNull prepend="and" property="applyTypeId"> APPLY_TYPE_ID=#applyTypeId#</isNotNull>
+    <isNotNull prepend="and" property="resTypeId"> RES_TYPE_ID=#resTypeId#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+  </dynamic>
+</select>
+</sqlMap>

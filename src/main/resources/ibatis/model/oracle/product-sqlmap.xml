@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="product">
+	<select id="selectServiceSeq" resultClass="java.lang.String">
+		   SELECT SEQ_O2P_UPC_SERVICE.NEXTVAL FROM DUAL
+	 </select>
+	<!-- 获取产品表序列 -->
+ 	 <select id="selectProductSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PRODUCT.NEXTVAL FROM DUAL
+	 </select>
+	 
+	  <delete id="delProduct" parameterClass="java.lang.String">
+	 	delete from product where PRODUCT_ID = #productId#
+	 </delete>
+	 
+	  <select id="getOperatorProduct" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	 	SELECT A.PRODUCT_ID,
+		 	       A.PRODUCT_NAME,
+		 	       A.STATUS_CD,
+		 	       A.PRODUCT_DESC,
+		 	       date_format(A.CREATE_DATE,'%Y-%m-%d %H:%i:%s') as CREATE_DATE
+		 	  FROM PRODUCT  A
+		  WHERE A.STATUS_CD != '1300'
+		  AND A.COOPERATION_TYPE = '10'
+		  <dynamic>
+		 	<isNotNull prepend="AND" property="productName"> A.PRODUCT_NAME LIKE concat('%',#productName#,'%')</isNotNull>
+		</dynamic>
+		   order  by  a.CREATE_date DESC , a.PRODUCT_ID DESC
+	 </select>
+	 
+	 <select id="getOperatorProductCount" parameterClass="java.util.HashMap"  resultClass="java.lang.String">
+	  SELECT COUNT(1) ALLNUM  FROM PRODUCT A
+		<dynamic prepend="WHERE">
+		 	<isNotNull prepend="AND" property="productName"> A.PRODUCT_NAME LIKE concat('%',#productName#,'%')</isNotNull>
+		</dynamic>
+		  AND A.STATUS_CD != '1300'
+		  AND A.COOPERATION_TYPE = '11'
+ 	</select>
+	 
+	 <insert id="insertProduct" parameterClass="com.ailk.eaap.op2.bo.Product">
+  	INSERT INTO PRODUCT
+  	  (STATUS_DATE,CREATE_DATE
+	  <dynamic>
+	  	<isNotNull prepend="," property="productId">PRODUCT_ID</isNotNull>
+	    <isNotNull prepend="," property="productNbr">PRODUCT_NBR</isNotNull>
+	    <isNotNull prepend="," property="productName">PRODUCT_NAME</isNotNull>
+	    <isNotNull prepend="," property="productDesc">PRODUCT_DESC</isNotNull>
+	    <isNotNull prepend="," property="manageGrade">MANAGE_GRADE</isNotNull>
+	    <isNotNull prepend="," property="productType">PRODUCT_TYPE</isNotNull>
+	    <isNotNull prepend="," property="productProviderId">PRODUCT_PROVIDER_ID</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="effDate">EFF_DATE</isNotNull>
+	    <isNotNull prepend="," property="expDate">EXP_DATE</isNotNull>
+	    <isNotNull prepend="," property="prodFuncType">PROD_FUNC_TYPE</isNotNull>
+	    <isNotNull prepend="," property="extProdId">EXT_PROD_ID</isNotNull>
+	    <isNotNull prepend="," property="valueAddedFlag">VALUE_ADDED_FLAG</isNotNull>
+	    <isNotNull prepend="," property="innerProdNbr">INNER_PROD_NBR</isNotNull>
+	    <isNotNull prepend="," property="commonRegionId">COMMON_REGION_ID</isNotNull>
+	    <isNotNull prepend="," property="isTemplate">IS_TEMPLATE</isNotNull>
+	    <isNotNull prepend="," property="parentProductId">PARENT_PRODUCT_ID</isNotNull>
+	    <isNotNull prepend="," property="cooperationType">COOPERATION_TYPE</isNotNull>
+	    <isNotNull prepend="," property="productPublisher">PRODUCT_PUBLISHER </isNotNull>
+	  </dynamic>
+	  )
+	  VALUES
+	  (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+	  <dynamic>
+	    <isNotNull prepend="," property="productId">#productId#</isNotNull>
+	    <isNotNull prepend="," property="productNbr">#productNbr#</isNotNull>
+	    <isNotNull prepend="," property="productName">#productName#</isNotNull>
+	    <isNotNull prepend="," property="productDesc">#productDesc#</isNotNull>
+	    <isNotNull prepend="," property="manageGrade">#manageGrade#</isNotNull>
+	    <isNotNull prepend="," property="productType">#productType#</isNotNull>
+	    <isNotNull prepend="," property="productProviderId">#productProviderId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="effDate">#effDate#</isNotNull>
+	    <isNotNull prepend="," property="expDate">#expDate#</isNotNull>
+	    <isNotNull prepend="," property="prodFuncType">#prodFuncType#</isNotNull>
+	    <isNotNull prepend="," property="extProdId">#extProdId#</isNotNull>
+	    <isNotNull prepend="," property="valueAddedFlag">#valueAddedFlag#</isNotNull>
+	    <isNotNull prepend="," property="innerProdNbr">#innerProdNbr#</isNotNull>
+	    <isNotNull prepend="," property="commonRegionId">#commonRegionId#</isNotNull>
+	    <isNotNull prepend="," property="isTemplate">#isTemplate#</isNotNull>
+	    <isNotNull prepend="," property="parentProductId">#parentProductId#</isNotNull>
+	    <isNotNull prepend="," property="cooperationType">#cooperationType#</isNotNull>
+	    <isNotNull prepend="," property="productPublisher"> #productPublisher#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+	<update id="updateProduct" parameterClass="com.ailk.eaap.op2.bo.Product">
+  	UPDATE PRODUCT
+	  <dynamic prepend="SET">
+	    <isNotNull prepend="," property="productNbr">PRODUCT_NBR=#productNbr#</isNotNull>
+	    <isNotNull prepend="," property="productName">PRODUCT_NAME=#productName#</isNotNull>
+	    <isNotNull prepend="," property="productDesc">PRODUCT_DESC=#productDesc#</isNotNull>
+	    <isNotNull prepend="," property="manageGrade">MANAGE_GRADE=#manageGrade#</isNotNull>
+	    <isNotNull prepend="," property="productType">PRODUCT_TYPE=#productType#</isNotNull>
+	    <isNotNull prepend="," property="productProviderId">PRODUCT_PROVIDER_ID=#productProviderId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	    <isNotNull prepend="," property="effDate">EFF_DATE=#effDate#</isNotNull>
+	    <isNotNull prepend="," property="expDate">EXP_DATE=#expDate#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="prodFuncType">PROD_FUNC_TYPE=#prodFuncType#</isNotNull>
+	    <isNotNull prepend="," property="extProdId">EXT_PROD_ID=#extProdId#</isNotNull>
+	    <isNotNull prepend="," property="valueAddedFlag">VALUE_ADDED_FLAG=#valueAddedFlag#</isNotNull>
+	    <isNotNull prepend="," property="innerProdNbr">INNER_PROD_NBR=#innerProdNbr#</isNotNull>
+	    <isNotNull prepend="," property="commonRegionId">COMMON_REGION_ID=#commonRegionId#</isNotNull>
+	    <isNotNull prepend="," property="isTemplate">IS_TEMPLATE=#isTemplate#</isNotNull>
+	    <isNotNull prepend="," property="parentProductId">PARENT_PRODUCT_ID=#parentProductId#</isNotNull>
+	    <isNotNull prepend="," property="cooperationType">COOPERATION_TYPE=#cooperationType#</isNotNull>
+	    <isNotNull prepend="," property="auditFlowId">AUDIT_FLOW_ID=#auditFlowId#</isNotNull>
+	    <isNotNull prepend="," property="productPublisher">PRODUCT_PUBLISHER = #productPublisher#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="and" property="productId">PRODUCT_ID=#productId#</isNotNull>
+	  </dynamic>
+</update>
+</sqlMap>

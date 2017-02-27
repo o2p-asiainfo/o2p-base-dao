@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="prodOfferChannelType">
+	<select id="selectProdOfferChannelType" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannelType"
+		resultClass="com.ailk.eaap.op2.bo.ProdOfferChannelType">
+		SELECT PROD_OFFER_CHANNEL_TYPE_ID prodOfferChannelTypeId,PROD_OFFER_ID
+		prodOfferId,CHANNEL_TYPE channelType FROM PROD_OFFER_CHANNEL_TYPE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="prodOfferId">
+				PROD_OFFER_ID=#prodOfferId#</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="selectProdOfferChannelTypeSeq" resultClass="java.lang.String">
+		SELECT SEQ_PROD_OFFER_CHANNEL_TYPE.NEXTVAL FROM DUAL
+	</select>
+
+	<insert id="insertProdOfferChannelType" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannelType">
+		INSERT INTO PROD_OFFER_CHANNEL_TYPE
+		(PROD_OFFER_CHANNEL_TYPE_ID,PROD_OFFER_ID,CHANNEL_TYPE)
+		VALUES (#prodOfferChannelTypeId#,#prodOfferId#,#channelType#)
+	</insert>
+
+	<delete id="deleteProdOfferChannelType" parameterClass="com.ailk.eaap.op2.bo.ProdOffer">
+		delete PROD_OFFER_CHANNEL_TYPE
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="prodOfferId">PROD_OFFER_ID=#prodOfferId#
+			</isNotNull>
+		</dynamic>
+	</delete>
+	
+	<select id="selectProdOfferChannelDetail" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannel"
+		resultClass="com.ailk.eaap.op2.bo.ProdOfferChannel">
+		SELECT prod_offer_channel_id prodOfferChannelId,
+		       prod_offer_id prodOfferId,
+		       channel_id channelId,
+		       status_cd statusCd,
+		       audit_flow_id auditFlowId,
+		       EFF_DATE effDate,
+		       EXP_DATE expDate 
+		FROM PROD_OFFER_CHANNEL 
+		where prod_offer_id=#prodOfferId# and status_cd=#statusCd#
+		
+	</select>
+
+</sqlMap>

@@ -1,0 +1,984 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="loadCommon">
+    <typeAlias alias="fuzzyEncryptionBean" type="com.ailk.eaap.op2.bo.FuzzyEncryption"/>
+ 	<resultMap class="fuzzyEncryptionBean" id="fuzzyEncryptionMap">
+ 	      <result property="fuzzyEncryptionId" column="fuzzy_encryption_id"    jdbcType="DECIMAL"/>
+ 	      <result property="fuzzyEncryptionType" column="fuzzy_encryption_type"    jdbcType="VARCHAR"/>
+ 	      <result property="fuzzyAlternative" column="fuzzy_alternative"    jdbcType="VARCHAR"/>
+ 	      <result property="fuzzyStart" column="fuzzy_start"  nullValue="0"  jdbcType="DECIMAL"/>
+ 	      <result property="fuzzyEnd" column="fuzzy_end" nullValue="0" jdbcType="DECIMAL"/>
+ 	      <result property="fuzzySub" column="fuzzy_sub"    jdbcType="VARCHAR"/>
+ 	      <result property="encryptionTypeCode" column="encryption_type_code"    jdbcType="VARCHAR"/>
+ 	      <result property="state" column="state"    jdbcType="VARCHAR"/>
+ 	      <result property="createDate" column="create_date"    jdbcType="DATE"/>
+   </resultMap> 
+ 	<typeAlias alias="ContractNodeFuzzyBean" type="com.ailk.eaap.op2.bo.ContractNodeFuzzy"/>
+ 	<resultMap class="ContractNodeFuzzyBean" id="ContractNodeFuzzyMap">
+ 	      <result property="contractNodeFuzzyId" column="contract_node_fuzzy_id"    jdbcType="DECIMAL"/>
+ 	      <result property="tcpCtrFId" column="tcp_ctr_f_id"    jdbcType="DECIMAL"/>
+ 	      <result property="nodeDescId" column="node_desc_id"  jdbcType="DECIMAL"/>
+ 	      <result property="fuzzyEncryptionId" column="fuzzy_encryption_id"  jdbcType="DECIMAL"/>
+ 	      <result property="scope" column="scope"    jdbcType="VARCHAR"/>
+ 	      <result property="state" column="state"    jdbcType="VARCHAR"/>
+ 	      <result property="createDate" column="create_date"    jdbcType="DATE"/>
+   </resultMap>
+   <typeAlias alias="AttrValueBean" type="com.ailk.eaap.op2.bo.AttrValue"/>
+ 	<resultMap class="AttrValueBean" id="AttrValueMap">
+ 	      <result property="attrValueId" column="attr_value_id"    jdbcType="DECIMAL"/>
+ 	      <result property="attrSpecId" column="attr_spec_id"    jdbcType="DECIMAL"/>
+ 	      <result property="attrValueName" column="attr_value_name"    jdbcType="VARCHAR"/>
+ 	      <result property="attrDesc" column="attr_desc"  jdbcType="VARCHAR"/>
+ 	      <result property="attrValue" column="attr_value"  jdbcType="VARCHAR"/>
+ 	      <result property="statusDate" column="status_date" jdbcType="DATE"/>
+ 	      <result property="createDate" column="create_date" jdbcType="DATE"/>
+ 	      <result property="statusCd" column="status_cd" jdbcType="VARCHAR"/>
+ 	      <result property="seqId" column="seq_id" jdbcType="DECIMAL"/>
+   </resultMap>
+   <typeAlias alias="ConfPropertiesBean" type="com.ailk.eaap.op2.bo.ConfProperties"/>
+ 	<resultMap class="ConfPropertiesBean" id="ConfPropertiesMap">
+ 	      <result property="proKey" column="pro_key"    jdbcType="VARCHAR"/>
+ 	      <result property="proValue" column="pro_value"    jdbcType="VARCHAR"/>
+ 	      <result property="proValueBuffer" column="pro_value_buffer"    jdbcType="VARCHAR"/>
+ 	      <result property="proType" column="pro_type"  jdbcType="VARCHAR"/>
+ 	      <result property="proEncrypt" column="pro_encrypt"  jdbcType="DECIMAL" nullValue="0" />
+ 	      <result property="proDataType" column="pro_data_type"  jdbcType="VARCHAR"/>
+ 	      <result property="moduleName" column="module_name"  jdbcType="VARCHAR"/>
+ 	      <result property="groupName" column="group_name"  jdbcType="VARCHAR"/>
+ 	      <result property="groupDesc" column="group_desc"  jdbcType="VARCHAR"/>
+ 	      <result property="effectZone" column="effect_zone"  jdbcType="VARCHAR"/>
+ 	      <result property="createDt" column="create_dt"  jdbcType="DATE"/>
+ 	      <result property="modifyDt" column="modify_dt"  jdbcType="DATE"/>
+   </resultMap>
+   
+   <!-- freeMark 模版 -->
+    <typeAlias alias="templateBean" type="com.ailk.eaap.op2.bo.Template"/>
+    <resultMap class="templateBean" id="templateMap">
+          <result property="templateId" column="template_id"    jdbcType="DECIMAL"/>
+          <result property="tcpCtrFId" column="tcp_ctr_f_id" nullValue="0"    jdbcType="DECIMAL"/>
+          <result property="templateBody" column="template_body"    jdbcType="VARCHAR"/>
+          <result property="templateHeader" column="template_header"   jdbcType="VARCHAR"/>
+          <result property="templateType" column="template_type"  jdbcType="VARCHAR"/>
+          <result property="isGlobal" column="is_global"    jdbcType="VARCHAR"/>
+   </resultMap> 
+    
+ 	<select id="getFuzzyEncryption" resultMap="fuzzyEncryptionMap" >
+		select fuzzy_encryption_id,fuzzy_encryption_type,fuzzy_alternative,fuzzy_start,fuzzy_end,
+		fuzzy_sub,encryption_type_code,state,create_date from fuzzy_encryption where state='A'
+	</select>	
+	<select id="getContractNodeFuzzy" resultMap="ContractNodeFuzzyMap" >
+		select contract_node_fuzzy_id,tcp_ctr_f_id,node_desc_id,fuzzy_encryption_id,scope,state,
+		create_date from CONTRACT_NODE_FUZZY where state='A'
+	</select>	
+ 	
+ 	
+<insert id="insertModuleVersion" parameterClass="java.util.HashMap">
+	INSERT INTO O2P_CACHE_VERSION(VERSION, MODULE_NAME) VALUES(#version#, #moduleName#) 
+</insert>
+   
+<update id="updateModuleVersion" parameterClass="java.util.HashMap">
+	UPDATE O2P_CACHE_VERSION SET VERSION =#version# 
+	<isNotEqual property="moduleName" compareValue="MODULE_ALL">
+		WHERE MODULE_NAME in(#moduleName#,'MODULE_ALL')
+	</isNotEqual>
+</update>
+    
+<select id="getVersionList" resultClass="java.util.HashMap">
+   SELECT MODULE_NAME, VERSION FROM O2P_CACHE_VERSION
+</select>
+
+<select id="getApi" resultClass="java.util.HashMap">
+   SELECT A.SERVICE_ID, S.SERVICE_CODE, A.API_NAME, A.API_METHOD, A.API_ID, C.VERSION
+     FROM API A, SERVICE S, CONTRACT_VERSION C
+    WHERE A.SERVICE_ID = S.SERVICE_ID
+      AND S.CONTRACT_VERSION_ID = C.CONTRACT_VERSION_ID
+</select>
+
+<select id="getNeedUserAuthApi" resultClass="java.util.HashMap">
+	SELECT A.API_ID,A.SERVICE_ID,API_NAME,API_METHOD FROM API A WHERE A.api_state='D' AND A.is_need_user_auth = '1'
+</select>
+
+<select id="getWhiteList" resultClass="java.util.HashMap">
+   SELECT WHITE_ID,MAC FROM WHITE_LIST
+</select>
+
+<select id="getApiListBySApiID" parameterClass="int"
+ resultClass="java.util.HashMap">
+	SELECT PD.PRI_DEFINE_ID,
+       PD.PRI_DEFINE_TYPE,
+       PD.PRI_DEFINE_NAME,
+       PD.PRI_DEFINE_DESC,
+       PD.PRI_DEFINE_TIME
+  FROM API A, API_ACC_PRI_LIST AAPL, PRI_DEFINE PD
+ WHERE A.API_ID = AAPL.API_ID
+   AND PD.PRI_DEFINE_ID = AAPL.PRI_DEFINE_ID
+    AND A.API_ID = #apiId#
+</select>
+
+<!-- 
+<select id="getComponent"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT  C.CODE COMPONENT,C.STATE, O.ORG_CODE ORGCODE FROM COMPONENT C, ORG O WHERE C.ORG_ID=O.ORG_ID AND C.CODE=#CODE#
+</select>
+ -->
+ 
+  <select id="getComponent"  parameterClass="java.util.Map"
+ resultClass="com.ailk.eaap.op2.bo.Component">
+	SELECT  C.CODE ,C.STATE, O.STATE ORGSTATE, O.ORG_CODE ORGCODE FROM COMPONENT C, ORG O WHERE C.ORG_ID=O.ORG_ID 
+	<isNotEmpty property="code">
+			AND C.CODE=#code#
+	</isNotEmpty>
+	
+</select>
+ 
+<select id="getSerInvokeInsAndService"  
+ resultClass="java.util.HashMap">
+	SELECT T.COMPONENT_ID, SI.SER_INVOKE_INS_ID, SI.SERVICE_ID, T.CODE, SI.MESSAGE_FLOW_ID, SI.STATE,SI.SER_INVOKE_INS_NAME, SI.LOG_LEVEL,SI.AUTH_EXPRESS
+  FROM SER_INVOKE_INS SI, COMPONENT T
+ WHERE SI.COMPONENT_ID = T.COMPONENT_ID
+	<isNotEmpty property="servInvokeId">
+			AND SI.SER_INVOKE_INS_ID=#servInvokeId#
+	</isNotEmpty>
+</select> 
+
+<select id="getAllProofValues"  parameterClass="java.lang.Integer"
+ resultClass="java.util.HashMap">
+	SELECT PE.PROOFE_ID,PT.PT_CODE,PEM.SER_INVOKE_INS_ID, PV.PR_ATR_SPEC_CD,PV.ATTR_VALUE,PV.PV_ID, PE.STATUS 
+		FROM PROOF_TYPE PT,PROOEF_EFFECT_MID PEM,PROOF_EFFECT PE  LEFT JOIN PROOF_VALUES PV ON PV.PROOFE_ID = PE.PROOFE_ID 
+		where PE.PROOFE_ID = PEM.PROOFE_ID
+	AND PEM.SER_INVOKE_INS_ID=#servInvokeId#
+		AND PE.PT_CD=PT.PT_CD AND PE.STATUS='A'
+</select> 
+<select id="getTechImplProofEffect"  parameterClass="java.lang.Integer"
+ resultClass="java.util.HashMap">
+    SELECT
+            PE.PROOFE_ID,
+            PT.PT_CODE,
+            T1.TECH_IMPL_ID,
+            PV.PR_ATR_SPEC_CD,
+            PV.ATTR_VALUE,
+            PV.PV_ID,
+            PE. STATUS,
+            AD.ATTR_SPEC_CODE
+        FROM
+            PROOF_TYPE PT,
+            TECH_IMP_ATT T1,
+                ATTR_SPEC T2,
+            PROOF_EFFECT PE,
+                PROOF_VALUES PV,
+         PROOF_TYPE_ATR_SPEC PS,
+         ATTR_SPEC AD
+        WHERE
+            PE.PROOFE_ID = T1.ATTR_SPEC_VALUE
+        AND T1.ATTR_SPEC_ID=T2.ATTR_SPEC_ID
+        AND T2.ATTR_SPEC_CODE='Authentication'
+      AND T1.TECH_IMPL_ID = #techImplId#
+        AND PE.PT_CD = PT.PT_CD
+        AND PE. STATUS = 'A'
+        AND PS.ATTR_SPEC_ID = AD.ATTR_SPEC_ID
+        AND PS.PR_ATR_SPEC_CD = PV.PR_ATR_SPEC_CD
+        AND PV.PROOFE_ID = PE.PROOFE_ID
+</select>
+
+<select id="getAllOrg"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.Org">
+	 SELECT ORG_ID         orgId,
+       NAME           name,
+       ORG_CODE       orgCode,
+       ORG_TYPE_CODE  orgTypeCode,
+       ORG_USERNAME   orgUsername,
+       ORG_PWD        orgPwd,
+       CERT_TYPE_CODE certTypeCode,
+       S_FILE_ID      sFileId,
+       FIL_S_FILE_ID  filSFileId,
+       AREA_ID        areaId,
+       CERT_NUMBER    certNumber,
+       TELEPHONE      telephone,
+       EMAIL          email,
+       SIMPLE_SPELL   simpleSpell,
+       STATE          state,
+       STATE_TIME     stateTime,
+       CREATE_TIME    createTime,
+       DESCRIPTOR     descriptor,
+       CUSTOMER_ID    customerId,
+       ACCOUNT_ID     accountId,
+       CAPABILITY,
+       APPLICATION,
+       ISSUCCESSCASE,
+       ISINDEX,
+       PARTNERCODE    partnerCode
+  FROM ORG
+</select>
+
+<select id="getMainDataType"  
+ resultClass="java.util.HashMap">
+   SELECT T.MDT_SIGN, T.MDT_CD FROM MAIN_DATA_TYPE T
+</select> 
+
+<select id="getMainDataForMDTypeID" parameterClass="int"
+ resultClass="java.util.HashMap">
+   SELECT MD.MAIND_ID, MD.CEP_VALUES,MD.CEP_CODE,MD.CEP_DES,MD.CEP_NAME,MD.CREATE_TIME,MD.LASTEST_TIME,MD.MDT_CD,MD.STATE
+  FROM MAIN_DATA MD
+ WHERE MD.MDT_CD = #mdtId#
+</select>
+
+<select id="selectAppAccTokenCount"  
+ resultClass="int">
+ 	SELECT count(1) FROM APP_ACC_TOKEN A , USER_INFO B  where A.USER_ID = B.USER_ID AND A.DISABLE_TIME>utc_timestamp()
+</select>
+
+<!-- 修改较大 -->
+<select id="getAppAccTokenAndUserInfo"  parameterClass="java.util.Map"
+ resultClass="java.util.HashMap">
+	SELECT
+		APP_ID,
+		ACC_TOKEN,
+		APP_ACC_TOK_ID,
+		APP_ACC_TOK_ID,
+		PRODUCT_NBR,
+		DISABLE_TIME,
+		OAUTH_API_LIST
+	FROM  APP_ACC_TOKEN A, USER_INFO B
+	WHERE A.USER_ID = B.USER_ID
+	AND A.DISABLE_TIME > utc_timestamp()
+	ORDER BY APP_ACC_TOK_ID DESC
+	LIMIT #parm1#,1000
+</select>
+
+<select id="getApiByApiID"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.Api">
+  SELECT API_ID,API_METHOD,API_NAME,SERVICE_ID  FROM API WHERE API_ID=#API_ID#
+</select> 
+
+
+<select id="queryApi"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+  	SELECT API_ID,API_METHOD,API_NAME,SERVICE_ID FROM API WHERE API_ID = #apiId#
+</select> 
+
+<select id="techImplNode"  parameterClass="int"
+	 resultClass="java.util.HashMap">
+		SELECT TECH_IMPL_NODE_ID
+				,TECH_IMPL_ID
+				,NODE_HOST
+				,NODE_IP
+				,NODE_PORT
+				,NODE_HEART_ADD
+				,NODE_SYNC_ADD
+				,TECH_ROUTE_EXPR
+	  FROM TECH_IMPL_NODE CT
+	 WHERE CT.NODE_STATE='A'
+	 AND CT.TECH_IMPL_ID = #TECH_IMPL_ID#
+</select>
+<!-- 
+<select id="getAppByAppID"  parameterClass="int"
+resultClass="java.util.HashMap">
+	SELECT * FROM APP WHERE APP_ID= #appId#
+</select>
+ -->
+ <select id="getAppByAppID"  parameterClass="java.util.Map"
+	resultClass="java.util.HashMap">
+		SELECT APP_NAME,
+		       T1.COMPONENT_ID,
+		       APPKEY,
+		       APP_DESC,
+		       APPSECURE,
+		       APP_OAUTH_TYPE,
+		       APP_CALLBACK_URL,
+		       APP_SUMMA,
+		       TOKEN_ENABLE_TIME,
+		       T2.CODE,
+		       APP_ID
+		  FROM APP T1, COMPONENT T2
+		 WHERE T1.COMPONENT_ID = T2.COMPONENT_ID
+		<isNotEmpty property="appId">
+			AND T1.APP_ID= #appId#
+	</isNotEmpty>
+</select>
+
+<select id="getAppList"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	 SELECT P.API_ID API_ID,P.API_METHOD API_METHOD
+	  FROM APP_API_LIST A, API P
+	 WHERE A.API_ID = P.API_ID
+	   AND APP_ID = #appId#
+</select>
+
+<select id="getCTL_COUNTERMS_2_COMP" resultClass="java.util.HashMap">
+	SELECT T.SER_INVOKE_INS_ID,
+       T.CYCLE_VALUE,
+       T.CYCLE_TYPE,
+       T.CUTMS_VALUE,
+       T.CC_CD,
+       T.EFFECT_STATE
+  FROM CTL_COUNTERMS_2_COMP T
+</select>
+
+<select id="getAllService" resultClass="java.util.HashMap">
+  SELECT C.VERSION,
+       C.CONTRACT_ID,
+       S.SERVICE_CN_NAME,
+       S.SERVICE_ID,
+       S.SERVICE_CODE,
+       S.SERVICE_VERSION,
+       S.DEFAULT_MSG_FLOW,
+       S.STATE
+  FROM SERVICE S, CONTRACT_VERSION C
+ WHERE C.CONTRACT_VERSION_ID = S.CONTRACT_VERSION_ID
+  
+    <isNotEmpty property="serviceId">
+			AND S.SERVICE_ID=#serviceId#
+	</isNotEmpty>
+</select>
+
+<select id="getContract" parameterClass="java.lang.String" 
+ resultClass="java.util.HashMap">
+	SELECT CODE FROM CONTRACT WHERE CONTRACT_ID=#contractId#
+</select>                       
+
+<select id="getFunctionCode"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	SELECT B.CODE
+  FROM FUNC_2_SERVICE F, BIZ_FUNCTION B
+ WHERE F.BIZ_FUNCTION_ID = B.BIZ_FUNCTION_ID
+   AND F.SERVICE_ID = #serviceId#
+</select> 
+
+<select id="getServiceRela"  parameterClass="int" resultClass="java.util.HashMap">
+	SELECT REG_SERVICE_ID,SER_RELA_TYPE FROM SERVICE_RELA WHERE OPEN_SERVICE_ID=#serviceId#
+</select> 
+
+<select id="loadDataSourceRoute"  
+ resultClass="java.util.HashMap">
+	 SELECT DECISION_RULE,DATA_SOURCE_NAME,IS_DEFAULT,COMPONENT_ID,TAB_SUFFIX,PRI
+	 FROM DATA_SOURCE_ROUTE A,DATA_SOURCE B WHERE A.DATA_SOURCE_ID=B.DATA_SOURCE_ID AND A.STATE='A' ORDER BY PRI DESC
+</select>
+
+<select id="getDataRource"  
+ resultClass="java.util.HashMap">
+      SELECT DATA_SOURCE_NAME,COMPONENT_ID,TAB_SUFFIX FROM DATA_SOURCE ORDER BY IS_DEFAULT
+</select>
+
+<select id="getUserInfo"  
+ resultClass="java.util.HashMap">
+	SELECT T.PRODUCT_NBR, T.USER_ID, T.USER_CUST_ID FROM USER_INFO T
+</select> 
+
+<select id="getAppAccTokenAndApp"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	  SELECT AAT.OAUTH_API_LIST, AAT.APP_ID
+	    FROM APP_ACC_TOKEN AAT, APP A
+	   WHERE AAT.USER_ID = #USER_ID#
+	     AND AAT.APP_ID = A.APP_ID
+</select>
+
+<select id="getFlowByFlowID"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+    SELECT N.MESSAGE_FLOW_ID,
+       N.MESSAGE_FLOW_NAME,
+       N.FIRST_ENDPOINT_ID,
+       N.CREATE_TIME,
+       N.STATE,
+       N.LASTEST_TIME,
+       N.DESCRIPTOR
+  FROM MESSAGE_FLOW N
+ WHERE N.MESSAGE_FLOW_ID = #MESSAGE_FLOW_ID#
+</select>
+
+<select id="getEndpointSpec"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+    SELECT ENDPOINT_ID,ENDPOINT_SPEC_CODE,IN_DATA_TYPE_ID,OUT_DATA_TYPE_ID,ENABLE_IN_TRACE,ENABLE_OUT_TRACE,ENABLE_IN_LOG,ENABLE_OUT_LOG
+     FROM ENDPOINT E  ,ENDPOINT_SPEC S WHERE E.ENDPOINT_SPEC_ID=S.ENDPOINT_SPEC_ID AND E.ENDPOINT_ID=#ENDPOINT_ID#
+</select>
+
+<select id="getEndpointAttr"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	 SELECT EAV.ENDPOINT_ATTR_VALUE_ID,
+		        EAV.ENDPOINT_ID,
+		        EAV.ATTR_VALUE,
+		        ESA.ENDPOINT_SPEC_ID,
+		        ESA.ENDPOINT_SPEC_ATTR_ID,
+		        ASP.ATTR_SPEC_ID,
+		        ASP.ATTR_SPEC_NAME,
+		        ASP.ATTR_SPEC_CODE,
+		        CASE
+		        WHEN (CAST(ASP.NULLABLE as CHAR) = 'Y') THEN
+		        	'Y'
+	            ELSE
+	            	'N'
+	            END NULLABLE,
+		        ASP.UP_ATTR_SPEC_ID
+		   FROM ENDPOINT_ATTR_VALUE EAV, ENDPOINT_SPEC_ATTR ESA, ATTR_SPEC ASP
+		  WHERE EAV.ENDPOINT_SPEC_ATTR_ID = ESA.ENDPOINT_SPEC_ATTR_ID
+		    AND ESA.ATTR_SPEC_ID = ASP.ATTR_SPEC_ID
+		    AND EAV.ENDPOINT_ID = #ENDPOINT_ID#
+</select> 
+
+<select id="getEndpoint"  parameterClass="int"
+ resultClass="java.util.HashMap">
+    SELECT S.ENDPOINT_SPEC_CODE, S.ENABLE_LOG,
+       E.ENDPOINT_ID,
+       E.IN_DATA_TYPE_ID,
+       E.ENDPOINT_NAME,
+       E.OUT_DATA_TYPE_ID,
+       E.ENABLE_IN_TRACE,
+       E.ENABLE_OUT_TRACE,
+       E.ENABLE_IN_LOG,
+       E.ENABLE_OUT_LOG
+  FROM ENDPOINT E, ENDPOINT_SPEC S
+ WHERE E.ENDPOINT_SPEC_ID = S.ENDPOINT_SPEC_ID
+ AND E.ENDPOINT_ID = #endpointid#
+</select>
+
+<select id="getDataType"  parameterClass="int"
+ resultClass="java.lang.String">
+  	SELECT DATA_TYPE_CODE FROM DATA_TYPE WHERE DATA_TYPE_ID=#dateTypeId#
+</select>
+
+<select id="getProofTypeAtrSpec"  parameterClass="java.lang.String"
+ resultClass="java.lang.String">
+    SELECT AD.ATTR_SPEC_CODE FROM PROOF_TYPE_ATR_SPEC PS, ATTR_SPEC AD 
+    WHERE PS.ATTR_SPEC_ID = AD.ATTR_SPEC_ID  AND PS.PR_ATR_SPEC_CD = #attrSpecId#
+</select>
+
+
+<!-- 差异较大  树形查询 LEVEL 用程序遍历 -->
+<select id="getServiceRouteConfig"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+     SELECT DISTINCT SRC.ROUTE_ID,
+                    SRC.MESSAGE_FLOW_ID,
+                    SRC.SYN_ASYN,
+                    SRC.STATE,
+                    SRC.FROM_ENDPOINT_ID,
+                    SRC.TO_ENDPOINT_ID,
+                    SRC.ROUTE_POLICY_ID,
+                    SRC.UP_ID
+      FROM (SELECT SRC1.*, EP.ENDPOINT_ID, SRC2.ROUTE_ID UP_ID
+              FROM SERVICE_ROUTE_CONFIG SRC1
+              LEFT JOIN SERVICE_ROUTE_CONFIG SRC2
+                ON SRC2.STATE = 'A'
+               AND SRC1.MESSAGE_FLOW_ID = SRC2.MESSAGE_FLOW_ID
+               AND SRC1.FROM_ENDPOINT_ID = SRC2.TO_ENDPOINT_ID
+              LEFT JOIN ENDPOINT EP
+                ON EP.ENDPOINT_ID = SRC1.FROM_ENDPOINT_ID
+             WHERE SRC1.MESSAGE_FLOW_ID =  #msgFlowid#
+               AND SRC1.STATE = 'A') SRC
+     ORDER BY SRC.ROUTE_ID
+</select> 
+<!-- 
+      SELECT DISTINCT LEVEL,
+                     SRC.ROUTE_ID,
+                     SRC.MESSAGE_FLOW_ID,
+                     SRC.SYN_ASYN,
+                     SRC.STATE,
+                     SRC.FROM_ENDPOINT_ID,
+                     SRC.TO_ENDPOINT_ID,
+                     SRC.ROUTE_POLICY_ID
+       FROM (SELECT SRC1.*, EP.ENDPOINT_ID, SRC2.ROUTE_ID UP_ID
+               FROM SERVICE_ROUTE_CONFIG SRC1
+               LEFT JOIN SERVICE_ROUTE_CONFIG SRC2
+                 ON SRC2.STATE = 'A'
+                AND SRC1.MESSAGE_FLOW_ID = SRC2.MESSAGE_FLOW_ID
+                AND SRC1.FROM_ENDPOINT_ID = SRC2.TO_ENDPOINT_ID
+               LEFT JOIN ENDPOINT EP
+                 ON EP.ENDPOINT_ID = SRC1.FROM_ENDPOINT_ID
+              WHERE SRC1.MESSAGE_FLOW_ID = #msgFlowid#
+                AND SRC1.STATE = 'A') SRC
+     CONNECT BY PRIOR SRC.ROUTE_ID = SRC.UP_ID
+      START WITH SRC.UP_ID IS NULL
+      ORDER BY LEVEL
+
+ -->
+
+<select id="findRoutePolicy"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT RP.ROUTE_POLICY_ID,
+	       RP.RULE_STRATEGY_ID,
+	       RS.RULE_STRATEGY_CODE,
+	       RS.RULE_STRATEGY_NAME,
+	       RP.ROUTE_COND_ID
+	  FROM ROUTE_POLICY RP
+	  LEFT JOIN RULE_STRATEGY RS
+	    ON RP.RULE_STRATEGY_ID = RS.RULE_STRATEGY_ID
+	 WHERE RP.ROUTE_POLICY_ID = #ROUTE_POLICY_ID#
+</select>
+
+<select id="getAuth"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	 SELECT A.*, AO.AUTH_PATH
+   FROM AUTH A, AUTH_BASE AB, AUTH_OBJ AO
+  WHERE A.AUTH_ID = AB.AUTH_ID
+    AND A.AUTH_OBJ_ID = AO.AUTH_OBJ_ID
+    AND AB.SER_INVOKE_INS_ID = #SerInvokeInsId#
+</select>
+
+<select id="findAuthAttr"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	SELECT TT.ATTR_SPEC_CODE, AOA.ATTR_VALUE
+	  FROM AUTH_OBJ_ATTR AOA, AUTH D, ATTR_SPEC TT
+	 WHERE AOA.AUTH_ID = D.AUTH_ID
+	   AND TT.ATTR_SPEC_ID = AOA.ATTR_SPEC_ID
+	   AND AOA.AUTH_ID = #authId#
+</select>
+
+<select id="getTechImpl" resultClass="java.util.HashMap">
+	SELECT TL.TECH_IMPL_ID,
+	T.CODE,
+       TL.TECH_IMPL_NAME,
+       TL.COMM_PRO_CD,
+       TL.COMPONENT_ID,
+       TL.USEALBE_STATE,
+       TL.TECH_IMP_CON_PO_ID,
+       PL.SER_TECH_IMPL_ID,
+       PL.SERVICE_ID,
+       S.SERVICE_CODE,
+       S.SERVICE_VERSION,
+       PL.STATE SER_TECH_STATE
+  FROM SER_TECH_IMPL PL, SERVICE S, TECH_IMPL TL, COMPONENT T
+ WHERE PL.TECH_IMPL_ID = TL.TECH_IMPL_ID
+   AND S.SERVICE_ID = PL.SERVICE_ID
+    AND TL.COMPONENT_ID=T.COMPONENT_ID
+</select>
+
+
+<select id="getTicp"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	SELECT CT.CON_ACTION,
+       CT.CON_CYCLE,
+       CT.CON_STATE,
+       CT.CON_TYPE,
+       CT.CON_CYCLE_VALUE,
+       CT.CON_VL,
+       CT.STATE
+  FROM TECH_IMP_CONTRAL_PO CT
+ WHERE CT.TECH_IMP_CON_PO_ID = #TECH_IMP_CON_PO_ID#
+</select>
+
+<select id="getTechAttr"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	SELECT B.ATTR_SPEC_CODE, A.ATTR_SPEC_VALUE
+  FROM TECH_IMP_ATT A, ATTR_SPEC B
+ WHERE A.ATTR_SPEC_ID = B.ATTR_SPEC_ID
+   AND A.TECH_IMPL_ID = #TECH_IMPL_ID#
+</select>
+
+<select id="getCtlCounter"  parameterClass="int"
+ resultClass="java.util.HashMap">
+	SELECT CT.CUTMS_VALUE,
+       CT.CYCLE_TYPE,
+       CT.CYCLE_VALUE,
+       CT.EFFECT_STATE,
+       CT.CC_CD
+  FROM CTL_COUNTERMS_2_TECH CT
+ WHERE CT.TECH_IMPL_ID = #TECH_IMPL_ID#
+</select>
+
+<select id="getUsable"  parameterClass="java.util.HashMap"
+ resultClass="java.util.HashMap">
+	SELECT T.UBM_CD,
+       T.UT_CD,
+       T.TECH_IMPL_ID,
+       T.TECH_IMP_CON_PO_ID,
+       T.STATE,
+       T.STATE_TIME,
+       T.XML_MSG
+  FROM USABLE_MONITOR_CONF T
+ WHERE TECH_IMPL_ID = #techImplId#
+   AND TECH_IMP_CON_PO_ID = #techPoId#
+</select>
+
+<select id="getparseTemp"  
+ resultClass="java.util.HashMap">
+	SELECT C.VERSION, P.TEMPLATE, S.REQ_OR_RSP
+  FROM CONTRACT_VERSION C, SERVICE_PARSE S, PARSE_TEMPLATE P
+ WHERE C.CONTRACT_VERSION_ID = S.CONTRACT_VERSION_ID
+   AND S.PARSE_TEMPLATE_ID = P.PARSE_TEMPLATE_ID
+   AND P.STATE = 'A'
+</select>
+
+<select id="getTaskBase"  
+ resultClass="java.util.HashMap">
+	SELECT G.GC_S_E_EXP,
+	       D.THREAD_NUMBER,
+	       D.TASK_TYPE_CD,
+	       A.SER_INVOKE_INS_ID,
+	       A.TECH_IMPL_ID
+	  FROM TASK_READ_TECH_CFG A, TASK_MANAGER D, GATHER_CYCLE G
+	 WHERE A.TASK_ID = D.TASK_ID
+	   AND D.GC_CD = G.GC_CD
+</select>
+
+<select id="getContractVer"  
+ resultClass="java.util.HashMap">
+	SELECT A.STATE,
+       A.VERSION,
+       A.IS_NEED_CHECK,
+       B.CODE,
+       B.BASE_CONTRACT_ID,
+       A.CONTRACT_VERSION_ID
+  FROM CONTRACT_VERSION A, CONTRACT B
+ WHERE A.CONTRACT_ID = B.CONTRACT_ID
+</select>
+
+<!-- 
+<select id="getContractFormat"  parameterClass="int" resultClass="java.util.HashMap">
+	SELECT *
+  FROM CONTRACT_VERSION C, CONTRACT_FORMAT F 
+ WHERE C.CONTRACT_VERSION_ID = F.CONTRACT_VERSION_ID
+   AND C.CONTRACT_VERSION_ID = #contractVerId#
+</select>
+ -->
+
+<select id="getContractFormat"  parameterClass="int" resultClass="java.util.HashMap">
+	SELECT F.CON_TYPE, F.REQ_RSP, F.TCP_CTR_F_ID, 
+	F.XSD_FORMAT, F.XSD_HEADER_FOR, F.XSD_DEMO, F.STATE,F.XSD_EXCEPTION
+  FROM CONTRACT_VERSION C, CONTRACT_FORMAT F 
+ WHERE C.CONTRACT_VERSION_ID = F.CONTRACT_VERSION_ID
+   AND C.CONTRACT_VERSION_ID = #contractVerId#
+</select>
+
+<select id="getContractFormatByContract"  parameterClass="int" resultClass="java.util.HashMap">
+	SELECT A.CONTRACT_VERSION_ID, A.VERSION
+  FROM CONTRACT_VERSION A, CONTRACT B
+ WHERE A.CONTRACT_ID = B.CONTRACT_ID
+   AND B.CONTRACT_ID = #contractid#
+</select>
+
+ <select id="getBusCode"  parameterClass="java.util.Map"
+ resultClass="com.ailk.eaap.op2.bo.BizFunction">
+	SELECT T.BIZ_FUNCTION_ID,
+       T.BIZ_BIZ_FUNCTION_ID,
+       T.NAME,
+       T.CODE,
+       T.CREATE_TIME,
+       T.STATE,
+       T.STATE_TIME,
+       T.DESCRIPTOR
+  FROM BIZ_FUNCTION T
+ WHERE 1 = 1
+	<isNotEmpty property="code">
+			AND T.CODE=#code#
+	</isNotEmpty>
+	
+</select>
+
+
+<select id="getNode"  parameterClass="int" resultClass="java.util.HashMap">
+	SELECT C.NODE_DESC_ID,
+	   C.IS_NEED_CHECK,
+       C.NODE_CODE,
+       C.NODE_PATH,
+       C.NODE_LENGTH_CONS,
+       C.NODE_TYPE,
+       C.NODE_TYPE_CONS,
+       C.NODE_NUMBER_CONS,
+       C.NEVL_CONS_TYPE,
+       C.NEVL_CONS_VALUE,
+       C.IS_NEED_SIGN,
+	   C.JAVA_FIELD
+  FROM NODE_DESC C, CONTRACT_FORMAT F
+ WHERE C.TCP_CTR_F_ID = F.TCP_CTR_F_ID
+   AND C.TCP_CTR_F_ID = #contractVerId#
+</select>
+
+
+<!-- 加载wsdl文件 -->
+<select id="getWsdlFileList"  parameterClass="java.util.HashMap"
+ resultClass="java.util.HashMap">
+		SELECT T1.RESOURCE_ALISS, T1.DOC_VERSION, T2.S_FILE_CONTENT
+		  FROM CONTRACT_DOC T1, FILE_SHARE T2
+		 WHERE T1.DOC_TYPE = 1
+		   AND T1.DOC_PATH = T2.S_FILE_ID
+		   AND T1.STATE = 'A'
+		ORDER BY T1.CONTRACT_DOC_ID DESC
+</select>
+
+
+<!-- 加载api operation方法 -->
+<select id="getApiOperationList"  parameterClass="java.util.HashMap"
+ resultClass="java.util.HashMap">
+	SELECT T1.RESOURCE_ALISS,  T1.DOC_VERSION, T3.SERVICE_EN_NAME, T3.SERVICE_CODE, T5.VERSION
+	    FROM CONTRACT_DOC     T1,
+	         DOC_CONTRACT     T2,
+	         SERVICE          T3,
+	         CONTRACT_VERSION T5
+	   WHERE T1.CONTRACT_DOC_ID = T2.CONTRACT_DOC_ID
+	     AND T2.CONTRACT_VERSION_ID = T3.CONTRACT_VERSION_ID
+	     AND T2.CONTRACT_VERSION_ID = T5.CONTRACT_VERSION_ID
+	     AND T1.DOC_TYPE = '1'
+ORDER BY T1.CONTRACT_DOC_ID DESC
+</select>
+
+<!-- 加载协议格式 operation方法 -->
+<select id="getContractOperationList"  parameterClass="java.util.HashMap"
+ resultClass="java.util.HashMap">
+	SELECT T1.RESOURCE_ALISS, T1.DOC_VERSION, T3.VERSION, T5.VALUE, T6.ATTR_SPEC_CODE, T7.SERVICE_CODE
+	  FROM CONTRACT_DOC         T1,
+	       DOC_CONTRACT         T2,
+	       CONTRACT_VERSION     T3,
+	       CONTRACT_FORMAT      T4,
+	       CONTRACT_2_ATTR_SPEC T5,
+	       ATTR_SPEC            T6,
+	       SERVICE              T7
+	 WHERE T1.CONTRACT_DOC_ID = T2.CONTRACT_DOC_ID
+	   AND T2.CONTRACT_VERSION_ID = T3.CONTRACT_VERSION_ID
+	   AND T3.CONTRACT_VERSION_ID = T4.CONTRACT_VERSION_ID
+	   AND T4.TCP_CTR_F_ID = T5.TCP_CTR_F_ID
+	   AND T5.ATTR_SPEC_ID = T6.ATTR_SPEC_ID
+ 	   AND T6.ATTR_SPEC_CODE IN ('$operation$','$input$','$output$')
+	   AND T1.DOC_TYPE = '1'
+	   AND T3.CONTRACT_VERSION_ID=T7.CONTRACT_VERSION_ID
+ORDER BY T1.CONTRACT_DOC_ID DESC;
+</select>
+
+<!-- 协议格式请求响应节点-->
+<select id="getHeadNodeDescList"  parameterClass="java.util.HashMap"
+ resultClass="java.util.HashMap">
+	          SELECT T3.VERSION BASE_VERSION,
+			       T5.CON_TYPE,
+			       T6.NODE_PATH,
+			       T6.NODE_NAME,
+			       T6.NODE_CODE,
+			       T6.NODE_TYPE,
+			       T6.IS_NEED_CHECK,
+			       T6.NODE_NUMBER_CONS,
+			       T6.NODE_LENGTH_CONS,
+			       T6.NEVL_CONS_TYPE,
+			       T6.NEVL_CONS_VALUE,
+			       T5.REQ_RSP,
+			       T5.XSD_FORMAT,
+			       T6.JAVA_FIELD
+			  FROM CONTRACT T1,
+			       CONTRACT_VERSION T3,
+			       CONTRACT_FORMAT T5,
+			       NODE_DESC T6
+			 WHERE  T1.CONTRACT_ID = T3.CONTRACT_ID 
+			   AND T3.CONTRACT_VERSION_ID = T5.CONTRACT_VERSION_ID
+			   AND T5.TCP_CTR_F_ID = T6.TCP_CTR_F_ID
+			   AND T1.STATE = 'A'
+			   AND T3.STATE = 'A'
+			   AND T5.STATE = 'A'
+			   AND T6.STATE = 'A' 
+</select>
+
+<!--rest对应服务配置 -->
+<select id="getRestConfigList"  parameterClass="java.util.HashMap"
+ resultClass="java.util.HashMap">
+	          SELECT T7.SERVICE_ID, T7.SERVICE_CODE,T8.VERSION, T2.ATTR_SPEC_VALUE, T3.ATTR_SPEC_CODE
+				  FROM TECH_IMPL        T1,
+				       TECH_IMP_ATT     T2,
+				       ATTR_SPEC        T3,
+				       COMM_PROTOCAL    T5,
+				       SER_TECH_IMPL    T6,
+				       SERVICE          T7,
+				       CONTRACT_VERSION T8
+				 WHERE T1.COMM_PRO_CD = T5.COMM_PRO_CD
+				   AND T5.COMM_PRO_NAME = 'rest'
+				   AND T1.TECH_IMPL_ID = T2.TECH_IMPL_ID
+				   AND T2.ATTR_SPEC_ID = T3.ATTR_SPEC_ID
+				   AND T7.CONTRACT_VERSION_ID = T8.CONTRACT_VERSION_ID
+				   AND T1.TECH_IMPL_ID = T6.TECH_IMPL_ID
+				   AND T6.SERVICE_ID = T7.SERVICE_ID
+				   AND T1.COMPONENT_ID=#componentCode#
+</select>
+ <select id="findAllRouteConditionById"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	  SELECT RC.ROUTE_COND_ID,
+	         RC.UP_ROUTE_COND_ID,
+	         RC.GET_VALUE_EXPR_ID,
+	         RC.OPERATOR_ID,
+	         CO.OPERATOR_CODE,
+	         RC.MATCH_VALUE,
+	         RC.COND_RELATION
+	    FROM ROUTE_CONDITION RC
+	    LEFT JOIN COMPARISON_OPERATOR CO
+	      ON RC.OPERATOR_ID = CO.OPERATOR_ID 
+	      WHERE ROUTE_COND_ID = #ROUTE_COND_ID#
+</select>
+<!-- 根据up_route_con_id获取 -->
+<select id="findAllRouteConditionByUpId"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	  SELECT RC.ROUTE_COND_ID,
+	         RC.UP_ROUTE_COND_ID,
+	         RC.GET_VALUE_EXPR_ID,
+	         RC.OPERATOR_ID,
+	         CO.OPERATOR_CODE,
+	         RC.MATCH_VALUE,
+	         RC.COND_RELATION
+	    FROM ROUTE_CONDITION RC
+	    LEFT JOIN COMPARISON_OPERATOR CO
+	      ON RC.OPERATOR_ID = CO.OPERATOR_ID 
+	      WHERE UP_ROUTE_COND_ID = #UP_ROUTE_COND_ID#
+</select>
+<select id="findAllExprById"  resultClass="java.util.HashMap">
+	select EXPR_ID, GVE.COND_EVALUATOR_ID, UP_EXPR_ID, EXPR, CE.COND_EVALUATOR_CODE, GVE.EXPR_TYPE,GVE.REQ_RSP 
+	      from GET_VALUE_EXPR GVE, COND_EVALUATOR CE
+	      where GVE.COND_EVALUATOR_ID = CE.COND_EVALUATOR_ID
+	      and expr_id = #expr_id#
+</select>
+<select id="findAllExprByUpExprId"  resultClass="java.util.HashMap">
+	select EXPR_ID, GVE.COND_EVALUATOR_ID, UP_EXPR_ID, EXPR, CE.COND_EVALUATOR_CODE
+	      from GET_VALUE_EXPR GVE, COND_EVALUATOR CE
+	      where GVE.COND_EVALUATOR_ID = CE.COND_EVALUATOR_ID
+	      and up_expr_id = #up_expr_id#
+</select>
+<!--  多表查询返回结果集为MAP -->
+<select id="get0020"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	select NS.NAME_SPACE_ID,
+	       NS.NAME_SPACE_PREFIX,
+	       NS.NAME_SPACE_URI,
+	       NS.NAME_SPACE_DESC
+	  from XML_NAME_SPACE NS, EXPR_NAME_SPACE ENS
+	 where NS.NAME_SPACE_ID = ENS.NAME_SPACE_ID
+	   and ENS.EXPR_ID = #EXPR_ID#
+</select> 
+ <!-- 得到所有模糊处理配置 -->
+ <select id="getAllHideProcessById" parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.RegisterObject">
+	select 
+		ro.register_table_name,
+		hf.hide_field_name,
+		hm.hide_type_id,
+		hm.replace_sign,
+		hm.replace_expression,
+		hm.is_split,
+		hm.split_sign,
+		hm.split_expression
+	from hide_field hf
+	left join hide_method hm on hf.hide_field_id = hm.hide_field_id
+	left join register_object ro on hf.register_object_id = ro.register_object_id
+	where ro.register_object_id = #register_object_id#
+</select>
+<!-- 得到所有模糊注册表信息 -->
+<select id="getAllRegTable" 
+ resultClass="com.ailk.eaap.op2.bo.RegisterObject">
+	select register_object_id, register_table_name from register_object
+</select>
+<!-- 得到所有自定义端点的ID -->
+<select id="getAllAutoEndPointIds" 
+ resultClass="java.lang.String">
+	select distinct a.end_point_id from context_param a
+</select>
+ <!-- 由端点ID得到自定义的参数列表 -->
+ <select id="getContextParamById" parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.ContextParam">
+	select a.context_param_id,b.pass_method_ex,c.context_type_name 
+      from context_param a
+      left join CONTEXT_PURVIEW b on a.PURVIEW_ID = b.PURVIEW_ID
+      left join CONTEXT_TYPE c on a.CONTEXT_TYPE_ID = c.CONTEXT_TYPE_ID
+    where a.end_point_id = #end_point_id#
+</select>
+
+ <!-- 获取动态脚本内容 -->
+ <select id="getDyScriptById" parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.DyScript">
+	select dy_script_content 
+       from DY_SCRIPT
+    where end_point_id = #end_point_id#
+</select>
+ <!-- 得到缓存实例配置 -->
+ <select id="getContextCacheInsById" parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.ContextCacheIns">
+	select cp.ploy_name
+       from CONTEXT_CACHE_INS cc
+       left join CACHE_PLOY cp on cc.CACHE_PLOY_ID = cp.CACHE_PLOY_ID
+       left join context_param a on cc.CONTEXT_PARAM_ID = a.CONTEXT_PARAM_ID
+    where a.CONTEXT_PARAM_ID = #param_id#
+</select>
+
+	<!--异常信息  -->
+	 <select id="getException"  resultClass="java.util.HashMap">
+		SELECT T1.CODE, T1.CAUSE, T2.CODE_SOURE_NAME
+		  FROM EXCEPTION_TYPE T1, EXECEPTION_CODE_SOURE T2
+		 WHERE T1.CODE_SOURE_ID = T2.CODE_SOURE_ID
+	</select>
+	
+	<!--远程调用信息  -->
+	<select id="getRemoteCallInfo"   parameterClass="java.lang.String" resultClass="com.ailk.eaap.op2.bo.RemoteCallInfo">
+		SELECT REMOTE_CALL_URL_ID  RemoteCallUrlId,
+		REMOTE_CALL_URL_CODE RemoteCallUrlCode,
+		REMOTE_CALL_URL RemoteCallUrl,
+		REMOTE_CALL_URL_STATUS  RemoteCallUrlStatus
+		FROM REMOTE_CALL_INFO 
+		WHERE REMOTE_CALL_URL_STATUS  = 'A'
+	</select>
+	
+	<!-- 获取交易流水 -->
+	<select id="getTranIdSeqList" resultClass="java.util.HashMap">
+		select LOCALSEQ, COMPONENT_CODE, TRANIDSEQ + 1000 as TRANIDSEQ from SERVER_COMPONENT_SEQ
+	</select>
+	
+	<!-- 新增交易流水号 -->
+	<insert id="insertServerComponentSeq" parameterClass="java.util.HashMap">
+		INSERT INTO SERVER_COMPONENT_SEQ(LOCALSEQ, COMPONENT_CODE, TRANIDSEQ) VALUES(#LOCALSEQ#, #COMPONENT_CODE#, #TRANIDSEQ#) 
+	</insert>
+	
+	<!-- 更新交易流水号 -->
+	<update id="updateServerComponentSeq" parameterClass="java.util.HashMap">
+		UPDATE SERVER_COMPONENT_SEQ SET TRANIDSEQ = #TRANIDSEQ# WHERE LOCALSEQ = #LOCALSEQ# AND COMPONENT_CODE = #COMPONENT_CODE# 
+	</update>
+	
+	<!-- 获取本地服务标识 -->
+	<select id="getServerLocalLogoList" resultClass="java.util.HashMap">
+		select * from SERVER_LOCAL_LOGO
+	</select>
+	
+	<!-- 新增本地服务标识 -->
+	<insert id="insertServerLocalLogo" parameterClass="java.util.HashMap">
+		INSERT INTO SERVER_LOCAL_LOGO(LOCALSEQ, IPPORT) VALUES(#LOCALSEQ#, #IPPORT#) 
+	</insert>
+	
+	<!-- 新增本地服务序列号识 -->
+	<insert id="insertServerLocalSeq" parameterClass="int">
+		INSERT INTO SERVER_LOCAL_SEQ(LOCALSEQ) VALUES(#SEQ#) 
+	</insert>
+	
+	<!-- 更新本地服务序列号识 -->
+	<update id="updateServerLocalSeq" parameterClass="int">
+		UPDATE SERVER_LOCAL_SEQ SET LOCALSEQ = #SEQ#
+	</update>
+	
+	<!-- 获取本地服务序列号识 -->
+	<select id="getServerLocalSeq" resultClass="int">
+		SELECT LOCALSEQ FROM SERVER_LOCAL_SEQ
+	</select>
+	
+	<!-- 获取属性值 -->
+	<select id="getAttrValue" resultMap="AttrValueMap">
+		SELECT * FROM ATTR_VALUE
+	</select>
+	
+	<!-- 获取配置值 -->
+	<select id="getConfProperties" resultMap="ConfPropertiesMap">
+		SELECT * FROM conf_properties
+	</select>
+	
+	<!-- 获取日志级别 -->
+	<select id="getLogLevels" resultClass="java.util.HashMap">
+		SELECT * FROM LOG_LEVEL
+	</select>
+	
+	<!-- freemarker模版 -->
+    <select id="getTemplate" resultMap="templateMap">
+        select template_id, tcp_ctr_f_id, template_body, template_header, template_type,is_global from content_template
+    </select>
+        
+     <!-- 缓存对象 -->
+    <select id="getCacheObjs" resultClass="java.util.HashMap">
+		SELECT ID,CODE,KEY_RULE,STATE,VALUE_PATH,CACHE_STRATEGY_ID FROM CACHE_OBJ WHERE
+		STATE='A'
+		<isNotEmpty property="cacheStrategyId">
+			AND CACHE_STRATEGY_ID = #cacheStrategyId#
+		</isNotEmpty>
+	</select>
+    <!-- 缓存策略 -->
+    <select id="getCacheStrategys" resultClass="java.util.HashMap">
+		SELECT ID,CODE,NAME,CACHE_TYPE,STATE,FORCE_REFRESH,EXPIRE_TIME,EXPIRE_TIME_PATH,TENANT_ID FROM CACHE_STRATEGY WHERE
+		STATE='A'
+		<isNotEmpty property="tenantId">
+			AND TENANT_ID = #tenantId#
+		</isNotEmpty>
+	</select>
+</sqlMap>

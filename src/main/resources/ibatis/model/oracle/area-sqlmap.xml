@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="area">
+	<select id="selectProvince" parameterClass="com.ailk.eaap.op2.bo.Area" resultClass="com.ailk.eaap.op2.bo.Area">
+		SELECT AREA_ID areaId,ZONE_NAME zoneName FROM AREA WHERE UP_AREA_ID = 8100000  
+		and TENANT_ID=#tenantId#
+	</select>
+	
+	<select id="selectCity" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.Area">
+		SELECT AREA_ID areaId,ZONE_NAME zoneName FROM AREA
+		<dynamic prepend="where">
+		    <isNotNull prepend="and" property="areaId"> UP_AREA_ID=#areaId#</isNotNull>
+		    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+		ORDER BY ZONE_NAME
+	</select>
+	
+	<select id="queryCity" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.Area">
+		SELECT AREA_ID areaId,ZONE_NAME zoneName FROM AREA
+		<dynamic prepend="where">
+		    <isNotNull prepend="and" property="areaId"> AREA_ID=#areaId#</isNotNull>
+		    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+		ORDER BY ZONE_NAME
+	</select>
+	
+</sqlMap>

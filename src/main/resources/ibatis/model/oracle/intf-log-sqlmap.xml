@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="intf_log" >
+  <resultMap id="BaseResultMap" class="com.ailk.eaap.op2.bo.IntfLog" >
+    <result column="CONTRACT_INTERACTION_ID" property="contractInteractionId" jdbcType="VARCHAR" />
+    <result column="BIZ_FUNC_CODE" property="bizFuncCode" jdbcType="VARCHAR" />
+    <result column="BIZ_INTF_CODE" property="bizIntfCode" jdbcType="VARCHAR" />
+    <result column="CONTRACT_VERSION" property="contractVersion" jdbcType="VARCHAR" />
+    <result column="REG_SER_CODE" property="regSerCode" jdbcType="VARCHAR" />
+    <result column="REG_SER_VERSION" property="regSerVersion" jdbcType="VARCHAR" />
+    <result column="SRC_TRAN_ID" property="srcTranId" jdbcType="VARCHAR" />
+    <result column="DST_TRAN_ID" property="dstTranId" jdbcType="VARCHAR" />
+    <result column="SERVICE_LEVEL" property="serviceLevel" jdbcType="VARCHAR" />
+    <result column="SRC_ORG_CODE" property="srcOrgCode" jdbcType="VARCHAR" />
+    <result column="DST_ORG_CODE" property="dstOrgCode" jdbcType="VARCHAR" />
+    <result column="SRC_SYS_CODE" property="srcSysCode" jdbcType="VARCHAR" />
+    <result column="DST_SYS_CODE" property="dstSysCode" jdbcType="VARCHAR" />
+    <result column="TEST_FLAG" property="testFlag" jdbcType="VARCHAR" />
+    <result column="SRC_REQ_TIME" property="srcReqTime" jdbcType="DATE" />
+    <result column="CENTER_REC_REQ_TIME" property="centerRecReqTime" jdbcType="TIMESTAMP" />
+    <result column="CENTER_FWD_2_DST_TIME" property="centerFwd2DstTime" jdbcType="TIMESTAMP" />
+    <result column="DST_REC_TIME" property="dstRecTime" jdbcType="DATE" />
+    <result column="DST_REPLY_TIME" property="dstReplyTime" jdbcType="DATE" />
+    <result column="CENTER_REC_DST_TIME" property="centerRecDstTime" jdbcType="TIMESTAMP" />
+    <result column="CENTER_FWD_2_SRC_TIME" property="centerFwd2SrcTime" jdbcType="TIMESTAMP" />
+    <result column="SRC_CONFIRM_TIME" property="srcConfirmTime" jdbcType="DATE" />
+    <result column="SRC_RESPONSE_TIME" property="srcResponseTime" jdbcType="DATE" />
+    <result column="RESPONSE_TYPE" property="responseType" jdbcType="VARCHAR" />
+    <result column="RESPONSE_CODE" property="responseCode" jdbcType="VARCHAR" />
+    <result column="RESPONSE_DES" property="responseDes" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="BUS_OBJ_TYPE" property="busObjType" jdbcType="VARCHAR" />
+    <result column="BUS_OBJ_ID" property="busObjId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    CONTRACT_INTERACTION_ID, BIZ_FUNC_CODE, BIZ_INTF_CODE, CONTRACT_VERSION, REG_SER_CODE, 
+    REG_SER_VERSION, SRC_TRAN_ID, DST_TRAN_ID, SERVICE_LEVEL, SRC_ORG_CODE, DST_ORG_CODE, 
+    SRC_SYS_CODE, DST_SYS_CODE, TEST_FLAG, SRC_REQ_TIME, CENTER_REC_REQ_TIME, CENTER_FWD_2_DST_TIME, 
+    DST_REC_TIME, DST_REPLY_TIME, CENTER_REC_DST_TIME, CENTER_FWD_2_SRC_TIME, SRC_CONFIRM_TIME, 
+    SRC_RESPONSE_TIME, RESPONSE_TYPE, RESPONSE_CODE, RESPONSE_DES, CREATE_TIME, BUS_OBJ_TYPE, 
+    BUS_OBJ_ID
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.ailk.eaap.op2.bo.IntfLog" >
+    select 
+    <include refid="intf_log.Base_Column_List" />
+    from intf_log
+    where CONTRACT_INTERACTION_ID = #contractInteractionId:VARCHAR#
+  </select>
+  
+  <select id="selectIntfLog" resultMap="BaseResultMap" parameterClass="com.ailk.eaap.op2.bo.IntfLog" >
+    select 
+    <include refid="intf_log.Base_Column_List" />
+    from intf_log
+    where 1 = 1 
+    	<dynamic>
+  			<isNotNull prepend="and" property="contractInteractionId"> 
+  				CONTRACT_INTERACTION_ID = #contractInteractionId#
+  			</isNotNull>
+  			<isNotNull prepend="and" property="busObjType"> 
+  				BUS_OBJ_TYPE = #busObjType#  
+  			</isNotNull>
+  			<isNotNull prepend="and" property="busObjId"> 
+  				BUS_OBJ_ID = #busObjId#  
+  			</isNotNull>
+   		</dynamic>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterClass="com.ailk.eaap.op2.bo.IntfLog" >
+    delete from intf_log
+    where CONTRACT_INTERACTION_ID = #contractInteractionId:VARCHAR#
+  </delete>
+ 
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.IntfLog" >
+    <selectKey resultClass="string" keyProperty="contractInteractionId">
+		 SELECT SEQ_INTF_LOG.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into intf_log (SRC_REQ_TIME,DST_REC_TIME
+    <dynamic>
+      <isNotNull prepend="," property="contractInteractionId" >
+        CONTRACT_INTERACTION_ID
+      </isNotNull>
+      <isNotNull prepend="," property="bizFuncCode" >
+        BIZ_FUNC_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="bizIntfCode" >
+        BIZ_INTF_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="contractVersion" >
+        CONTRACT_VERSION
+      </isNotNull>
+      <isNotNull prepend="," property="regSerCode" >
+        REG_SER_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="regSerVersion" >
+        REG_SER_VERSION
+      </isNotNull>
+      <isNotNull prepend="," property="srcTranId" >
+        SRC_TRAN_ID
+      </isNotNull>
+      <isNotNull prepend="," property="dstTranId" >
+        DST_TRAN_ID
+      </isNotNull>
+      <isNotNull prepend="," property="serviceLevel" >
+        SERVICE_LEVEL
+      </isNotNull>
+      <isNotNull prepend="," property="srcOrgCode" >
+        SRC_ORG_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="dstOrgCode" >
+        DST_ORG_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="srcSysCode" >
+        SRC_SYS_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="dstSysCode" >
+        DST_SYS_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="testFlag" >
+        TEST_FLAG
+      </isNotNull>
+      <isNotNull prepend="," property="centerRecReqTime" >
+        CENTER_REC_REQ_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="centerFwd2DstTime" >
+        CENTER_FWD_2_DST_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="dstReplyTime" >
+        DST_REPLY_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="centerRecDstTime" >
+        CENTER_REC_DST_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="centerFwd2SrcTime" >
+        CENTER_FWD_2_SRC_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="srcConfirmTime" >
+        SRC_CONFIRM_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="srcResponseTime" >
+        SRC_RESPONSE_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="responseType" >
+        RESPONSE_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="responseCode" >
+        RESPONSE_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="responseDes" >
+        RESPONSE_DES
+      </isNotNull>
+      <isNotNull prepend="," property="createTime" >
+        CREATE_TIME
+      </isNotNull>
+      <isNotNull prepend="," property="busObjType" >
+        BUS_OBJ_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="busObjId" >
+        BUS_OBJ_ID
+      </isNotNull>
+      )
+    </dynamic>
+    values (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+    <dynamic>
+      <isNotNull prepend="," property="contractInteractionId" >
+        #contractInteractionId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="bizFuncCode" >
+        #bizFuncCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="bizIntfCode" >
+        #bizIntfCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="contractVersion" >
+        #contractVersion:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="regSerCode" >
+        #regSerCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="regSerVersion" >
+        #regSerVersion:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcTranId" >
+        #srcTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstTranId" >
+        #dstTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="serviceLevel" >
+        #serviceLevel:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcOrgCode" >
+        #srcOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstOrgCode" >
+        #dstOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcSysCode" >
+        #srcSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstSysCode" >
+        #dstSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="testFlag" >
+        #testFlag:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="centerRecReqTime" >
+        #centerRecReqTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="centerFwd2DstTime" >
+        #centerFwd2DstTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="dstReplyTime" >
+        #dstReplyTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="centerRecDstTime" >
+        #centerRecDstTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="centerFwd2SrcTime" >
+        #centerFwd2SrcTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="srcConfirmTime" >
+        #srcConfirmTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="srcResponseTime" >
+        #srcResponseTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="responseType" >
+        #responseType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="responseCode" >
+        #responseCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="responseDes" >
+        #responseDes:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="createTime" >
+        #createTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="busObjType" >
+        #busObjType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="busObjId" >
+        #busObjId:VARCHAR#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ailk.eaap.op2.bo.IntfLog" >
+    update intf_log
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="bizFuncCode" >
+        BIZ_FUNC_CODE = #bizFuncCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="bizIntfCode" >
+        BIZ_INTF_CODE = #bizIntfCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="contractVersion" >
+        CONTRACT_VERSION = #contractVersion:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="regSerCode" >
+        REG_SER_CODE = #regSerCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="regSerVersion" >
+        REG_SER_VERSION = #regSerVersion:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcTranId" >
+        SRC_TRAN_ID = #srcTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstTranId" >
+        DST_TRAN_ID = #dstTranId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="serviceLevel" >
+        SERVICE_LEVEL = #serviceLevel:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcOrgCode" >
+        SRC_ORG_CODE = #srcOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstOrgCode" >
+        DST_ORG_CODE = #dstOrgCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcSysCode" >
+        SRC_SYS_CODE = #srcSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="dstSysCode" >
+        DST_SYS_CODE = #dstSysCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="testFlag" >
+        TEST_FLAG = #testFlag:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="srcReqTime" >
+        SRC_REQ_TIME = #srcReqTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="centerRecReqTime" >
+        CENTER_REC_REQ_TIME = #centerRecReqTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="centerFwd2DstTime" >
+        CENTER_FWD_2_DST_TIME = #centerFwd2DstTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="dstRecTime" >
+        DST_REC_TIME = #dstRecTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="dstReplyTime" >
+        DST_REPLY_TIME = #dstReplyTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="centerRecDstTime" >
+        CENTER_REC_DST_TIME = #centerRecDstTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="centerFwd2SrcTime" >
+        CENTER_FWD_2_SRC_TIME = #centerFwd2SrcTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="srcConfirmTime" >
+        SRC_CONFIRM_TIME = #srcConfirmTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="srcResponseTime" >
+        SRC_RESPONSE_TIME = #srcResponseTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="responseType" >
+        RESPONSE_TYPE = #responseType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="responseCode" >
+        RESPONSE_CODE = #responseCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="responseDes" >
+        RESPONSE_DES = #responseDes:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="createTime" >
+        CREATE_TIME = #createTime:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="busObjType" >
+        BUS_OBJ_TYPE = #busObjType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="busObjId" >
+        BUS_OBJ_ID = #busObjId:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where CONTRACT_INTERACTION_ID = #contractInteractionId:VARCHAR#
+  </update>
+  
+</sqlMap>

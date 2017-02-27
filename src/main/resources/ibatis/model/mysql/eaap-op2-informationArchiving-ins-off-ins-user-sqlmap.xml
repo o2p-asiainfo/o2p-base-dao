@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ins_off_ins_user" >
+  <resultMap id="BaseResultMap" class="com.ailk.eaap.op2.bo.informationArchiving.InsOffInsUser" >
+    <result column="OFFER_USER_RELAT_ID" property="offerUserRelatId" jdbcType="DECIMAL" />
+    <result column="OFFER_INST_ID" property="offerInstId" jdbcType="DECIMAL" />
+     <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="OFFER_ID" property="offerId" jdbcType="DECIMAL" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="EFFECTIVE_DATE" property="effectiveDate" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="DONE_DATE" property="doneDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+     OFFER_USER_RELAT_ID, OFFER_INST_ID, USER_ID,OFFER_ID, STATE, EFFECTIVE_DATE, EXPIRE_DATE, 
+    CREATE_DATE, DONE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOffInsUser" >
+    select 
+    <include refid="ins_off_ins_user.Base_Column_List" />
+    from ins_off_ins_user
+    where USER_ID = #userId:DECIMAL#
+    and tenant_id=#tenantId#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOffInsUser" >
+    delete from ins_off_ins_user
+     where USER_ID = #userId:DECIMAL#
+     and tenant_id=#tenantId#
+  </delete>
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOffInsUser" >
+  <selectKey resultClass="long" keyProperty="offerUserRelatId">
+		 SELECT  nextval('SEQ_INS_OFF_INS_USER');
+    </selectKey>
+    insert into ins_off_ins_user
+    (EFFECTIVE_DATE,CREATE_DATE,DONE_DATE
+    <dynamic>
+      <isNotNull prepend="," property="offerUserRelatId" >
+        OFFER_USER_RELAT_ID
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        OFFER_INST_ID
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        USER_ID
+      </isNotNull>
+      <isNotNull prepend="," property="offerId" >
+        OFFER_ID
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE
+      </isNotNull>
+      <isNotNull prepend="," property="expireDate" >
+        EXPIRE_DATE
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+      )
+    </dynamic>
+    values
+    (utc_timestamp(),utc_timestamp(),utc_timestamp()
+    <dynamic  >
+      <isNotNull prepend="," property="offerUserRelatId" >
+        #offerUserRelatId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        #offerInstId:DECIMAL#
+      </isNotNull>
+       <isNotNull prepend="," property="userId" >
+        #userId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerId" >
+        #offerId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        #state:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="expireDate" >
+        #expireDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOffInsUser" >
+    update ins_off_ins_user
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="offerInstId" >
+        OFFER_INST_ID = #offerInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerId" >
+        OFFER_ID = #offerId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerUserRelatId" >
+        USER_ID = #userId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE = #state:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="effectiveDate" >
+        EFFECTIVE_DATE = #effectiveDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="expireDate" >
+        EXPIRE_DATE = #expireDate:TIMESTAMP#
+      </isNotNull>
+        ,DONE_DATE = utc_timestamp()
+    </dynamic>
+    where OFFER_USER_RELAT_ID = #offerUserRelatId:DECIMAL#
+    and tenant_id=#tenantId#
+  </update>
+</sqlMap>

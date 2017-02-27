@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="valueAddedProdInfo">
+	<select id="selectValueAddedProdInfo" parameterClass="com.ailk.eaap.op2.bo.ValueAddedProdInfo"
+		resultClass="com.ailk.eaap.op2.bo.ValueAddedProdInfo">
+		SELECT PRODUCT_ID productId,SYSTEM_CODE systemCode,SUB_OPTION
+		subOption,CREATE_DATE createDate,SERVICE_ID serviceId FROM
+		VALUE_ADDED_PROD_INFO
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="productId"> PRODUCT_ID=#productId#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<insert id="insertValueAddedProdInfo" parameterClass="com.ailk.eaap.op2.bo.ValueAddedProdInfo">
+		INSERT INTO VALUE_ADDED_PROD_INFO
+		(CREATE_DATE
+		<dynamic>
+			<isNotNull prepend="," property="productId">PRODUCT_ID</isNotNull>
+			<isNotNull prepend="," property="subOption">SUB_OPTION</isNotNull>
+			<isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+			<isNotNull prepend="," property="systemCode">SYSTEM_CODE</isNotNull>
+		</dynamic>
+		)
+		VALUES
+		(sysdate
+		<dynamic>
+			<isNotNull prepend="," property="productId">#productId#</isNotNull>
+			<isNotNull prepend="," property="subOption">#subOption#</isNotNull>
+			<isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+			<isNotNull prepend="," property="systemCode">#systemCode#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+	<update id="updateValueAddedProdInfo" parameterClass="com.ailk.eaap.op2.bo.ValueAddedProdInfo">
+		UPDATE VALUE_ADDED_PROD_INFO
+		<dynamic prepend="SET">
+	     <isNotNull prepend="," property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+	     <isNotNull prepend="," property="systemCode">SYSTEM_CODE=#systemCode#</isNotNull> 
+		</dynamic>
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="productId">
+				PRODUCT_ID=#productId#</isNotNull>
+		</dynamic>
+	</update>
+</sqlMap>

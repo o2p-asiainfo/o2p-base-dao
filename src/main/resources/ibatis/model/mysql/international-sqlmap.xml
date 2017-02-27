@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="loadInternational">
+<typeAlias alias="localeSetBean"  type="com.ailk.eaap.op2.bo.LocaleSet"/>
+ 	<resultMap class="localeSetBean" id="localeSetMap">
+ 	      <result property="localeSetId" column="locale_set_id"    jdbcType="INTEGER"/>
+ 	      <result property="localeValue" column="locale_value"    jdbcType="VARCHAR"/>
+ 	      <result property="objectId" column="object_id"    jdbcType="VARCHAR"/>
+ 	      <result property="language" column="language"    jdbcType="VARCHAR"/>
+ 	      <result property="country" column="country"  jdbcType="VARCHAR"/>
+   </resultMap>   
+   
+   <typeAlias alias="localeConfigRegBean"  type="com.ailk.eaap.op2.bo.LocaleRegConfig"/>
+ 	<resultMap class="localeConfigRegBean" id="localeConfigRegMap">
+ 	      <result property="localeRegConfigId" column="locale_reg_config_id"    jdbcType="INTEGER"/>
+ 	      <result property="tableName" column="table_name"    jdbcType="VARCHAR"/>
+ 	      <result property="localeRegConfigExs" column="locale_reg_config_id"    select="loadInternational.selectValueById"  jdbcType="INTEGER"/>
+   </resultMap>   
+   
+   <typeAlias alias="localeConfigRegExBean"  type="com.ailk.eaap.op2.bo.LocaleRegConfigEx"/>
+ 	<resultMap class="localeConfigRegExBean" id="localeConfigRegExMap">
+ 	      <result property="id" column="id"    jdbcType="INTEGER"/>
+ 	      <result property="columnName" column="column_name"    jdbcType="VARCHAR"/>
+ 	       <result property="localeRegConfigId" column="locale_reg_config_id"    jdbcType="INTEGER"/>
+   </resultMap>
+   
+   <select id="selectValueById"  parameterClass="int" resultMap="localeConfigRegExMap" >
+       select  id,column_name,locale_reg_config_id from locale_reg_config_ex where locale_reg_config_id=#value#
+   </select>
+
+   <!-- 获取多语言注册表信息 -->
+	<select id="getAllLocaleRegConfig"  resultMap="localeConfigRegMap">
+	    select lrc.locale_reg_config_id ,lrc.table_name from locale_reg_config lrc
+	</select>
+
+	<!-- 获取语言集信息 -->
+	<select id="getAllLocaleSet"  resultMap="localeSetMap" >
+	    SELECT LOCALE_SET_ID,OBJECT_ID,LOCALE_VALUE,LANGUAGE,COUNTRY  FROM LOCALE_SET
+	</select>
+</sqlMap>

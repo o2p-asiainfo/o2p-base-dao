@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="baseQueryAnlysis">
+  <!--sqlmap config-->
+<select id="queryBaseProductAnalysis"  parameterClass="java.util.HashMap"
+ resultClass="com.ailk.eaap.op2.bo.BaseProductAnalysisBO">
+   select product_id productId,product_name productName from product   where prod_type ='1'  
+ <dynamic >            
+   <isNotEmpty prepend="and" property="productName">   product_name like '%$productName$%'            </isNotEmpty> 
+   <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>              
+ </dynamic>
+</select> 
+
+<select id="queryBaseProductForUserAnalysis"  parameterClass="java.util.HashMap"
+ resultClass="com.ailk.eaap.op2.bo.BaseProductAnalysisBO">
+    select product_id productId,
+        case
+          when (prod_type = '1') then
+           product_name || '(主产品)'
+          else
+           product_name
+        end as productName
+   from product
+  where prod_type in ('1', '2')
+ <dynamic >            
+   <isNotEmpty prepend="and" property="productName">   product_name like '%$productName$%'            </isNotEmpty>  
+   <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>             
+ </dynamic>
+</select> 
+
+<select id="queryBaseProvinceAnalysis"  parameterClass="java.util.HashMap"
+ resultClass="com.ailk.eaap.op2.bo.BaseProvinceAnalysisBO">
+    select org_id as provinceId,name provinceName from org where  org_id not in('100001' ,'100000','609801')
+    and tenant_id=#tenantId#
+</select> 
+
+<select id="queryBaseOfferAnalysis"  parameterClass="java.util.HashMap"
+ resultClass="com.ailk.eaap.op2.bo.BaseOfferAnalysisBO">
+    select offer_nbr as offerId,prod_offer_name as offerName from  PROD_OFFER where state='A' AND PAR_PROD_OFFER_id is null
+    and tenant_id=#tenantId#
+</select> 
+
+<select id="queryBaseTaskEndTimeAnalysis"  parameterClass="java.util.HashMap"
+ resultClass="java.lang.String">
+ <![CDATA[
+SELECT TO_CHAR(MIN(TASK_END_TIME),'YYYY-MM-DD HH24:MI:SS') AS TASK_END_TIME  FROM (
+select task_base_cd,max(TASK_END_TIME) TASK_END_TIME from task_inst where task_base_cd >= 605 and task_base_cd <=622
+and task_end_time > trunc(SYS_EXTRACT_UTC(current_timestamp)+0)
+and remarks = 'END'
+and tenant_id=#tenantId#
+group by task_base_cd
+) 
+]]>
+</select> 
+</sqlMap>

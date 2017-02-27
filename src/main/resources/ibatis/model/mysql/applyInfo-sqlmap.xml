@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="applyInfo">
+	<insert id="insertApplyInfo" parameterClass="com.ailk.eaap.op2.bo.ApplyInfo">
+	 <selectKey resultClass="Integer" keyProperty="applyId">
+		SELECT SEQ_APPLY_INFO.NEXTVAL FROM DUAL  
+	 </selectKey>	
+	 INSERT INTO APPLY_INFO
+	    (APPLY_DATE,STATE_TIME
+	  <dynamic>
+	    <isNotNull prepend="," property="applyId">APPLY_ID</isNotNull>
+	    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+	    <isNotNull prepend="," property="applyTypeId">APPLY_TYPE_ID</isNotNull>
+	    <isNotNull prepend="," property="state">STATE</isNotNull>
+	    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+	    <isNotNull prepend="," property="auditFlowId">AUDIT_FLOW_ID</isNotNull>
+	    <isNotNull prepend="," property="auditDescriptor">AUDIT_DESCRIPTOR</isNotNull>
+	    <isNotNull prepend="," property="sFileId">S_FILE_ID</isNotNull>
+	    <isNotNull prepend="," property="cycleId">CYCLE_ID</isNotNull>
+	    <isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES(utc_timestamp(),utc_timestamp()
+	  <dynamic>
+	    <isNotNull prepend="," property="applyId">#applyId#</isNotNull>
+	    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+	    <isNotNull prepend="," property="applyTypeId">#applyTypeId#</isNotNull>
+	    <isNotNull prepend="," property="state">#state#</isNotNull>
+	    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+	    <isNotNull prepend="," property="auditFlowId">#auditFlowId#</isNotNull>
+	    <isNotNull prepend="," property="auditDescriptor">#auditDescriptor#</isNotNull>
+	    <isNotNull prepend="," property="sFileId">#sFileId#</isNotNull>
+	     <isNotNull prepend="," property="cycleId">#cycleId#</isNotNull>
+	     <isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+</sqlMap>

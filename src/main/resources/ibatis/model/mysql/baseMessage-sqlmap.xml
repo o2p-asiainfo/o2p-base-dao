@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="messageBase">
+	<select id="selectRole" resultClass="java.util.HashMap">
+		select role_code ,role_name  from role
+		where tenant_id=#tenantId#
+	</select>
+	<select id="selectORG" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+		select org_id orgId,name name,org_code orgCode,org_username userName,telephone phone,email email,descriptor descriptor from 
+		(select * from org where state = 'D' and tenant_id=#tenantId#) parama 
+		<dynamic prepend=" where ">
+			<isNotNull prepend=" OR " property="name"> name like #name#</isNotNull>
+			<isNotNull prepend=" OR " property="orgCode"> org_code like #name#</isNotNull>
+			<isNotNull prepend=" OR " property="orgUsername"> org_username like #orgUsername#</isNotNull>
+			<isNotNull prepend=" OR " property="telephone"> telephone like #telephone#</isNotNull>
+			<isNotNull prepend=" OR " property="email"> email like #email#</isNotNull>
+	    </dynamic>
+	     LIMIT #begin#,#end# 
+	</select>
+	<select id="cntORG" resultClass="java.lang.Integer" parameterClass="java.util.HashMap">
+		select count(1) from 
+		(select * from org where state = 'D' and tenant_id=#tenantId#) parama 
+		<dynamic prepend=" where ">
+			<isNotNull prepend=" OR " property="name"> name like #name#</isNotNull>
+			<isNotNull prepend=" OR " property="orgCode"> org_code like #name#</isNotNull>
+			<isNotNull prepend=" OR " property="orgUsername"> org_username like #orgUsername#</isNotNull>
+			<isNotNull prepend=" OR " property="telephone"> telephone like #telephone#</isNotNull>
+			<isNotNull prepend=" OR " property="email"> email like #email#</isNotNull>
+	    </dynamic>
+	</select>
+	<select id="selectOrgName" resultClass="java.util.HashMap" parameterClass="java.util.HashMap">
+	select org_id orgId,name name,org_code orgCode,org_username userName from org where state = 'D' and tenant_id=#tenantId#
+	 <dynamic>
+      	<isNotNull prepend="and" property="recIds"> org_id in 
+      		<iterate  prepend="" property="recIds"  open="("  close=")"  conjunction="," >
+             				  #recIds[]#
+	  		</iterate>
+      	</isNotNull>
+      </dynamic>
+	</select>
+
+	<!--消息  -->
+	<insert id="addMessage" parameterClass="com.ailk.eaap.op2.bo.message.Message">
+  		<selectKey resultClass="java.math.BigDecimal" keyProperty="msgId">
+		  SELECT nextval('SEQ_MESSAGE') from dual
+    	</selectKey>
+	 	insert into MESSAGE 
+	 	(CREATE_DATE,STATUS_DATE,TENANT_ID
+	  <dynamic>
+	    <isNotNull prepend="," property="msgId">MSG_ID</isNotNull>
+	    <isNotNull prepend="," property="msgType">MSG_TYPE</isNotNull>
+	    <isNotNull prepend="," property="msgOriginator">MSG_ORIGINATOR</isNotNull>
+	    <isNotNull prepend="," property="msgWay">MSG_WAY</isNotNull>
+	    <isNotNull prepend="," property="msgTitle">MSG_TITLE</isNotNull>
+	    <isNotNull prepend="," property="msgSubtitle">MSG_SUBTITLE</isNotNull>
+	    <isNotNull prepend="," property="msgContent">MSG_CONTENT</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="msgHandleAddress">MSG_HANDLE_ADDRESS</isNotNull>
+	    <isNotNull prepend="," property="msgPriority">MSG_PRIORITY</isNotNull>
+	    <isNotNull prepend="," property="msgBeginDate">MSG_BEGINN_DATE</isNotNull>
+	    <isNotNull prepend="," property="msgEndDate">MSG_END_DATE</isNotNull>
+	    <isNotNull prepend="," property="msgRecType">MSG_REC_TYPE</isNotNull>
+	    <isNotNull prepend="," property="opId">OP_ID</isNotNull>
+	  </dynamic>
+	  )
+	  values(utc_timestamp() ,utc_timestamp(),#tenantId#
+	  <dynamic>
+	    <isNotNull prepend="," property="msgId">#msgId#</isNotNull>
+	    <isNotNull prepend="," property="msgType">#msgType#</isNotNull>
+	    <isNotNull prepend="," property="msgOriginator">#msgOriginator#</isNotNull>
+	    <isNotNull prepend="," property="msgWay">#msgWay#</isNotNull>
+	    <isNotNull prepend="," property="msgTitle">#msgTitle#</isNotNull>
+	    <isNotNull prepend="," property="msgSubtitle">#msgSubtitle#</isNotNull>
+	    <isNotNull prepend="," property="msgContent">#msgContent#</isNotNull> 
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="msgHandleAddress">#msgHandleAddress#</isNotNull>
+	    <isNotNull prepend="," property="msgPriority">#msgPriority#</isNotNull>
+	    <isNotNull prepend="," property="msgBeginDate">#msgBeginDate#</isNotNull>
+	    <isNotNull prepend="," property="msgEndDate">#msgEndDate#</isNotNull>
+	    <isNotNull prepend="," property="msgRecType">#msgRecType#</isNotNull>
+	    <isNotNull prepend="," property="opId">#opId#</isNotNull>
+	  </dynamic>
+	  )
+  </insert>
+  
+  <select id="selectMessage" parameterClass="com.ailk.eaap.op2.bo.message.Message" resultClass="com.ailk.eaap.op2.bo.message.Message">
+		SELECT MSG_ID msgId,MSG_TYPE msgType,MSG_ORIGINATOR msgOriginator,MSG_END_DATE msgEndDate,OP_ID opId,DATE_FORMAT(MSG_BEGINN_DATE,'%Y-%m-%d') formatBeginDate,
+		       MSG_WAY msgWay,MSG_TITLE msgTitle,MSG_SUBTITLE msgSubtitle,MSG_CONTENT msgContent,MSG_REC_TYPE msgRecType,DATE_FORMAT(MSG_END_DATE,'%Y-%m-%d') formatEndDate,
+		       STATUS_CD statusCd,MSG_HANDLE_ADDRESS msgHandleAddress,MSG_PRIORITY msgPriority,MSG_BEGINN_DATE msgBeginDate 
+		FROM MESSAGE 
+		where TENANT_ID=#tenantId#
+		<dynamic>
+			<isNotNull prepend="AND" property="msgType"> MSG_TYPE=#msgType#</isNotNull>
+			<isNotNull prepend="AND" property="msgTitle"> MSG_TITLE LIKE concat('%',#msgTitle#,'%')</isNotNull>
+			<isNotNull prepend="AND" property="msgSubtitle"> MSG_SUBTITLE LIKE concat('%',#msgSubtitle#,'%')</isNotNull>
+			<isNotNull prepend="AND" property="msgContent"> MSG_CONTENT LIKE concat('%',#msgContent#,'%')</isNotNull> 
+			<isNotNull prepend="AND" property="msgHandleAddress"> MSG_HANDLE_ADDRESS LIKE concat('%',#msgHandleAddress#,'%')</isNotNull>
+			<isNotNull prepend="AND" property="statusCd"> STATUS_CD=#statusCd#</isNotNull>
+			<isNotNull prepend="AND" property="msgWay"> MSG_WAY=#msgWay#</isNotNull>
+			<isNotNull prepend="AND" property="opId"> OP_ID=#opId#</isNotNull>
+			<isNotNull prepend="AND" property="msgRecType"> MSG_REC_TYPE=#msgRecType#</isNotNull>
+			<isNotEmpty prepend="AND" property="msgBeginDate"> <![CDATA[ MSG_BEGINN_DATE >= STR_TO_DATE(#msgBeginDate#,'%Y-%m-%d %h:%i:%s') ]]></isNotEmpty>
+   		    <isNotEmpty prepend="AND" property="msgEndDate"> <![CDATA[ MSG_END_DATE <= STR_TO_DATE(#msgEndDate#,'%Y-%m-%d %h:%i:%s') ]]></isNotEmpty> 
+		</dynamic>
+		 order  by MESSAGE.MSG_ID DESC 
+		 LIMIT #begin#,#end# 
+	</select>
+	
+	<select id="countMessage" parameterClass="com.ailk.eaap.op2.bo.message.Message" resultClass="Integer">
+		SELECT COUNT(*) FROM MESSAGE 
+		where TENANT_ID=#tenantId#
+		<dynamic>
+			<isNotNull prepend="AND" property="msgType"> MSG_TYPE=#msgType#</isNotNull>
+			<isNotNull prepend="AND" property="msgTitle"> MSG_TITLE LIKE concat('%',#msgTitle#,'%')</isNotNull>
+			<isNotNull prepend="AND" property="msgSubtitle"> MSG_SUBTITLE LIKE concat('%',#msgSubtitle#,'%')</isNotNull>
+			<isNotNull prepend="AND" property="msgContent"> MSG_CONTENT LIKE concat('%',#msgContent#,'%')</isNotNull> 
+			<isNotNull prepend="AND" property="msgHandleAddress"> MSG_HANDLE_ADDRESS LIKE concat('%',#msgHandleAddress#,'%')</isNotNull>
+			<isNotNull prepend="AND" property="statusCd"> STATUS_CD=#statusCd#</isNotNull>
+			<isNotNull prepend="AND" property="msgWay"> MSG_WAY=#msgWay#</isNotNull>
+			<isNotNull prepend="AND" property="opId"> OP_ID=#opId#</isNotNull>
+			<isNotNull prepend="AND" property="msgRecType"> MSG_REC_TYPE=#msgRecType#</isNotNull>
+			<isNotEmpty prepend="AND" property="msgBeginDate"> <![CDATA[ MSG_BEGINN_DATE >= STR_TO_DATE(#msgBeginDate#,'%Y-%m-%d %h:%i:%s') ]]></isNotEmpty>
+   		    <isNotEmpty prepend="AND" property="msgEndDate"> <![CDATA[ MSG_END_DATE <= STR_TO_DATE(#msgEndDate#,'%Y-%m-%d %h:%i:%s') ]]></isNotEmpty> 
+		</dynamic>
+	</select>
+	
+	<update id="updateMessage" parameterClass="com.ailk.eaap.op2.bo.message.Message">
+		update MESSAGE SET STATUS_DATE=utc_timestamp() 
+		<dynamic>
+	    	<isNotNull prepend="," property="msgType">MSG_TYPE=#msgType#</isNotNull>
+		    <isNotNull prepend="," property="msgOriginator">MSG_ORIGINATOR=#msgOriginator#</isNotNull>
+		    <isNotNull prepend="," property="msgWay">MSG_WAY=#msgWay#</isNotNull>
+		    <isNotNull prepend="," property="msgTitle">MSG_TITLE=#msgTitle#</isNotNull>
+		    <isNotNull prepend="," property="msgSubtitle">MSG_SUBTITLE=#msgSubtitle#</isNotNull>
+		    <isNotNull prepend="," property="msgContent">MSG_CONTENT=#msgContent#</isNotNull> 
+		    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+		    <isNotNull prepend="," property="msgHandleAddress">MSG_HANDLE_ADDRESS=#msgHandleAddress#</isNotNull>
+		    <isNotNull prepend="," property="msgPriority">MSG_PRIORITY=#msgPriority#</isNotNull>
+		    <isNotNull prepend="," property="msgBeginDate">MSG_BEGINN_DATE=#msgBeginDate#</isNotNull>
+		    <isNotNull prepend="," property="msgEndDate">MSG_END_DATE=#msgEndDate#</isNotNull>
+		    <isNotNull prepend="," property="msgRecType">MSG_REC_TYPE=#msgRecType#</isNotNull>
+		    <isNotNull prepend="," property="opId"> OP_ID=#opId#</isNotNull>
+	    </dynamic>
+	    WHERE MSG_ID = #msgId#
+	    and tenant_id=#tenantId#
+	</update>
+	
+	<select id="selectMessageByData" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.message.Message">
+		SELECT MSG_ID msgId,MSG_TYPE msgType,MSG_ORIGINATOR msgOriginator,MSG_END_DATE msgEndDate,OP_ID opId,DATE_FORMAT(MSG_BEGINN_DATE,'%Y-%m-%d') formatBeginDate,
+		       MSG_WAY msgWay,MSG_TITLE msgTitle,MSG_SUBTITLE msgSubtitle,MSG_CONTENT msgContent,MSG_REC_TYPE msgRecType,DATE_FORMAT(MSG_END_DATE,'%Y-%m-%d') formatEndDate,
+		       STATUS_CD statusCd,MSG_HANDLE_ADDRESS msgHandleAddress,MSG_PRIORITY msgPriority,MSG_BEGINN_DATE msgBeginDate 
+		FROM 
+		(SELECT * FROM (SELECT * FROM MESSAGE WHERE STATUS_CD='1000' and TENANT_ID=#tenantId#) parama 
+		<dynamic prepend="WHERE ">
+			<isNotNull prepend="OR" property="msgTitle"> MSG_TITLE LIKE concat('%',#msgTitle#,'%')</isNotNull>
+			<isNotNull prepend="OR" property="msgSubtitle"> MSG_SUBTITLE LIKE concat('%',#msgSubtitle#,'%')</isNotNull>
+			<isNotNull prepend="OR" property="msgContent"> MSG_CONTENT LIKE concat('%',#msgContent#,'%')</isNotNull> 
+			<isNotNull prepend="OR" property="msgHandleAddress"> MSG_HANDLE_ADDRESS LIKE concat('%',#msgHandleAddress#,'%')</isNotNull>
+		</dynamic>) paramb
+		 order by MSG_ID DESC 
+		 LIMIT #begin#,#end# 
+	</select>
+	
+	<select id="countMessageByData" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+	SELECT count(1) 
+		FROM 
+		(SELECT * FROM (SELECT * FROM MESSAGE WHERE STATUS_CD='1000'  and TENANT_ID=#tenantId#) parama 
+		<dynamic prepend="WHERE ">
+			<isNotNull prepend="OR" property="msgTitle"> MSG_TITLE LIKE concat('%',#msgTitle#,'%')</isNotNull>
+			<isNotNull prepend="OR" property="msgSubtitle"> MSG_SUBTITLE LIKE concat('%',#msgSubtitle#,'%')</isNotNull>
+			<isNotNull prepend="OR" property="msgContent"> MSG_CONTENT LIKE concat('%',#msgContent#,'%')</isNotNull> 
+			<isNotNull prepend="OR" property="msgHandleAddress"> MSG_HANDLE_ADDRESS LIKE concat('%',#msgHandleAddress#,'%')</isNotNull>
+		</dynamic>) paramb 
+		 order by MSG_ID DESC  
+	</select>
+	
+	<select id="selectMessageById" parameterClass="com.ailk.eaap.op2.bo.message.Message" resultClass="com.ailk.eaap.op2.bo.message.Message">
+		SELECT MSG_ID msgId,MSG_TYPE msgType,MSG_ORIGINATOR msgOriginator,MSG_END_DATE msgEndDate,OP_ID opId,
+		       MSG_WAY msgWay,MSG_TITLE msgTitle,MSG_SUBTITLE msgSubtitle,MSG_CONTENT msgContent,MSG_REC_TYPE msgRecType,
+		       STATUS_CD statusCd,MSG_HANDLE_ADDRESS msgHandleAddress,MSG_PRIORITY msgPriority,MSG_BEGINN_DATE msgBeginDate 
+		 FROM MESSAGE  WHERE MSG_ID = #msgId#  
+		 <dynamic>
+	    	<isNotNull prepend="AND" property="statusCd"> STATUS_CD = #statusCd#</isNotNull>
+	    	<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+	</select>
+	
+	<!-- MSG_RECIPIENT_REL -->
+	<insert id="addMsgRecRel" parameterClass="com.ailk.eaap.op2.bo.message.MessageRecipientRel">
+  		<selectKey resultClass="java.math.BigDecimal" keyProperty="recRelId">
+		  SELECT nextval('SEQ_MSG_RECIPIENT_REL') from dual
+    	</selectKey>
+	 	insert into MSG_RECIPIENT_REL  
+	 	(CREATE_DATE,STATUS_DATE,REC_REL_ID,MSG_ID,REC_ID,MSG_REC_TYPE,STATUS_CD,TENANT_ID)
+	  values(utc_timestamp() ,utc_timestamp() ,#recRelId#,#msgId#,#recId#,#msgRecType#,#statusCd#,#tenantId#)
+   </insert>
+	
+	<select id="selectMsgRecRel" parameterClass="com.ailk.eaap.op2.bo.message.MessageRecipientRel" resultClass="com.ailk.eaap.op2.bo.message.MessageRecipientRel">
+		SELECT STATUS_CD statusCd, REC_REL_ID recRelId,MSG_ID msgId,REC_ID recId,MSG_REC_TYPE msgRecType ,CREATE_DATE createDate,STATUS_DATE statusDate 
+		FROM MSG_RECIPIENT_REL  
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="msgId"> MSG_ID=#msgId#</isNotNull>
+			<isNotNull prepend="AND" property="recId"> REC_ID=#recId#</isNotNull>
+			<isNotNull prepend="AND" property="msgRecType"> MSG_REC_TYPE=#msgRecType#</isNotNull>
+			<isNotNull prepend="AND" property="statusCd"> STATUS_CD=#statusCd# </isNotNull>
+			<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+		 order  by MSG_RECIPIENT_REL.REC_REL_ID DESC 
+		 LIMIT #begin#,#end# 
+	</select>
+	
+	<select id="countMsgRecRel" parameterClass="com.ailk.eaap.op2.bo.message.MessageRecipientRel" resultClass="Integer">
+		SELECT COUNT(*) FROM MSG_RECIPIENT_REL  
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="msgId"> MSG_ID=#msgId#</isNotNull>
+			<isNotNull prepend="AND" property="recId"> REC_ID=#recId#</isNotNull>
+			<isNotNull prepend="AND" property="msgRecType"> MSG_REC_TYPE=#msgRecType#</isNotNull>
+			<isNotNull prepend="AND" property="statusCd"> STATUS_CD=#statusCd# </isNotNull>
+			<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+	</select>
+	
+	<update id="updateMsgRecRel" parameterClass="com.ailk.eaap.op2.bo.message.MessageRecipientRel">
+		update MSG_RECIPIENT_REL SET STATUS_DATE=utc_timestamp() 
+		<dynamic>
+	    	<isNotNull prepend="," property="msgId"> MSG_ID=#msgId#</isNotNull>
+			<isNotNull prepend="," property="recId"> REC_ID=#recId#</isNotNull>
+			<isNotNull prepend="," property="msgRecType"> MSG_REC_TYPE=#msgRecType#</isNotNull>
+			<isNotNull prepend="," property="statusCd"> STATUS_CD=#statusCd# </isNotNull>
+	    </dynamic>
+	    WHERE REC_REL_ID = #recRelId#
+	    and tenant_id=#tenantId#
+	</update>
+	
+	<update id="updateMsgRecRelByMsgId" parameterClass="com.ailk.eaap.op2.bo.message.MessageRecipientRel">
+		update MSG_RECIPIENT_REL SET STATUS_DATE=utc_timestamp() 
+		<dynamic>
+			<isNotNull prepend="," property="recId"> REC_ID=#recId#</isNotNull>
+			<isNotNull prepend="," property="msgRecType"> MSG_REC_TYPE=#msgRecType#</isNotNull>
+			<isNotNull prepend="," property="statusCd"> STATUS_CD=#statusCd# </isNotNull>
+	    </dynamic>
+	    WHERE MSG_ID=#msgId#
+	    and tenant_id=#tenantId#
+	</update>
+</sqlMap>

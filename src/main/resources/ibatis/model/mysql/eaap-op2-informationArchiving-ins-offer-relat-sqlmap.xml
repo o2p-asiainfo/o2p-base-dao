@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ins_offer_relat" >
+  <resultMap id="BaseResultMap" class="com.ailk.eaap.op2.bo.informationArchiving.InsOfferRelate" >
+    <result column="EFFECTIVE_DATE" property="effectiveDate" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="RELAT_ID" property="relatId" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="OFFER_INST_ID" property="offerInstId" jdbcType="DECIMAL" />
+    <result column="RELATED_OFFER_INST_ID" property="relatedOfferInstId" jdbcType="DECIMAL" />
+    <result column="RELAT_ROLE_ID" property="relatRoleId" jdbcType="DECIMAL" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="DONE_DATE" property="doneDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EFFECTIVE_DATE, EXPIRE_DATE, RELAT_ID, USER_ID, OFFER_INST_ID, RELATED_OFFER_INST_ID, 
+    RELAT_ROLE_ID, STATE, CREATE_DATE, DONE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOfferRelate" >
+    select 
+    <include refid="ins_offer_relat.Base_Column_List" />
+    from ins_offer_relat
+    where EFFECTIVE_DATE = #effectiveDate:TIMESTAMP#
+      and EXPIRE_DATE = #expireDate:TIMESTAMP#
+      and RELAT_ID = #relatId:DECIMAL#
+      and tenant_id=#tenantId#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOfferRelate" >
+    delete from ins_offer_relat
+    where EFFECTIVE_DATE = #effectiveDate:TIMESTAMP#
+      and EXPIRE_DATE = #expireDate:TIMESTAMP#
+      and RELAT_ID = #relatId:DECIMAL#
+      and tenant_id=#tenantId#
+  </delete>
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOfferRelate" >
+    insert into ins_offer_relat
+    ( EFFECTIVE_DATE,CREATE_DATE,DONE_DATE
+    <dynamic>
+      <isNotNull prepend="," property="expireDate" >
+        EXPIRE_DATE
+      </isNotNull>
+      <isNotNull prepend="," property="relatId" >
+        RELAT_ID
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        USER_ID
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        OFFER_INST_ID
+      </isNotNull>
+      <isNotNull prepend="," property="relatedOfferInstId" >
+        RELATED_OFFER_INST_ID
+      </isNotNull>
+      <isNotNull prepend="," property="relatRoleId" >
+        RELAT_ROLE_ID
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+      )
+    </dynamic>
+    values
+    (utc_timestamp(),utc_timestamp(),utc_timestamp()
+    <dynamic>
+      <isNotNull prepend="," property="expireDate" >
+        #expireDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="relatId" >
+        #relatId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        #userId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        #offerInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="relatedOfferInstId" >
+        #relatedOfferInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="relatRoleId" >
+        #relatRoleId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        #state:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsOfferRelate" >
+    update ins_offer_relat
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="userId" >
+        USER_ID = #userId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        OFFER_INST_ID = #offerInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="relatedOfferInstId" >
+        RELATED_OFFER_INST_ID = #relatedOfferInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="relatRoleId" >
+        RELAT_ROLE_ID = #relatRoleId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE = #state:DECIMAL#
+      </isNotNull>
+   ,DONE_DATE = utc_timestamp()
+    </dynamic>
+    where EFFECTIVE_DATE = #effectiveDate:TIMESTAMP#
+      and EXPIRE_DATE = #expireDate:TIMESTAMP#
+      and RELAT_ID = #relatId:DECIMAL#
+      and tenant_id=#tenantId#
+  </update>
+</sqlMap>

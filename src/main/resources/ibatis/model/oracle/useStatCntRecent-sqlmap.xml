@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="useStatCntRecent">
+	
+	<!-- 按秒插入日志统计表-->
+	<insert id="insertUseStatCntRecent" parameterClass="com.ailk.eaap.op2.bo.UseStatCntRecent" >
+		insert into use_stat_cnt_recent
+		  (transscr_id, date_tran_id, date_type, biz_code, biz_intf_code, contract_version, sys_code,
+		   total_trans, total_biz_err, total_sys_err, total_no_grant, qos, count_time)
+		values
+		  (SEQ_USE_STAT_CNT_RE.nextval, #dateTranId#, #dateType#, #bizCode#, #bizIntfCode#, #contractVersion#, #sysCode#,
+		   #totalTrans#, #totalBizErr#, #totalSysErr#, #totalNoGrant#, #qos#, #countTime#)		  	
+	</insert>
+	
+	<!-- 按秒更新日志统计表-->
+	<update id="updateStaticNormalByMeasure" parameterClass="com.ailk.eaap.op2.bo.UseStatCntRecent">
+		UPDATE use_stat_cnt_recent SET total_trans = total_trans+1,qos=(total_trans*qos+#qos#)/(total_trans+1),count_time=sysdate
+		where biz_code=#bizCode#
+			and biz_intf_code=#bizIntfCode#
+			and contract_version=#contractVersion#
+			and sys_code=#sysCode#
+			and date_tran_id=#dateTranId#
+	</update>
+	
+	<!-- 按秒更新日志统计表-->
+	<update id="updateStaticExceptionByMeasure" parameterClass="com.ailk.eaap.op2.bo.UseStatCntRecent">
+		UPDATE use_stat_cnt_recent SET total_trans = total_trans+1,total_biz_err = total_biz_err+1,count_time=sysdate
+		where biz_code=#bizCode#
+			and biz_intf_code=#bizIntfCode#
+			and contract_version=#contractVersion#
+			and sys_code=#sysCode#
+			and date_tran_id=#dateTranId#
+	</update>
+	
+	<!-- 按秒更新日志统计表-->
+	<update id="updateStaticSystemErrorByMeasure" parameterClass="com.ailk.eaap.op2.bo.UseStatCntRecent">
+		UPDATE use_stat_cnt_recent SET total_trans = total_trans+1,total_sys_err = total_sys_err+1,count_time=sysdate
+		where biz_code=#bizCode#
+			and biz_intf_code=#bizIntfCode#
+			and contract_version=#contractVersion#
+			and sys_code=#sysCode#
+			and date_tran_id=#dateTranId#
+	</update>	
+	 
+</sqlMap>

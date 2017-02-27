@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="act-exception-log" >
+<insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.ExceptionLog" >
+    <selectKey resultClass="int" keyProperty="exceptionLogId">
+		  SELECT SEQ_ACT_EXCEPTION_LOG.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into act_exception_log (create_date
+    <dynamic>
+     <isNotNull prepend="," property="exceptionLogId">
+          exception_log_id
+      </isNotNull>
+      <isNotNull prepend="," property="exceptionType" >
+        exception_type
+      </isNotNull>
+      <isNotNull prepend="," property="businessObjName" >
+        business_obj_name
+      </isNotNull>
+      <isNotNull prepend="," property="objectId" >
+        object_id
+      </isNotNull>
+      <isNotNull prepend="," property="destination" >
+        destination
+      </isNotNull>
+      <isNotNull prepend="," property="result" >
+        result
+      </isNotNull>
+      <isNotNull prepend="," property="exceptionDetails" >
+        exception_details
+      </isNotNull>
+       <isNotNull prepend="," property="activitiId" >
+        activiti_id
+      </isNotNull>
+      <isNotNull prepend="," property="version" >
+        version
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId" >
+        tenant_id
+      </isNotNull>
+      )
+    </dynamic>
+    values (SYS_EXTRACT_UTC(current_timestamp)+0
+    <dynamic>
+    <isNotNull prepend="," property="exceptionLogId">
+         #exceptionLogId#
+     </isNotNull>
+      <isNotNull prepend="," property="exceptionType" >
+        #exceptionType#
+      </isNotNull>
+      <isNotNull prepend="," property="businessObjName" >
+        #businessObjName#
+      </isNotNull>
+      <isNotNull prepend="," property="objectId" >
+        #objectId#
+      </isNotNull>
+      <isNotNull prepend="," property="destination" >
+        #destination#
+      </isNotNull>
+      <isNotNull prepend="," property="result" >
+        #result#
+      </isNotNull>
+      <isNotNull prepend="," property="exceptionDetails" >
+        #exceptionDetails#
+      </isNotNull>
+       <isNotNull prepend="," property="activitiId" >
+        #activitiId#
+      </isNotNull>
+      <isNotNull prepend="," property="version" >
+        #version#
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId" >
+        #tenantId#
+      </isNotNull>
+      )
+    </dynamic>
+  </insert>
+    <select id="selectExceptionLogByActId" parameterClass="java.util.Map" resultClass="com.ailk.eaap.op2.bo.ExceptionLog">
+		select exception_log_id exceptionLogId,
+		exception_type exceptionType,
+		business_obj_name  businessObjName,
+		object_id objectId,
+		destination destination,
+		result result,
+		exception_details exceptionDetails,
+		activiti_id activitiId,
+		create_date createDate,
+		version version  from act_exception_log act  
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="activitiId"> act.activiti_id=#activitiId# </isNotNull>
+			<isNotNull prepend="and" property="objectId"> act.object_id=#objectId# </isNotNull>		
+		</dynamic>
+		order by create_date desc
+   </select>
+  </sqlMap>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="measureUnit">
+	
+	<typeAlias alias="measureBean" type="com.ailk.eaap.op2.bo.Measure"/>
+	<resultMap class="measureBean" id="measureMap">
+ 	      <result property="measureId" column="MEASURE_ID"    jdbcType="CHAR"/>
+ 	      <result property="measureTypeId" column="MEASURE_TYPE_ID"    jdbcType="CHAR"/>
+ 	      <result property="name" column="NAME"    jdbcType="CHAR"/>
+ 	      <result property="measureLevel" column="MEASURE_LEVEL"  jdbcType="INT"/>
+ 	      <result property="descript" column="DESCRIPTION"    jdbcType="CHAR"/>
+ 	      <result property="precisionFlag" column="PRECISION_FLAG"    jdbcType="INT"/>
+ 	      <result property="isDisplay" column="IS_DISPLAY"    jdbcType="INT"/>
+ 	      <result property="minRealunit" column="MIN_REALUNIT"    jdbcType="INT"/>
+ 	      <result property="tenantId" column="TENANT_ID"    jdbcType="INT"/>
+   </resultMap>	 
+   
+   <select id="getMeasure" resultMap="measureMap">
+   	select * from sys_measure 
+   	<dynamic prepend=" where ">
+	   <isNotNull prepend="and" property="measureTypeId"> MEASURE_TYPE_ID=#measureTypeId# </isNotNull>
+	   <isNotNull prepend="and" property="precisionFlag"> PRECISION_FLAG=#precisionFlag# </isNotNull>
+	   <isNotNull prepend="and" property="isDisplay"> IS_DISPLAY=#isDisplay# </isNotNull>
+	   <isNotNull prepend="and" property="minRealunit"> MIN_REALUNIT=#minRealunit# </isNotNull>
+	   <isNotNull prepend="and" property="tenantId"> TENANT_ID=#tenantId# </isNotNull>
+	</dynamic>
+   </select>
+
+    <typeAlias alias="measureUnitBean" type="com.ailk.eaap.op2.bo.MeasureUnitExchange"/>
+ 	<resultMap class="measureUnitBean" id="measureUnitMap">
+ 	      <result property="measureId" column="MEASURE_ID"    jdbcType="CHAR"/>
+ 	      <result property="destMeasureId" column="DEST_MEASURE_ID"    jdbcType="CHAR"/>
+ 	      <result property="measureExchangeId" column="MEASURE_EXCHANGE_ID"    jdbcType="CHAR"/>
+ 	      <result property="exchangeNumerator" column="EXCHANGE_NUMERATOR"  jdbcType="INT"/>
+ 	      <result property="exchangeDenominator" column="EXCHANGE_DENOMINATOR"    jdbcType="INT"/>
+ 	      <result property="tenantId" column="TENANT_ID"    jdbcType="INT"/>
+   </resultMap>	   
+    
+	<select id="getMeasureUnitExchange" resultMap="measureUnitMap" >
+		select * from sys_measure_unit_exchange 
+		where MEASURE_ID = #measureId# and DEST_MEASURE_ID = #destMeasureId#
+	</select>	
+	
+</sqlMap>

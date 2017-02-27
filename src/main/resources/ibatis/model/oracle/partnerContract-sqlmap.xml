@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="partnerContract">
+	<insert id="insertPartnerContract" parameterClass="com.ailk.eaap.op2.bo.PartnerContract">
+	 <selectKey resultClass="Integer" keyProperty="contractId">
+		SELECT SEQ_PARTNER_CONTRACT.NEXTVAL FROM DUAL  
+	 </selectKey>
+	 INSERT INTO PARTNER_CONTRACT
+	 	(STATUS_DATE
+	  <dynamic>
+	  	<isNotNull prepend="," property="contractId">CONTRACT_ID</isNotNull>
+	    <isNotNull prepend="," property="contractNo">CONTRACT_NO</isNotNull>
+	    <isNotNull prepend="," property="contractName">CONTRACT_NAME</isNotNull>
+	    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+	    <isNotNull prepend="," property="contractType">CONTRACT_TYPE</isNotNull>
+	    <isNotNull prepend="," property="signTime">SIGN_TIME</isNotNull>
+	    <isNotNull prepend="," property="effectDate">EFFECT_DATE</isNotNull>
+	    <isNotNull prepend="," property="expireDate">EXPIRE_DATE</isNotNull>
+	    <isNotNull prepend="," property="updateDate">UPDATE_DATE</isNotNull>
+	    <isNotNull prepend="," property="operator">OPERATOR</isNotNull>
+	    <isNotNull prepend="," property="operatorTel">OPERATOR_TEL</isNotNull>
+	    <isNotNull prepend="," property="description">DESCRIPTION</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES(SYS_EXTRACT_UTC(current_timestamp)+0
+	  <dynamic>
+	    <isNotNull prepend="," property="contractId">#contractId#</isNotNull>
+	    <isNotNull prepend="," property="contractNo">#contractNo#</isNotNull>
+	    <isNotNull prepend="," property="contractName">#contractName#</isNotNull>
+	    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+	    <isNotNull prepend="," property="contractType">#contractType#</isNotNull>
+	    <isNotNull prepend="," property="signTime">#signTime#</isNotNull>
+	    <isNotNull prepend="," property="effectDate">#effectDate#</isNotNull>
+	    <isNotNull prepend="," property="expireDate">#expireDate#</isNotNull>
+	    <isNotNull prepend="," property="updateDate">#updateDate#</isNotNull>
+	    <isNotNull prepend="," property="operator">#operator#</isNotNull>
+	    <isNotNull prepend="," property="operatorTel">#operatorTel#</isNotNull>
+	    <isNotNull prepend="," property="description">#description#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+	<select id="selectPartnerContract" parameterClass="com.ailk.eaap.op2.bo.PartnerContract" resultClass="com.ailk.eaap.op2.bo.PartnerContract">
+	  SELECT CONTRACT_ID contractId,CONTRACT_NO contractNo,CONTRACT_NAME contractName,ORG_ID orgId,CONTRACT_TYPE contractType,DESCRIPTION description,STATUS_CD statusCd,STATUS_DATE statusDate,
+	  SIGN_TIME signTime,EFFECT_DATE effectDate,EXPIRE_DATE expireDate,UPDATE_DATE updateDate,OPERATOR operator,OPERATOR_TEL operatorTel
+	  FROM PARTNER_CONTRACT WHERE 1=1
+	  <dynamic>
+	    <isNotNull prepend="and" property="contractId"> CONTRACT_ID=#contractId#</isNotNull>
+	    <isNotNull prepend="and" property="orgId"> ORG_ID=#orgId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	<update id="updatePartnerContract" parameterClass="com.ailk.eaap.op2.bo.PartnerContract">
+  	UPDATE PARTNER_CONTRACT
+	  <dynamic prepend="SET">
+	    <isNotNull prepend="," property="contractNo">CONTRACT_NO=#contractNo#</isNotNull>
+	    <isNotNull prepend="," property="contractName">CONTRACT_NAME=#contractName#</isNotNull>
+	    <isNotNull prepend="," property="orgId">ORG_ID=#orgId#</isNotNull>
+	    <isNotNull prepend="," property="contractType">CONTRACT_TYPE=#contractType#</isNotNull>
+	    <isNotNull prepend="," property="signTime">SIGN_TIME=#signTime#</isNotNull>
+	    <isNotNull prepend="," property="effectDate">EFFECT_DATE=#effectDate#</isNotNull>
+	    <isNotNull prepend="," property="expireDate">EXPIRE_DATE=#expireDate#</isNotNull>
+	    <isNotNull prepend="," property="updateDate">UPDATE_DATE=#updateDate#</isNotNull>
+	    <isNotNull prepend="," property="operator">OPERATOR=#operator#</isNotNull>
+	    <isNotNull prepend="," property="operatorTel">OPERATOR_TEL=#operatorTel#</isNotNull>
+	    <isNotNull prepend="," property="description">DESCRIPTION=#description#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="contractId"> CONTRACT_ID=#contractId#</isNotNull>
+	  </dynamic>
+	</update>
+</sqlMap>

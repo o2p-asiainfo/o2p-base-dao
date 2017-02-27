@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="securityService">
+	<typeAlias alias="securityType" type="com.ailk.eaap.o2p.security.SecurityType"/>
+	<typeAlias alias="securityKey" type="com.ailk.eaap.o2p.security.SecurityKey"/>
+	<typeAlias alias="securityCert" type="com.ailk.eaap.o2p.security.SecurityCert"/>
+	<typeAlias alias="securityKeyStore" type="com.ailk.eaap.o2p.security.SecurityKeyStore"/>
+
+	<resultMap class="securityType" id="securityType">
+		<result property="id" column="security_type_id"  jdbcType="DECIMAL"/>
+		<result property="name" column="security_type_name"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="code" column="security_type_code"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="upEncryAim" column="up_security_encry_aim"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="isSymmety" column="is_symmety"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="algorithmType" column="algorithm_type"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="transformation" column="transformation"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="upSecurityType" column="up_security_type_id" select="securityService.getSecurityType" jdbcType="DECIMAL"/>
+		<result property="provider" column="provider"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="loginPass" column="login_pass"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="iv" column="iv"  nullValue=""  jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<resultMap class="securityKey" id="securityKey">
+		<result property="id" column="security_key_id"  jdbcType="DECIMAL"/>
+		<result property="pubPri" column="pub_or_pri"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="isQuote" column="is_quote"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="keyAlias" column="key_alias"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="keyValue" column="key_value"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="keyLength" column="key_length"  nullValue="-1"  jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<resultMap class="securityCert" id="securityCert">
+		<result property="id" column="SECURITY_CERT_ID"  jdbcType="DECIMAL"/>
+		<result property="alias" column="CERT_ALIAS"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="algorithm" column="SIGN_ALGORITHM"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="subject" column="PUB_SUBJECT"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="serialNumber" column="SERIALNUMBER"  jdbcType="DECIMAL"/>
+		<result property="passSaltValue" column="PASSALTVELUE"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="timeout" column="TIMEOUT" nullValue="-1" jdbcType="DECIMAL"/>
+	</resultMap>
+	
+	<resultMap class="securityKeyStore" id="securityKeyStore">
+		<result property="id" column="SECURITY_KEY_STORE_ID"  jdbcType="DECIMAL"/>
+		<result property="type" column="KEY_STORE_TYPE"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="password" column="KEY_STORE_PASSWORD"  nullValue=""  jdbcType="VARCHAR"/>
+		<result property="name" column="KEY_STORE_ALIAS"  nullValue=""  jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getSecurityType" resultMap="securityType" parameterClass="java.lang.Integer"  >
+		select * from security_type where security_type_id = #id#
+	</select>
+	
+	<select id="getSecurityTypes" resultMap="securityType" parameterClass="java.lang.Integer"  >
+		select * from security_type
+	</select>
+	
+	<select id="getSecurityTypeByCode" resultMap="securityType" parameterClass="java.lang.String"  >
+		select * from security_type where security_type_code = #code#
+	</select>
+	
+	<select id="getSecurityKeyById" resultMap="securityKey" parameterClass="java.lang.Integer"  >
+		select * from security_key where security_key_id = #id#
+	</select>
+	
+	<select id="getSecurityKeyByTypeId" resultMap="securityKey" parameterClass="java.lang.Integer"  >
+		select * from security_key where security_type_id = #typeId#
+	</select>
+	
+	<select id="getSecurityCertByTypeId" resultMap="securityCert" parameterClass="java.lang.Integer"  >
+		select * from security_cert where security_type_id = #id#
+	</select>
+	
+	<select id="getSecurityKeyStoreByTypeId" resultMap="securityKeyStore" parameterClass="java.lang.Integer"  >
+		select * from security_key_store where security_type_id = #id#
+	</select>
+	
+</sqlMap>

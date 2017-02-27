@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="corporationLicense">
+
+ 	 <select id="selectCorporationLicenseSeq" resultClass="java.lang.String">
+		SELECT SEQ_CORPORATION_LICENSE.NEXTVAL FROM DUAL
+	 </select>
+	 
+	 <select id="getCorporationLicense" parameterClass="com.ailk.eaap.op2.bo.CorporationLicense" resultClass="com.ailk.eaap.op2.bo.CorporationLicense">
+	  SELECT A.CORPORATION_LICENSE_ID corporationLicenseId,A.CORPORATION_ID corporationId,A.BUSINESS_LICENSE_ID businessLicenseId
+	  FROM CORPORATION_LICENSE A WHERE 1=1
+	  <dynamic>
+	    <isNotNull prepend="and" property="corporationId"> A.CORPORATION_ID=#corporationId#</isNotNull>
+	  </dynamic>
+     </select>
+
+	 <insert id="insertCorporationLicense" parameterClass="com.ailk.eaap.op2.bo.CorporationLicense">
+		  insert into CORPORATION_LICENSE
+		  (  
+		  <dynamic >
+		    <isNotNull property="corporationLicenseId">CORPORATION_LICENSE_ID</isNotNull>
+		    <isNotNull prepend="," property="corporationId">CORPORATION_ID</isNotNull>
+		    <isNotNull prepend="," property="businessLicenseId">BUSINESS_LICENSE_ID</isNotNull>
+		  </dynamic>
+		  )
+		  values
+		  (
+		   <dynamic >
+		    <isNotNull property="corporationLicenseId">#corporationLicenseId#</isNotNull>
+		    <isNotNull prepend="," property="corporationId">#corporationId#</isNotNull>
+		    <isNotNull prepend="," property="businessLicenseId">#businessLicenseId#</isNotNull>
+		   </dynamic>
+		  )
+	</insert>
+
+</sqlMap>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ins_cust_contact_info" >
+  <resultMap id="BaseResultMap" class="com.ailk.eaap.op2.bo.informationArchiving.InsCustContactInfo" >
+    <result column="cust_id" property="custId" jdbcType="DECIMAL" />
+    <result column="zip" property="zip" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="ph_extention" property="phExtention" jdbcType="VARCHAR" />
+    <result column="fax_number" property="faxNumber" jdbcType="VARCHAR" />
+    <result column="fax_extention" property="faxExtention" jdbcType="VARCHAR" />
+    <result column="post_info" property="postInfo" jdbcType="VARCHAR" />
+    <result column="tax_status" property="taxStatus" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    cust_id, zip, phone, ph_extention, fax_number, fax_extention, post_info, tax_status, 
+    email, create_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsCustContactInfo" >
+    select 
+    <include refid="ins_cust_contact_info.Base_Column_List" />
+    from ins_cust_contact_info
+    where cust_id = #custId:DECIMAL#
+    and tenant_id=#tenantId#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsCustContactInfo" >
+    delete from ins_cust_contact_info
+    where cust_id = #custId:DECIMAL#
+    and tenant_id=#tenantId#
+  </delete>
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsCustContactInfo" >
+    insert into ins_cust_contact_info
+    	(create_time
+    <dynamic>
+      <isNotNull prepend="," property="custId" >
+        cust_id
+      </isNotNull>
+      <isNotNull prepend="," property="zip" >
+        zip
+      </isNotNull>
+      <isNotNull prepend="," property="phone" >
+        phone
+      </isNotNull>
+      <isNotNull prepend="," property="phExtention" >
+        ph_extention
+      </isNotNull>
+      <isNotNull prepend="," property="faxNumber" >
+        fax_number
+      </isNotNull>
+      <isNotNull prepend="," property="faxExtention" >
+        fax_extention
+      </isNotNull>
+      <isNotNull prepend="," property="postInfo" >
+        post_info
+      </isNotNull>
+      <isNotNull prepend="," property="taxStatus" >
+        tax_status
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+      )
+    </dynamic>
+     values(utc_timestamp()
+    <dynamic>
+      <isNotNull prepend="," property="custId" >
+        #custId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="zip" >
+        #zip:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="phone" >
+        #phone:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="phExtention" >
+        #phExtention:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="faxNumber" >
+        #faxNumber:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="faxExtention" >
+        #faxExtention:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="postInfo" >
+        #postInfo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="taxStatus" >
+        #taxStatus:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        #email:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsCustContactInfo" >
+    update ins_cust_contact_info
+    <dynamic prepend="set" >
+        zip = #zip:VARCHAR#
+      <isNotNull prepend="," property="phone" >
+        phone = #phone:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="phExtention" >
+        ph_extention = #phExtention:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="faxNumber" >
+        fax_number = #faxNumber:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="faxExtention" >
+        fax_extention = #faxExtention:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="postInfo" >
+        post_info = #postInfo:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="taxStatus" >
+        tax_status = #taxStatus:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="email" >
+        email = #email:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    where cust_id = #custId:DECIMAL#
+    and tenant_id=#tenantId#
+  </update>
+</sqlMap>

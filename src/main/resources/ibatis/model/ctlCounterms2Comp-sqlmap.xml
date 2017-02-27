@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ctlCounterms2Comp">
+	
+ 	 <select id="selectCtlCounterms2CompSeq" resultClass="java.lang.String">
+		   SELECT SEQ_CTL_COUNTERMS_2_C.NEXTVAL FROM DUAL
+	 </select>
+	 
+	  <select id="selectCtlCounterms2CompCount" resultClass="java.lang.String" parameterClass="com.ailk.eaap.op2.bo.CtlCounterms2Comp">
+		   SELECT COUNT(1) COUNT  
+		   FROM CTL_COUNTERMS_2_COMP  
+		   WHERE SER_INVOKE_INS_ID = #serInvokeInsId#  AND  CC_CD = #ccCd#
+	 </select>
+	 
+	 <insert id="insertCtlCounterms2Comp" parameterClass="com.ailk.eaap.op2.bo.CtlCounterms2Comp">
+	  INSERT INTO CTL_COUNTERMS_2_COMP
+	  (CONFIG_TIME,LASTEST_TIME,CTL_COUNTERMS_2_COMP_CODE
+	  <dynamic>
+	 	<isNotNull prepend="," property="ctlC2CompId">CTL_C_2_COMP_ID</isNotNull>
+	    <isNotNull prepend="," property="ccCd">CC_CD</isNotNull>
+	    <isNotNull prepend="," property="serInvokeInsId">SER_INVOKE_INS_ID</isNotNull>
+	    <isNotNull prepend="," property="cutmsValue">CUTMS_VALUE</isNotNull>
+	    <isNotNull prepend="," property="effectState">EFFECT_STATE</isNotNull>
+	    <isNotNull prepend="," property="cycleType">CYCLE_TYPE</isNotNull>
+	    <isNotNull prepend="," property="cycleValue">CYCLE_VALUE</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES
+	  (sysdate,sysdate,sys_guid()
+	  <dynamic>
+	  	<isNotNull prepend="," property="ctlC2CompId">#ctlC2CompId#</isNotNull>
+	    <isNotNull prepend="," property="ccCd">#ccCd#</isNotNull>
+	    <isNotNull prepend="," property="serInvokeInsId">#serInvokeInsId#</isNotNull>
+	    <isNotNull prepend="," property="cutmsValue">#cutmsValue#</isNotNull>
+	    <isNotNull prepend="," property="effectState">#effectState#</isNotNull>
+	    <isNotNull prepend="," property="cycleType">#cycleType#</isNotNull>
+	    <isNotNull prepend="," property="cycleValue">#cycleValue#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+
+	<delete id="deleteCtlCounterms2Comp" parameterClass="com.ailk.eaap.op2.bo.CtlCounterms2Comp" >
+	  UPDATE CTL_COUNTERMS_2_COMP SET EFFECT_STATE = 'R' , LASTEST_TIME = sysdate WHERE CTL_C_2_COMP_ID = #ctlC2CompId#
+	</delete>
+	
+	<update id="updateCtlCounterms2Comp" parameterClass="com.ailk.eaap.op2.bo.CtlCounterms2Comp">
+		UPDATE CTL_COUNTERMS_2_COMP SET CC_CD = #ccCd# , CUTMS_VALUE=#cutmsValue#,CYCLE_TYPE=#cycleType#,CYCLE_VALUE=#cycleValue#,LASTEST_TIME=SYSDATE 
+		WHERE CTL_C_2_COMP_ID = #ctlC2CompId#
+	</update>
+
+</sqlMap>

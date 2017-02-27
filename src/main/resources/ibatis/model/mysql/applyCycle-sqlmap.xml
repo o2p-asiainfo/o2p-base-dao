@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="applyCycle">
+	<select id="selectApplyCycle" parameterClass="com.ailk.eaap.op2.bo.ApplyCycle" resultClass="com.ailk.eaap.op2.bo.ApplyCycle">
+	  SELECT CYCLE_ID cycleId,CYCLE_NAME cycleName,START_DATE startDate,END_DATE endDate FROM APPLY_CYCLE
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="cycleId"> CYCLE_ID=#cycleId#</isNotNull>
+	    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+	  </dynamic>
+	</select>
+</sqlMap>

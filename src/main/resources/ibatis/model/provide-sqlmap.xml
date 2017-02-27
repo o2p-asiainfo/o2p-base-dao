@@ -1,0 +1,793 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="provide">
+
+<!-- 插入组件信息 -->
+ <insert id="insertComponent" 
+ 	parameterClass="com.ailk.eaap.op2.bo.Component">
+ 	 <selectKey resultClass="String" keyProperty="componentId">
+			SELECT SEQ_COMPONENT.NEXTVAL FROM DUAL
+	 </selectKey>
+    insert into COMPONENT
+  (REG_TIME,STATE_TIME  
+  <dynamic >
+  	<isNotNull prepend="," property="componentId">COMPONENT_ID</isNotNull>
+    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+    <isNotNull prepend="," property="code">CODE</isNotNull>
+    <isNotNull prepend="," property="name">NAME</isNotNull>
+    <isNotNull prepend="," property="componentTypeId">COMPONENT_TYPE_ID</isNotNull>
+    <isNotNull prepend="," property="sfileId">S_FILE_ID</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="password">PASSWORD</isNotNull>
+  </dynamic>
+  )
+  values
+  (sysdate, sysdate 
+   <dynamic >
+   <isNotNull prepend="," property="componentId">#componentId#</isNotNull>
+    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+    <isNotNull prepend="," property="code">#code#</isNotNull>
+    <isNotNull prepend="," property="name">#name#</isNotNull>
+    <isNotNull prepend="," property="componentTypeId">#componentTypeId#</isNotNull>
+    <isNotNull prepend="," property="sfileId">#sfileId#</isNotNull>
+    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="password">#password#</isNotNull>
+   </dynamic>
+     )
+</insert>
+<delete id="deleteComponent" parameterClass="java.lang.String">
+  delete COMPONENT where COMPONENT_ID=#value#
+</delete>
+
+<update id="updateComponent" parameterClass="com.ailk.eaap.op2.bo.Component">
+  update COMPONENT
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="orgId">ORG_ID=#orgId#</isNotNull>
+    <isNotNull prepend="," property="code">CODE=#code#</isNotNull>
+    <isNotNull prepend="," property="name">NAME=#name#</isNotNull>
+    <isNotNull prepend="," property="componentTypeId">COMPONENT_TYPE_ID=#componentTypeId#</isNotNull>
+    <isNotNull prepend="," property="regTime">REG_TIME=#regTime#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="stateTime">STATE_TIME=#stateTime#</isNotNull>
+    <isNotNull prepend="," property="password">PASSWORD=#password#</isNotNull>
+    <isNotNull prepend="," property="sfileId">S_FILE_ID=#sfileId#</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="componentId">COMPONENT_ID=#componentId#</isNotNull>
+  </dynamic>
+</update>
+
+<select id="selectComponent" parameterClass="com.ailk.eaap.op2.bo.Component" resultClass="com.ailk.eaap.op2.bo.Component">
+  select COMPONENT_ID componentId,ORG_ID orgId,CODE code,NAME name,COMPONENT_TYPE_ID componentTypeId,STATE state,
+  STATE_TIME stateTime, PASSWORD password,REG_TIME regTime, S_FILE_ID sfileId, DESCRIPTOR descriptor from COMPONENT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="componentId"> COMPONENT_ID=#componentId#</isNotNull>
+    <isNotNull prepend="and" property="orgId"> ORG_ID=#orgId#</isNotNull>
+    <isNotNull prepend="and" property="code"> CODE=#code#</isNotNull>
+    <isNotNull prepend="and" property="name"> NAME=#name#</isNotNull>
+    <isNotNull prepend="and" property="componentTypeId"> COMPONENT_TYPE_ID=#componentTypeId#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="stateTime"> STATE_TIME=#stateTime#</isNotNull>
+    <isNotNull prepend="and" property="password"> PASSWORD=#password#</isNotNull>
+    <isNotNull prepend="and" property="regTime"> REG_TIME=#regTime#</isNotNull>
+    <isNotNull prepend="and" property="sfileId"> S_FILE_ID=#sfileId#</isNotNull>
+    <isNotNull prepend="and" property="descriptor"> DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+</select>
+
+<insert id="insertTechImpl" parameterClass="com.ailk.eaap.op2.bo.TechImpl">
+  <selectKey resultClass="int" keyProperty="techImplId">
+	SELECT SEQ_TECH_IMPL.Nextval FROM DUAL
+  </selectKey>
+   insert into TECH_IMPL (REG_TIME,LAEST_TIME,TECH_IMPL_CODE
+  <dynamic >
+  	<isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+    <isNotNull prepend="," property="techImplName">TECH_IMPL_NAME</isNotNull>
+    <isNotNull prepend="," property="techImpConPoId">TECH_IMP_CON_PO_ID</isNotNull>
+    <isNotNull prepend="," property="componentId">COMPONENT_ID</isNotNull>
+    <isNotNull prepend="," property="commProCd">COMM_PRO_CD</isNotNull>
+     <isNotNull prepend="," property="usealbeState">USEALBE_STATE</isNotNull>
+  </dynamic>
+  )
+  values
+  (sysdate,sysdate,sys_guid()
+  <dynamic >
+  	<isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+    <isNotNull prepend="," property="techImplName">#techImplName#</isNotNull>
+    <isNotNull prepend="," property="techImpConPoId">#techImpConPoId#</isNotNull>
+    <isNotNull prepend="," property="componentId">#componentId#</isNotNull>
+    <isNotNull prepend="," property="commProCd">#commProCd#</isNotNull>
+    <isNotNull prepend="," property="usealbeState">#usealbeState#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<delete id="deleteTechImpl" parameterClass="com.ailk.eaap.op2.bo.TechImpl">
+  delete TECH_IMPL
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="techImplId">TECH_IMPL_ID=#techImplId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateTechImpl" parameterClass="com.ailk.eaap.op2.bo.TechImpl">
+  update TECH_IMPL
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="techImplName">TECH_IMPL_NAME=#techImplName#</isNotNull>
+    <isNotNull prepend="," property="techImpConPoId">TECH_IMP_CON_PO_ID=#techImpConPoId#</isNotNull>
+    <isNotNull prepend="," property="componentId">COMPONENT_ID=#componentId#</isNotNull>
+    <isNotNull prepend="," property="commProCd">COMM_PRO_CD=#commProCd#</isNotNull>
+    <isNotNull prepend="," property="regTime">REG_TIME=#regTime#</isNotNull>
+    <isNotNull prepend="," property="usealbeState">USEALBE_STATE=#usealbeState#</isNotNull>
+    <isNotNull prepend="," property="laestTime">LAEST_TIME=#laestTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="techImplId">TECH_IMPL_ID=#techImplId#</isNotNull>
+  </dynamic>
+</update>
+<select id="selectTechImpl" parameterClass="com.ailk.eaap.op2.bo.TechImpl" resultClass="com.ailk.eaap.op2.bo.TechImpl">
+  select * from TECH_IMPL
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="techImpConPoId"> TECH_IMP_CON_PO_ID=#techImpConPoId#</isNotNull>
+    <isNotNull prepend="and" property="componentId"> COMPONENT_ID=#componentId#</isNotNull>
+    <isNotNull prepend="and" property="commProCd"> COMM_PRO_CD=#commProCd#</isNotNull>
+    <isNotNull prepend="and" property="regTime"> REG_TIME=#regTime#</isNotNull>
+    <isNotNull prepend="and" property="usealbeState"> USEALBE_STATE=#usealbeState#</isNotNull>
+    <isNotNull prepend="and" property="laestTime"> LAEST_TIME=#laestTime#</isNotNull>
+    <isNotNull prepend="and" property="techImplName"> TECH_IMPL_NAME=#techImplName#</isNotNull>
+  </dynamic>
+</select>
+
+<delete id="deleteTechImpAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt">
+  delete TECH_IMP_ATT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="techImpAttId">TECH_IMP_ATT_ID=#techImpAttId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateTechImpAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt">
+  update TECH_IMP_ATT
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID=#attrSpecId#</isNotNull>
+    <isNotNull prepend="," property="techImplId">TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="," property="attrSpecValue">ATTR_SPEC_VALUE=#attrSpecValue#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="techImpAttId">TECH_IMP_ATT_ID=#techImpAttId#</isNotNull>
+  </dynamic>
+</update>
+
+<select id="selectTechImpAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt" resultClass="com.ailk.eaap.op2.bo.TechImpAtt">
+  select TECH_IMP_ATT_ID techImpAttId, ATTR_SPEC_ID attrSpecId,TECH_IMPL_ID techImplId,ATTR_SPEC_VALUE attrSpecValue, 
+  CREATE_TIME createTime,LASTEST_TIME lastestTime, STATE state from TECH_IMP_ATT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="techImpAttId"> TECH_IMP_ATT_ID=#techImpAttId#</isNotNull>
+    <isNotNull prepend="and" property="attrSpecId"> ATTR_SPEC_ID=#attrSpecId#</isNotNull>
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="attrSpecValue"> ATTR_SPEC_VALUE=#attrSpecValue#</isNotNull>
+    <isNotNull prepend="and" property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+  </dynamic>
+</select>
+<insert id="insertTechImpAtt" parameterClass="com.ailk.eaap.op2.bo.TechImpAtt">
+	 <selectKey resultClass="int" keyProperty="techImpAttId">
+			SELECT SEQ_TECH_IMP_ATT.NEXTVAL FROM DUAL
+	 </selectKey>
+    insert into TECH_IMP_ATT (CREATE_TIME,LASTEST_TIME 
+  <dynamic >
+  	<isNotNull prepend="," property="techImpAttId">TECH_IMP_ATT_ID</isNotNull>
+    <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID</isNotNull>
+    <isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+    <isNotNull prepend="," property="attrSpecValue">ATTR_SPEC_VALUE</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+  </dynamic>
+  )
+  values (sysdate,sysdate
+  <dynamic >
+ 	<isNotNull prepend="," property="techImpAttId">#techImpAttId#</isNotNull>
+    <isNotNull prepend="," property="attrSpecId">#attrSpecId#</isNotNull>
+    <isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+    <isNotNull prepend="," property="attrSpecValue">#attrSpecValue#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+  </dynamic>
+  )
+</insert>
+
+<delete id="deleteSerTechImpl" parameterClass="com.ailk.eaap.op2.bo.SerTechImpl">
+  delete SER_TECH_IMPL
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="serTechImplId">SER_TECH_IMPL_ID=#serTechImplId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateSerTechImpl" parameterClass="com.ailk.eaap.op2.bo.SerTechImpl">
+  update SER_TECH_IMPL
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+    <isNotNull prepend="," property="techImplId">TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="serTechImplId">SER_TECH_IMPL_ID=#serTechImplId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertSerTechImpl" parameterClass="com.ailk.eaap.op2.bo.SerTechImpl">
+  <selectKey resultClass="int" keyProperty="serTechImplId">
+	SELECT Seq_Ser_Tech_Impl.Nextval FROM DUAL
+  </selectKey>
+    insert into SER_TECH_IMPL (CREATE_TIME,LASTEST_TIME
+  <dynamic >
+  	<isNotNull prepend="," property="serTechImplId">SER_TECH_IMPL_ID</isNotNull>
+    <isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+    <isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+  </dynamic>
+  )values (sysdate,sysdate
+  <dynamic >
+  	<isNotNull prepend="," property="serTechImplId">#serTechImplId#</isNotNull>
+    <isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+    <isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+  </dynamic>
+  )
+</insert>
+
+<select id="selectSerTechImpl" parameterClass="com.ailk.eaap.op2.bo.SerTechImpl" resultClass="com.ailk.eaap.op2.bo.SerTechImpl">
+  select * from SER_TECH_IMPL
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="serTechImplId">SER_TECH_IMPL_ID=#serTechImplId#</isNotNull>
+    <isNotNull prepend="and" property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+    <isNotNull prepend="and" property="techImplId">TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteContract" parameterClass="com.ailk.eaap.op2.bo.Contract">
+  delete CONTRACT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractId">CONTRACT_ID=#contractId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateContract" parameterClass="com.ailk.eaap.op2.bo.Contract">
+  update CONTRACT
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="baseContractId">BASE_CONTRACT_ID=#baseContractId#</isNotNull>
+    <isNotNull prepend="," property="name">NAME=#name#</isNotNull>
+    <isNotNull prepend="," property="code">CODE=#code#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>  
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractId">CONTRACT_ID=#contractId#</isNotNull>
+  </dynamic>
+</update>
+
+<insert id="insertContract" parameterClass="com.ailk.eaap.op2.bo.Contract" >
+  <selectKey resultClass="int" keyProperty="contractId">
+	SELECT SEQ_CONTRACT.NEXTVAL FROM DUAL
+  </selectKey>
+    insert into CONTRACT (CREATE_TIME,LASTEST_TIME
+  <dynamic >
+  	<isNotNull prepend="," property="contractId">CONTRACT_ID</isNotNull>
+  	<isNotNull prepend="," property="baseContractId">BASE_CONTRACT_ID</isNotNull>
+  	<isNotNull prepend="," property="name">NAME</isNotNull>
+    <isNotNull prepend="," property="code">CODE</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+    
+  </dynamic>
+  )values (sysdate,sysdate
+  <dynamic >
+  	<isNotNull prepend="," property="contractId">#contractId#</isNotNull>
+  	<isNotNull prepend="," property="baseContractId">#baseContractId#</isNotNull>
+  	<isNotNull prepend="," property="name">#name#</isNotNull>
+    <isNotNull prepend="," property="code">#code#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>   
+  </dynamic>
+  )
+</insert>
+<select id="selectContract" parameterClass="com.ailk.eaap.op2.bo.Contract" resultClass="com.ailk.eaap.op2.bo.Contract">
+  SELECT  CONTRACT_ID contractId, BASE_CONTRACT_ID baseContractId, NAME name, CODE code,CREATE_TIME createTime,STATE state, LASTEST_TIME lastestTime, DESCRIPTOR descriptor from CONTRACT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractId"> CONTRACT_ID=#contractId#</isNotNull>
+    <isNotNull prepend="and" property="baseContractId"> BASE_CONTRACT_ID=#baseContractId#</isNotNull>
+    <isNotNull prepend="and" property="name"> NAME=#name#</isNotNull>
+    <isNotNull prepend="and" property="code"> CODE=#code#</isNotNull>
+    <isNotNull prepend="and" property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="and" property="descriptor"> DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteContractVersion" parameterClass="com.ailk.eaap.op2.bo.ContractVersion">
+  delete CONTRACT_VERSION
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractVersionId">CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateContractVersion" parameterClass="com.ailk.eaap.op2.bo.ContractVersion">
+  update CONTRACT_VERSION
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="contractId">CONTRACT_ID=#contractId#</isNotNull>
+    <isNotNull prepend="," property="version">VERSION=#version#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="effDate">EFF_DATE=#effDate#</isNotNull>
+    <isNotNull prepend="," property="expDate">EXP_DATE=#expDate#</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+    <isNotNull prepend="," property="isNeedCheck">IS_NEED_CHECK=#isNeedCheck#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractVersionId">CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertContractVersion" parameterClass="com.ailk.eaap.op2.bo.ContractVersion">
+  <selectKey resultClass="int" keyProperty="contractVersionId">
+	SELECT SEQ_CONTRACT_VERSION.NEXTVAL FROM DUAL
+  </selectKey>
+    insert into CONTRACT_VERSION (CREATE_TIME,LASTEST_TIME,EFF_DATE,EXP_DATE
+  <dynamic >
+  	<isNotNull prepend="," property="contractVersionId">CONTRACT_VERSION_ID</isNotNull>
+    <isNotNull prepend="," property="contractId">CONTRACT_ID</isNotNull>
+    <isNotNull prepend="," property="version">VERSION</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+    <isNotNull prepend="," property="isNeedCheck">IS_NEED_CHECK</isNotNull>
+  </dynamic>
+ 	)values (sysdate,sysdate,sysdate,to_date('3000-01-01','yyyy-mm-dd')
+  <dynamic >
+  	<isNotNull prepend="," property="contractVersionId">#contractVersionId#</isNotNull>
+    <isNotNull prepend="," property="contractId">#contractId#</isNotNull>
+    <isNotNull prepend="," property="version">#version#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+    <isNotNull prepend="," property="isNeedCheck">#isNeedCheck#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<select id="selectContractVersion" parameterClass="com.ailk.eaap.op2.bo.ContractVersion" resultClass="com.ailk.eaap.op2.bo.ContractVersion">
+  select CONTRACT_VERSION_ID contractVersionId,CONTRACT_ID contractId,VERSION version, CREATE_TIME createTime,STATE state,LASTEST_TIME lastestTime,
+  EFF_DATE effDate,EXP_DATE expDate,DESCRIPTOR descriptor,IS_NEED_CHECK isNeedCheck from CONTRACT_VERSION
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractVersionId"> CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+    <isNotNull prepend="and" property="contractId"> CONTRACT_ID=#contractId#</isNotNull>
+    <isNotNull prepend="and" property="version"> VERSION=#version#</isNotNull>
+    <isNotNull prepend="and" property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="and" property="effDate"> EFF_DATE=#effDate#</isNotNull>
+    <isNotNull prepend="and" property="expDate"> EXP_DATE=#expDate#</isNotNull>
+    <isNotNull prepend="and" property="descriptor"> DESCRIPTOR=#descriptor#</isNotNull>
+    <isNotNull prepend="and" property="isNeedCheck"> IS_NEED_CHECK=#isNeedCheck#</isNotNull>
+  </dynamic>
+</select>
+<delete id="deleteContractFormat" parameterClass="com.ailk.eaap.op2.bo.ContractFormat">
+  delete CONTRACT_FORMAT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="tcpCtrFId">TCP_CTR_F_ID=#tcpCtrFId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateContractFormat" parameterClass="com.ailk.eaap.op2.bo.ContractFormat">
+  update CONTRACT_FORMAT
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="contractVersionId">CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+    <isNotNull prepend="," property="reqRsp">REQ_RSP=#reqRsp#</isNotNull>
+    <isNotNull prepend="," property="conType">CON_TYPE=#conType#</isNotNull>
+    <isNotNull prepend="," property="xsdHeaderFor">XSD_HEADER_FOR=#xsdHeaderFor#</isNotNull>
+    <isNotNull prepend="," property="xsdFormat">XSD_FORMAT=#xsdFormat#</isNotNull>
+    <isNotNull prepend="," property="xsdDemo">XSD_DEMO=#xsdDemo#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="tcpCtrFId">TCP_CTR_F_ID=#tcpCtrFId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertContractFormat" parameterClass="com.ailk.eaap.op2.bo.ContractFormat">
+<selectKey resultClass="int" keyProperty="tcpCtrFId">
+	SELECT SEQ_CONTRACT_FORMAT.NEXTVAL FROM DUAL
+  </selectKey>
+    insert into CONTRACT_FORMAT (CREATE_TIME,LASTEST_TIME,CONTRACT_FORMAT_CODE
+  <dynamic >
+  	<isNotNull prepend="," property="tcpCtrFId">TCP_CTR_F_ID</isNotNull>
+    <isNotNull prepend="," property="contractVersionId">CONTRACT_VERSION_ID</isNotNull>
+    <isNotNull prepend="," property="reqRsp">REQ_RSP</isNotNull>
+    <isNotNull prepend="," property="conType">CON_TYPE</isNotNull>
+    <isNotNull prepend="," property="xsdHeaderFor">XSD_HEADER_FOR</isNotNull>
+    <isNotNull prepend="," property="xsdFormat">XSD_FORMAT</isNotNull>
+    <isNotNull prepend="," property="xsdDemo">XSD_DEMO</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+  </dynamic>
+  )values (sysdate,sysdate,sys_guid()
+  <dynamic>
+  	<isNotNull prepend="," property="tcpCtrFId">#tcpCtrFId#</isNotNull>
+    <isNotNull prepend="," property="contractVersionId">#contractVersionId#</isNotNull>
+    <isNotNull prepend="," property="reqRsp">#reqRsp#</isNotNull>
+    <isNotNull prepend="," property="conType">#conType#</isNotNull>
+    <isNotNull prepend="," property="xsdHeaderFor">#xsdHeaderFor#</isNotNull>
+    <isNotNull prepend="," property="xsdFormat">#xsdFormat#</isNotNull>
+    <isNotNull prepend="," property="xsdDemo">#xsdDemo#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<select id="selectContractFormat" parameterClass="com.ailk.eaap.op2.bo.ContractFormat" resultClass="com.ailk.eaap.op2.bo.ContractFormat">
+  SELECT REQ_RSP REQRSP, TCP_CTR_F_ID TCPCTRFID, CON_TYPE  CONTYPE, XSD_HEADER_FOR XSDHEADERFOR, XSD_FORMAT  XSDFORMAT, XSD_DEMO  XSDDEMO, 
+  DESCRIPTOR DESCRIPTOR,CONTRACT_VERSION_ID contractVersionId from CONTRACT_FORMAT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="tcpCtrFId"> TCP_CTR_F_ID=#tcpCtrFId#</isNotNull>
+    <isNotNull prepend="and" property="contractVersionId"> CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+    <isNotNull prepend="and" property="reqRsp"> REQ_RSP=#reqRsp#</isNotNull>
+    <isNotNull prepend="and" property="conType"> CON_TYPE=#conType#</isNotNull>
+    <isNotNull prepend="and" property="xsdHeaderFor"> XSD_HEADER_FOR=#xsdHeaderFor#</isNotNull>
+    <isNotNull prepend="and" property="xsdFormat"> XSD_FORMAT=#xsdFormat#</isNotNull>
+    <isNotNull prepend="and" property="xsdDemo"> XSD_DEMO=#xsdDemo#</isNotNull>
+    <isNotNull prepend="and" property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="and" property="descriptor"> DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+</select>
+<insert id="insertService" parameterClass="com.ailk.eaap.op2.bo.Service">
+  <selectKey resultClass="int" keyProperty="serviceId">
+	SELECT SEQ_SERVICE.NEXTVAL FROM DUAL
+  </selectKey>
+    insert into SERVICE (CREATE_DATE,LASTEST_DATE
+  <dynamic >
+  	<isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+    <isNotNull prepend="," property="contractVersionId">CONTRACT_VERSION_ID</isNotNull>
+    <isNotNull prepend="," property="serviceCnName">SERVICE_CN_NAME</isNotNull>
+    <isNotNull prepend="," property="serviceEnName">SERVICE_EN_NAME</isNotNull>
+    <isNotNull prepend="," property="serviceCode">SERVICE_CODE</isNotNull>
+    <isNotNull prepend="," property="serviceType">SERVICE_TYPE</isNotNull>
+    <isNotNull prepend="," property="serviceVersion">SERVICE_VERSION</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="serviceDesc">SERVICE_DESC</isNotNull>
+    <isNotNull prepend="," property="isPublished">IS_PUBLISHED</isNotNull>
+    <isNotNull prepend="," property="servicePriority">SERVICE_PRIORITY</isNotNull>
+    <isNotNull prepend="," property="serviceTimeout">SERVICE_TIMEOUT</isNotNull>
+	</dynamic>
+  	)values (sysdate,sysdate
+  	<dynamic>
+  	<isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+    <isNotNull prepend="," property="contractVersionId">#contractVersionId#</isNotNull>
+    <isNotNull prepend="," property="serviceCnName">#serviceCnName#</isNotNull>
+    <isNotNull prepend="," property="serviceEnName">#serviceEnName#</isNotNull>
+    <isNotNull prepend="," property="serviceCode">#serviceCode#</isNotNull>
+    <isNotNull prepend="," property="serviceType">#serviceType#</isNotNull>
+    <isNotNull prepend="," property="serviceVersion">#serviceVersion#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="serviceDesc">#serviceDesc#</isNotNull>
+    <isNotNull prepend="," property="isPublished">#isPublished#</isNotNull>
+    <isNotNull prepend="," property="servicePriority">#servicePriority#</isNotNull>
+    <isNotNull prepend="," property="serviceTimeout">#serviceTimeout#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<select id="selectService" parameterClass="com.ailk.eaap.op2.bo.Service" resultClass="com.ailk.eaap.op2.bo.Service">
+  select SERVICE_ID serviceId, CONTRACT_VERSION_ID contractVersionId, SERVICE_CN_NAME serviceCnName, SERVICE_EN_NAME serviceEnName,
+  SERVICE_CODE serviceCode,SERVICE_TYPE serviceType,SERVICE_VERSION serviceVersion,CREATE_DATE createDate,STATE state,LASTEST_DATE lastestDate,
+  SERVICE_DESC serviceDesc,IS_PUBLISHED isPublished,SERVICE_PRIORITY servicePriority,SERVICE_TIMEOUT serviceTimeout from SERVICE
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="serviceId"> SERVICE_ID=#serviceId#</isNotNull>
+    <isNotNull prepend="and" property="contractVersionId"> CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+    <isNotNull prepend="and" property="serviceCnName"> SERVICE_CN_NAME=#serviceCnName#</isNotNull>
+    <isNotNull prepend="and" property="serviceEnName"> SERVICE_EN_NAME=#serviceEnName#</isNotNull>
+    <isNotNull prepend="and" property="serviceCode"> SERVICE_CODE=#serviceCode#</isNotNull>
+    <isNotNull prepend="and" property="serviceType"> SERVICE_TYPE=#serviceType#</isNotNull>
+    <isNotNull prepend="and" property="serviceVersion"> SERVICE_VERSION=#serviceVersion#</isNotNull>
+    <isNotNull prepend="and" property="createDate"> CREATE_DATE=#createDate#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="lastestDate"> LASTEST_DATE=#lastestDate#</isNotNull>
+    <isNotNull prepend="and" property="serviceDesc"> SERVICE_DESC=#serviceDesc#</isNotNull>
+    <isNotNull prepend="and" property="isPublished"> IS_PUBLISHED=#isPublished#</isNotNull>
+    <isNotNull prepend="and" property="servicePriority"> SERVICE_PRIORITY=#servicePriority#</isNotNull>
+    <isNotNull prepend="and" property="serviceTimeout"> SERVICE_TIMEOUT=#serviceTimeout#</isNotNull>
+  </dynamic>
+</select>
+<update id="updateService" parameterClass="com.ailk.eaap.op2.bo.Service">
+  update SERVICE
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="contractVersionId">CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+    <isNotNull prepend="," property="serviceCnName">SERVICE_CN_NAME=#serviceCnName#</isNotNull>
+    <isNotNull prepend="," property="serviceEnName">SERVICE_EN_NAME=#serviceEnName#</isNotNull>
+    <isNotNull prepend="," property="serviceCode">SERVICE_CODE=#serviceCode#</isNotNull>
+    <isNotNull prepend="," property="serviceType">SERVICE_TYPE=#serviceType#</isNotNull>
+    <isNotNull prepend="," property="serviceVersion">SERVICE_VERSION=#serviceVersion#</isNotNull>
+    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="lastestDate">LASTEST_DATE=#lastestDate#</isNotNull>
+    <isNotNull prepend="," property="serviceDesc">SERVICE_DESC=#serviceDesc#</isNotNull>
+    <isNotNull prepend="," property="isPublished">IS_PUBLISHED=#isPublished#</isNotNull>
+    <isNotNull prepend="," property="servicePriority">SERVICE_PRIORITY=#servicePriority#</isNotNull>
+    <isNotNull prepend="," property="serviceTimeout">SERVICE_TIMEOUT=#serviceTimeout#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertDirSerList" parameterClass="com.ailk.eaap.op2.bo.DirSerList">
+ <selectKey resultClass="int" keyProperty="dirSerListId">
+	SELECT SEQ_DIR_SER_LIST.NEXTVAL FROM DUAL
+  </selectKey>
+    insert into DIR_SER_LIST (CREATE_TIME,LASTEST_TIME
+  <dynamic >
+  	<isNotNull prepend="," property="dirSerListId">DIR_SER_LIST_ID</isNotNull>
+    <isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+    <isNotNull prepend="," property="dirId">DIR_ID</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+  </dynamic>
+  )values(sysdate,sysdate
+  <dynamic>
+  	<isNotNull prepend="," property="dirSerListId">#dirSerListId#</isNotNull>
+    <isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+    <isNotNull prepend="," property="dirId">#dirId#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<update id="updateDirSerList" parameterClass="com.ailk.eaap.op2.bo.DirSerList">
+  update DIR_SER_LIST
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+    <isNotNull prepend="," property="dirId">DIR_ID=#dirId#</isNotNull>
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="dirSerListId">DIR_SER_LIST_ID=#dirSerListId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertServiceAtt" parameterClass="com.ailk.eaap.op2.bo.ServiceAtt">
+  <selectKey resultClass="int" keyProperty="serviceAttId">
+	SELECT SEQ_SERVICE_ATT.NEXTVAL FROM DUAL
+  </selectKey>
+    insert into SERVICE_ATT (CREATE_TIME,LASTEST_TIME
+  <dynamic >
+   <isNotNull prepend="," property="serviceAttId">SERVICE_ATT_ID</isNotNull>
+    <isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+    <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID</isNotNull>
+    <isNotNull prepend="," property="serSpecVa">SER_SPEC_VA</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+  </dynamic>
+  )values(sysdate,sysdate
+  <dynamic >
+  	<isNotNull prepend="," property="serviceAttId">#serviceAttId#</isNotNull>
+    <isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+    <isNotNull prepend="," property="attrSpecId">#attrSpecId#</isNotNull>
+    <isNotNull prepend="," property="serSpecVa">#serSpecVa#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<insert id="insertNodeDesc" parameterClass="com.ailk.eaap.op2.bo.NodeDesc">
+	<selectKey resultClass="int" keyProperty="nodeDescId">
+		SELECT SEQ_NODE_DESC.NEXTVAL FROM DUAL
+  	</selectKey>
+    insert into NODE_DESC (CREATE_TIME,LASTEST_TIME,NODE_DESC_CODE
+  <dynamic >
+  	<isNotNull prepend="," property="nodeDescId">NODE_DESC_ID</isNotNull>
+    <isNotNull prepend="," property="tcpCtrFId">TCP_CTR_F_ID</isNotNull>
+    <isNotNull prepend="," property="nodeName">NODE_NAME</isNotNull>
+    <isNotNull prepend="," property="nodeCode">NODE_CODE</isNotNull>
+    <isNotNull prepend="," property="nodePath">NODE_PATH</isNotNull>
+    <isNotNull prepend="," property="nodeType">NODE_TYPE</isNotNull>
+    <isNotNull prepend="," property="nodeLengthCons">NODE_LENGTH_CONS</isNotNull>
+    <isNotNull prepend="," property="nodeTypeCons">NODE_TYPE_CONS</isNotNull>
+    <isNotNull prepend="," property="nodeNumberCons">NODE_NUMBER_CONS</isNotNull>
+    <isNotNull prepend="," property="nevlConsType">NEVL_CONS_TYPE</isNotNull>
+    <isNotNull prepend="," property="nevlConsValue">NEVL_CONS_VALUE</isNotNull>
+    <isNotNull prepend="," property="isNeedCheck">IS_NEED_CHECK</isNotNull>
+    <isNotNull prepend="," property="isNeedSign">IS_NEED_SIGN</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="description">DESCRIPTION</isNotNull>
+  </dynamic>
+  )values(sysdate,sysdate,sys_guid()
+  <dynamic >
+  	<isNotNull prepend="," property="nodeDescId">#nodeDescId#</isNotNull>
+    <isNotNull prepend="," property="tcpCtrFId">#tcpCtrFId#</isNotNull>
+    <isNotNull prepend="," property="nodeName">#nodeName#</isNotNull>
+    <isNotNull prepend="," property="nodeCode">#nodeCode#</isNotNull>
+    <isNotNull prepend="," property="nodePath">#nodePath#</isNotNull>
+    <isNotNull prepend="," property="nodeType">#nodeType#</isNotNull>
+    <isNotNull prepend="," property="nodeLengthCons">#nodeLengthCons#</isNotNull>
+    <isNotNull prepend="," property="nodeTypeCons">#nodeTypeCons#</isNotNull>
+    <isNotNull prepend="," property="nodeNumberCons">#nodeNumberCons#</isNotNull>
+    <isNotNull prepend="," property="nevlConsType">#nevlConsType#</isNotNull>
+    <isNotNull prepend="," property="nevlConsValue">#nevlConsValue#</isNotNull>
+    <isNotNull prepend="," property="isNeedCheck">#isNeedCheck#</isNotNull>
+    <isNotNull prepend="," property="isNeedSign">#isNeedSign#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="description">#description#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<update id="updateNodeDesc" parameterClass="com.ailk.eaap.op2.bo.NodeDesc" >
+  update NODE_DESC
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="nodeName">NODE_NAME=#nodeName#</isNotNull>
+    <isNotNull prepend="," property="nodeCode">NODE_CODE=#nodeCode#</isNotNull>
+    <isNotNull prepend="," property="nodePath">NODE_PATH=#nodePath#</isNotNull>
+    <isNotNull prepend="," property="nodeType">NODE_TYPE=#nodeType#</isNotNull>
+    <isNotNull prepend="," property="nodeLengthCons">NODE_LENGTH_CONS=#nodeLengthCons#</isNotNull>
+    <isNotNull prepend="," property="nodeTypeCons">NODE_TYPE_CONS=#nodeTypeCons#</isNotNull>
+    <isNotNull prepend="," property="nodeNumberCons">NODE_NUMBER_CONS=#nodeNumberCons#</isNotNull>
+    <isNotNull prepend="," property="nevlConsType">NEVL_CONS_TYPE=#nevlConsType#</isNotNull>
+    <isNotNull prepend="," property="nevlConsValue">NEVL_CONS_VALUE=#nevlConsValue#</isNotNull>
+    <isNotNull prepend="," property="isNeedCheck">IS_NEED_CHECK=#isNeedCheck#</isNotNull>
+    <isNotNull prepend="," property="isNeedSign"> IS_NEED_SIGN=#isNeedSign#</isNotNull>  
+    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="createTime">CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="description">DESCRIPTION=#description#</isNotNull>
+  </dynamic>
+  where NODE_DESC_ID=#nodeDescId#
+</update>
+<select id="selectNodeDesc" parameterClass="com.ailk.eaap.op2.bo.NodeDesc" resultClass="com.ailk.eaap.op2.bo.NodeDesc">
+  select NODE_DESC_ID nodeDescId, TCP_CTR_F_ID tcpCtrFId, NODE_NAME nodeName,NODE_CODE nodeCode,NODE_PATH nodePath, NODE_LENGTH_CONS nodeLengthCons, 
+   NODE_TYPE_CONS nodeTypeCons, NODE_TYPE nodeType, NODE_NUMBER_CONS nodeNumberCons, NEVL_CONS_TYPE nevlConsValue, IS_NEED_CHECK isNeedCheck, 
+   IS_NEED_SIGN isNeedSign, STATE state, CREATE_TIME createTime, LASTEST_TIME lastestTime, DESCRIPTION description from NODE_DESC
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="nodeDescId"> NODE_DESC_ID=#nodeDescId#</isNotNull>
+    <isNotNull prepend="and" property="tcpCtrFId"> TCP_CTR_F_ID=#tcpCtrFId#</isNotNull>
+    <isNotNull prepend="and" property="nodeName"> NODE_NAME=#nodeName#</isNotNull>
+    <isNotNull prepend="and" property="nodeCode"> NODE_CODE=#nodeCode#</isNotNull>
+    <isNotNull prepend="and" property="nodePath"> NODE_PATH=#nodePath#</isNotNull>
+    <isNotNull prepend="and" property="nodeLengthCons"> NODE_LENGTH_CONS=#nodeLengthCons#</isNotNull>
+    <isNotNull prepend="and" property="nodeTypeCons"> NODE_TYPE_CONS=#nodeTypeCons#</isNotNull>
+    <isNotNull prepend="and" property="nodeType"> NODE_TYPE=#nodeType#</isNotNull>
+    <isNotNull prepend="and" property="nodeNumberCons"> NODE_NUMBER_CONS=#nodeNumberCons#</isNotNull>
+    <isNotNull prepend="and" property="nevlConsType"> NEVL_CONS_TYPE=#nevlConsType#</isNotNull>
+    <isNotNull prepend="and" property="nevlConsValue"> NEVL_CONS_VALUE=#nevlConsValue#</isNotNull>
+    <isNotNull prepend="and" property="isNeedCheck"> IS_NEED_CHECK=#isNeedCheck#</isNotNull>
+    <isNotNull prepend="and" property="isNeedSign"> IS_NEED_SIGN=#isNeedSign#</isNotNull>    
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="and" property="description"> DESCRIPTION=#description#</isNotNull>
+  </dynamic>
+</select>
+
+<update id="updateDocContract" parameterClass="com.ailk.eaap.op2.bo.DocContract">
+  update DOC_CONTRACT
+  <dynamic prepend="set">   
+    <isNotNull prepend="," property="contractDocId">CONTRACT_DOC_ID=#contractDocId#</isNotNull>
+    <isNotNull prepend="," property="contractVersionId">CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="," property="docContrId">DOC_CONTR_ID=#docContrId#</isNotNull>
+  </dynamic>
+</update>
+
+<insert id="insertDocContract" parameterClass="com.ailk.eaap.op2.bo.DocContract">
+   <selectKey resultClass="int" keyProperty="docContrId">
+		SELECT SEQ_DOC_CONTRACT.NEXTVAL FROM DUAL
+  	</selectKey>
+  insert into DOC_CONTRACT(
+  <dynamic >
+    <isNotNull prepend="" property="docContrId">DOC_CONTR_ID</isNotNull>
+    <isNotNull prepend="," property="contractDocId">CONTRACT_DOC_ID</isNotNull>
+    <isNotNull prepend="," property="contractVersionId">CONTRACT_VERSION_ID</isNotNull>
+    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+  </dynamic>
+  )values(
+  <dynamic >
+    <isNotNull prepend="" property="docContrId">#docContrId#</isNotNull>
+    <isNotNull prepend="," property="contractDocId">#contractDocId#</isNotNull>
+    <isNotNull prepend="," property="contractVersionId">#contractVersionId#</isNotNull>
+    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+  </dynamic>
+  )
+</insert>
+
+<select id="selectDocContract" parameterClass="com.ailk.eaap.op2.bo.DocContract" resultClass="com.ailk.eaap.op2.bo.DocContract">
+  SELECT DOC_CONTR_ID docContrId, CONTRACT_DOC_ID contractDocId, CONTRACT_VERSION_ID contractVersionId, 
+  DESCRIPTOR descriptor from DOC_CONTRACT
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="docContrId">DOC_CONTR_ID=#docContrId#</isNotNull>
+    <isNotNull prepend="and" property="contractDocId">CONTRACT_DOC_ID=#contractDocId#</isNotNull>
+    <isNotNull prepend="and" property="contractVersionId">CONTRACT_VERSION_ID=#contractVersionId#</isNotNull>
+    <isNotNull prepend="and" property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+  </dynamic>
+</select>
+
+<select id="selectContractDoc" parameterClass="com.ailk.eaap.op2.bo.ContractDoc" resultClass="com.ailk.eaap.op2.bo.ContractDoc">
+  select CONTRACT_DOC_ID contractDocId, BASE_CON_DOC_ID baseConDocId, DOC_NAME docName, DOC_VERSION docVersion, DOC_CREATE_TIME docCreateTime, 
+  STATE state, DOC_PATH docPath, LASTEST_TIME lastestTime from CONTRACT_DOC
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="contractDocId"> CONTRACT_DOC_ID=#contractDocId#</isNotNull>
+    <isNotNull prepend="and" property="baseConDocId"> BASE_CON_DOC_ID=#baseConDocId#</isNotNull>
+    <isNotNull prepend="and" property="docName"> DOC_NAME=#docName#</isNotNull>
+    <isNotNull prepend="and" property="docVersion"> DOC_VERSION=#docVersion#</isNotNull>
+    <isNotNull prepend="and" property="docCreateTime"> DOC_CREATE_TIME=#docCreateTime#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="docPath"> DOC_PATH=#docPath#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+  </dynamic>
+</select>
+
+<select id="selectComponentState" parameterClass="com.ailk.eaap.op2.bo.Component" resultClass="com.ailk.eaap.op2.bo.Component">
+  select COMPONENT_ID componentId,ORG_ID orgId,CODE code,NAME name,COMPONENT_TYPE_ID componentTypeId,STATE state,
+  STATE_TIME stateTime, PASSWORD password,REG_TIME regTime, S_FILE_ID sfileId, DESCRIPTOR descriptor from COMPONENT
+  where ORG_ID=#orgId# AND STATE != 'X'
+</select>
+
+
+	<!-- 保存消息流 -->
+	<insert id="saveMessageFlow" parameterClass="java.util.HashMap">
+		insert into
+		message_flow
+		(message_flow_id, message_flow_name, first_endpoint_id,
+		create_time, state,
+		lastest_time, descriptor)
+		values
+		(#message_Flow_Id#,
+		#message_Flow_Name#,
+		IF(#first_Endpoint_Id#='',NULL,#first_Endpoint_Id#), now(), #state#,
+		IF(#lastest_Time#='',NULL,STR_TO_DATE(REPLACE(#lastest_Time#,'/','-'),'%Y-%m-%d
+		%H:%i:%s')), #descriptor#)
+	</insert>
+	<!-- 保存端点-->
+	<insert id="saveEndpoint" parameterClass="java.util.HashMap" >
+		insert into endpoint
+		  (endpoint_id,endpoint_spec_id,in_data_type_id,out_data_type_id,endpoint_name,
+		   endpoint_code,enable_in_trace,enable_out_trace,enable_in_log,enable_out_log,
+		   create_date,state,lastest_date,endpoint_desc,map_code)
+		values
+		  (#endpoint_Id#,#endpoint_Spec_Id#,#in_Data_Type_Id#,#out_Data_Type_Id#,#endpoint_Name#,
+		   #endpoint_Code#,#enable_In_Trace#,#enable_Out_Trace#,#enable_In_Log#,#enable_Out_Log#,
+		   now(),#state#,str_to_date(#lastest_Date#,'%Y-%m-%d %H:%i:%s'),#endpoint_Desc#,#map_Code#)
+	</insert>
+	<!-- 保存端点规格属性值-->
+	<insert id="saveEndpointAttrValue" parameterClass="java.util.HashMap" >
+		insert into endpoint_attr_value
+		  (endpoint_attr_value_id,endpoint_id,endpoint_spec_attr_id,attr_value,long_attr_value)
+		values
+		  (nextval('SEQ_ENDPOINT_ATTR_VAL'),#endpoint_Id#,#endpoint_Spec_Attr_Id#,#attr_Value#,#long_Attr_Value#)
+	</insert>	
+	<!-- 保存消息流路径-->
+	<insert id="saveService_Route_Config" parameterClass="java.util.HashMap" >
+		insert into service_route_config
+		  (route_id, route_policy_id, from_endpoint_id, to_endpoint_id, message_flow_id, 
+		   syn_asyn, state, create_date, lastest_date, map_Code,service_route_config_code)
+		values
+		  (#route_Id#, #route_Policy_Id#, #from_Endpoint_Id#, #to_Endpoint_Id#, #message_Flow_Id#,
+		   #syn_Asyn#, #state#, now(), now(), #map_Code#,sys_guid())		
+	</insert>	
+	<!-- 新增路由规则 -->
+	<insert id="addRoutePolicy" parameterClass="java.util.HashMap" >
+		insert into route_policy
+			(route_policy_id, rule_strategy_id, route_cond_id,ROUTE_POLICY_CODE)
+		values
+			(#route_Policy_Id#, #rule_Strategy_Id#, IF(#route_Cond_Id#='',NULL,#route_Cond_Id#),sys_guid())		
+	</insert>	
+	 
+	<!--服务的默认消息流更新为新创建的透传消息流 -->
+	<update  id="updateServiceDefaultMsgFlow" parameterClass="java.util.HashMap">
+	  update SERVICE set DEFAULT_MSG_FLOW = #messageFlowId# where SERVICE_ID in (select i.SERVICE_ID from SER_TECH_IMPL i where i.SER_TECH_IMPL_ID=#serTechImplId#)
+	 </update>
+
+	<!--获取主键ID -->
+	<select id="getSeq" parameterClass="java.util.Map" resultClass="java.lang.Integer" remapResults="true" >
+		select nextval('$sequenceName$');
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="analysis-user">
+  <!--sqlmap config-->
+<select id="queryBaseUserAnalysis"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.UserAnalysisBO">
+select sum(user_count) as totalUser,
+       sum(net) growUser,
+       sum(add_count) increaseUser,
+       sum(off_count) closeUser,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+       end growTbUserRate ,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+       end growHbUserRate
+ from 
+(
+select prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from add_user_c_analy_match_month
+union
+select prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from user_c_analy_match_month
+) aa
+ 
+</select>
+
+
+<select id="queryUserAnalysis"  
+ resultClass="com.ailk.eaap.op2.bo.UserAnalysisBO">
+select 
+by_month queryTime,
+ sum(user_count) as totalUser,
+       sum(net) growUser,
+       sum(add_count) increaseUser,
+       sum(off_count) closeUser,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+       end growTbUserRate ,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+       end growHbUserRate
+       from 
+(
+select by_month,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from add_user_c_analy_match_month
+union
+select by_month,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from user_c_analy_match_month
+)
+group by by_month
+
+</select> 
+
+
+<select id="queryBaseUserProvAnalysis"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.UserProvAnalysisBO">
+select 
+      prov_code provCode,
+      prov_name provName,
+     sum(user_count) as totalUser,
+       sum(net) growUser,
+       sum(add_count) increaseUser,
+       sum(off_count) closeUser,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+       end growTbRate ,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+       end growHbRate
+ from 
+(
+select prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from add_user_c_analy_match_month
+union
+select prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from user_c_analy_match_month
+) aa group by prov_code,prov_name
+   </select>
+
+
+<select id="queryUserAnalysisYearByPara"    parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.UserAnalysisBO">
+select 
+by_year queryTime,
+ sum(user_count) as totalUser,
+       sum(net) growUser,
+       sum(add_count) increaseUser,
+       sum(off_count) closeUser,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+       end growTbUserRate ,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+       end growHbUserRate
+       from 
+(select by_year,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from add_user_c_analy_match_year
+where 1 = 1  <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_year >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_year <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>   
+union
+select by_year,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from user_c_analy_match_year
+where 1 = 1 <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_year >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_year <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>  
+) aa
+group by by_year
+</select>
+
+
+<select id="queryUserAnalysisMonthByPara"    parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.UserAnalysisBO">
+select 
+by_month queryTime,
+ sum(user_count) as totalUser,
+       sum(net) growUser,
+       sum(add_count) increaseUser,
+       sum(off_count) closeUser,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+       end growTbUserRate ,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+       end growHbUserRate
+       from 
+(
+select by_month,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from add_user_c_analy_match_month
+where 1 = 1 <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>  
+union
+select by_month,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from user_c_analy_match_month
+where 1 = 1 <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>  
+)
+group by by_month
+</select>
+
+<select id="queryUserAnalysisDateByPara"    parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.UserAnalysisBO">
+select 
+by_day queryTime,
+ sum(user_count) as totalUser,
+       sum(net) growUser,
+       sum(add_count) increaseUser,
+       sum(off_count) closeUser,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+       end growTbUserRate ,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+       end growHbUserRate
+       from 
+(select by_day,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from add_user_c_analy_match_day
+where 1 = 1  <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_day >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_day <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>   
+union
+select by_day,prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from user_c_analy_match_day
+where 1 = 1 <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_day >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_day <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>  
+) aa
+group by by_day
+
+</select>
+
+<select id="queryUserAnalysisProvByPara"    parameterClass="map" remapResults="true" 
+ resultClass="com.ailk.eaap.op2.bo.UserProvAnalysisBO">
+select 
+      prov_code provCode,
+      prov_name provName,
+     sum(user_count) as totalUser,
+       sum(net) growUser,
+       sum(add_count) increaseUser,
+       sum(off_count) closeUser,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(year_ratio)) / sum(year_ratio)
+       end growTbRate ,
+       case
+         when (sum(year_ratio) = 0) then
+          0
+         else
+          (sum(net) - sum(month_ratio)) / sum(month_ratio)
+       end growHbRate
+ from 
+(
+select prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from add_user_c_analy_match_month
+where 1 = 1  <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>   
+union
+select prov_code,prov_name,prod_code,prod_name,user_count,add_count,off_count,net,year_ratio,month_ratio from user_c_analy_match_month
+where 1 = 1  <dynamic>
+              <isNotEmpty prepend="and" property="product"> prod_code in ($product$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="province"> prov_code in ($province$)  </isNotEmpty>
+              <isNotEmpty prepend="and" property="btime"> <![CDATA[ by_month >= #btime# ]]></isNotEmpty>
+              <isNotEmpty prepend="and" property="etime"> <![CDATA[ by_month <= #etime# ]]></isNotEmpty> 
+   	        </dynamic>   
+) aa group by prov_code,prov_name
+
+</select>
+
+
+</sqlMap>

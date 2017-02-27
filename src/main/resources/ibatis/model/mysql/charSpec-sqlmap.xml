@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="charSpec">
+	<select id="getCharSpecSeq" resultClass="java.lang.String">
+		SELECT nextval('SEQ_O2P2UPC_ATTR_ID') from dual
+	</select>
+	
+	<select id="getCharSpecValueSeq" resultClass="java.lang.String">
+		SELECT nextval('SEQ_CHAR_SPEC_VALUE') from dual
+	</select>
+	
+	<select id="getCharSpecCategorySeq" resultClass="java.lang.String">
+		SELECT nextval('SEQ_CHAR_SPEC_CATEGORY') from dual
+	</select>
+	
+	<select id="qryCharSpecById" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.CharSpec">
+		select CHAR_SPEC_ID charSpecId,
+		   	   CHAR_SPEC_NAME charSpecName,
+		   	   CODE code,
+		   	   URL url,
+		   	   CHAR_SPEC_TYPE charSpecType,
+		   	   SPEC_MAINTAIN_TYPE charSpecMaintainType,
+		   	   VALUE_TYPE valueType,
+		   	   DEFAULT_VALUE defaultValue,
+		   	   MIN_CARDINALITY minCardinality,
+		   	   MAX_CARDINALITY maxCardinality,
+		   	   DERIVATION_FORMULA derivationFomula,
+		   	   IS_CUSTOMIZED isCustomized,
+		   	   IS_COMPOSITE isComposite,
+		   	   DESCRIPTION description,
+		   	   IS_MULTI isMulti,
+		   	   ORG_ID orgId,
+		   	   STATUS_CD statusCd,
+		   	   TENANT_ID tenantId 
+		from char_spec 
+		where CHAR_SPEC_ID = #charSpecId#
+		and TENANT_ID=#tenantId#
+	</select>
+	
+	<select id="qryCharSpec" parameterClass="com.ailk.eaap.op2.bo.CharSpec"  resultClass="com.ailk.eaap.op2.bo.CharSpec">
+      select CHAR_SPEC_ID charSpecId,
+		   	   CHAR_SPEC_NAME charSpecName,
+		   	   CODE code,
+		   	    URL url,
+		   	   CHAR_SPEC_TYPE charSpecType,
+		   	   SPEC_MAINTAIN_TYPE charSpecMaintainType,
+		   	   VALUE_TYPE valueType,
+		   	   DEFAULT_VALUE defaultValue,
+		   	   MIN_CARDINALITY minCardinality,
+		   	   MAX_CARDINALITY maxCardinality,
+		   	   DERIVATION_FORMULA derivationFomula,
+		   	   IS_CUSTOMIZED isCustomized,
+		   	   IS_COMPOSITE isComposite,
+		   	   DESCRIPTION description,
+		   	   IS_MULTI isMulti,
+		   	   ORG_ID orgId,
+		   	   STATUS_CD statusCd,
+		   	   TENANT_ID tenantId 
+      from char_spec  
+      <dynamic prepend=" where ">
+      	<isNotNull prepend="and" property="valueType"> VALUE_TYPE=#valueType# </isNotNull>
+      	<isNotNull prepend="and" property="charSpecName"> CHAR_SPEC_NAME like concat('%',#charSpecName#,'%') </isNotNull>
+      	<isNotNull prepend="and" property="code"> CODE like concat('%',#code#,'%') </isNotNull>
+      	<isNotNull prepend="and" property="isCustomized"> IS_CUSTOMIZED=#isCustomized# </isNotNull>
+      	<isNotNull prepend="and" property="charSpecId"> CHAR_SPEC_ID=#charSpecId# </isNotNull>
+      	<isNotNull prepend="and" property="isMulti"> IS_MULTI = #isMulti#</isNotNull>
+      	<isNotNull prepend="and" property="statusCd"> STATUS_CD = #statusCd#</isNotNull>
+      	<isNotNull prepend="and" property="charSpecType"> CHAR_SPEC_TYPE = #charSpecType#</isNotNull>
+      	<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+      	<isNull prepend="and" property="charSpecMaintainType"> (SPEC_MAINTAIN_TYPE = 3 or SPEC_MAINTAIN_TYPE = 2 and ORG_ID=#orgId#)</isNull>
+      	<isEqual prepend="and" property="charSpecMaintainType" compareValue="2"> SPEC_MAINTAIN_TYPE = 2 and ORG_ID=#orgId# </isEqual>
+		<isEqual prepend="and" property="charSpecMaintainType" compareValue="3"> SPEC_MAINTAIN_TYPE = 3 </isEqual>
+		<isEqual prepend="and" property="charSpecMaintainType" compareValue="4"> SPEC_MAINTAIN_TYPE = 4 </isEqual>
+      </dynamic>
+       ORDER BY CHAR_SPEC_ID DESC 
+       limit #begin#,#end#
+ </select>
+ 
+ <select id="cntCharSpec" parameterClass="com.ailk.eaap.op2.bo.CharSpec"  resultClass="java.lang.String">
+      select count(1) from char_spec  
+      <dynamic prepend=" where ">
+      	<isNotNull prepend="and" property="valueType"> VALUE_TYPE=#valueType# </isNotNull>
+      	<isNotNull prepend="and" property="charSpecName"> CHAR_SPEC_NAME like concat('%',#charSpecName#,'%') </isNotNull>
+      	<isNotNull prepend="and" property="code"> CODE like concat('%',#code#,'%') </isNotNull>
+      	<isNotNull prepend="and" property="isCustomized"> IS_CUSTOMIZED=#isCustomized# </isNotNull>
+      	<isNotNull prepend="and" property="charSpecId"> CHAR_SPEC_ID=#charSpecId# </isNotNull>
+      	<isNotNull prepend="and" property="isMulti"> IS_MULTI = #isMulti#</isNotNull>
+      	<isNotNull prepend="and" property="statusCd"> STATUS_CD = #statusCd#</isNotNull>
+      	<isNotNull prepend="and" property="charSpecType"> CHAR_SPEC_TYPE = #charSpecType#</isNotNull>
+      	<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+      	<isNull prepend="and" property="charSpecMaintainType"> (SPEC_MAINTAIN_TYPE = 3 or SPEC_MAINTAIN_TYPE = 2 and ORG_ID=#orgId#)</isNull>
+      	<isEqual prepend="and" property="charSpecMaintainType" compareValue="2"> SPEC_MAINTAIN_TYPE = 2 and ORG_ID=#orgId# </isEqual>
+		<isEqual prepend="and" property="charSpecMaintainType" compareValue="3"> SPEC_MAINTAIN_TYPE = 3 </isEqual>
+		<isEqual prepend="and" property="charSpecMaintainType" compareValue="4"> SPEC_MAINTAIN_TYPE = 4 </isEqual>
+      </dynamic>
+ </select>
+ 
+  <select id="isUD" parameterClass="java.util.HashMap"  resultClass="java.lang.Integer">
+ 	select count(1) from
+	(
+		select attr_spec_id from product_attr where attr_spec_id=#charSpecId# 
+		and tenant_id=#tenantId#
+		UNION
+		select attr_spec_id from service_att where attr_spec_id=#charSpecId# 
+		and tenant_id=#tenantId#
+	)a 
+ </select>
+ 
+ 	<select id="getPageInTypeIds" parameterClass="java.util.HashMap"  resultClass="java.util.HashMap">
+	 	select max,length,next from sequenceconftable where name=#pageInTypeName#
+	 	and tenant_id=#tenantId#
+	</select>
+ 	
+ 	<select id="isExitAttrByCode" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(1) from char_spec where CODE = #code# and ORG_ID = #orgId# and state= 'D'
+		and tenant_id=#tenantId#
+	</select>
+	
+	<insert id="insertCharSpec" parameterClass="com.ailk.eaap.op2.bo.CharSpec">
+		INSERT INTO char_spec 
+		(STATUS_DATE,CREATE_DATE  
+		<dynamic>
+			<isNotNull prepend="," property="charSpecId">CHAR_SPEC_ID</isNotNull>
+			<isNotNull prepend="," property="charSpecName">CHAR_SPEC_NAME</isNotNull>
+			<isNotNull prepend="," property="code">CODE</isNotNull>
+			<isNotNull prepend="," property="charSpecType">CHAR_SPEC_TYPE</isNotNull>
+			<isNotNull prepend="," property="charSpecMaintainType">SPEC_MAINTAIN_TYPE</isNotNull>
+			<isNotNull prepend="," property="valueType">VALUE_TYPE</isNotNull>
+			<isNotNull prepend="," property="defaultValue">DEFAULT_VALUE</isNotNull>
+			<isNotNull prepend="," property="minCardinality">MIN_CARDINALITY</isNotNull>
+			<isNotNull prepend="," property="maxCardinality">MAX_CARDINALITY</isNotNull>
+			<isNotNull prepend="," property="derivationFomula">DERIVATION_FORMULA</isNotNull>
+			<isNotNull prepend="," property="isCustomized">IS_CUSTOMIZED</isNotNull>
+			<isNotNull prepend="," property="isComposite">IS_COMPOSITE</isNotNull>
+			<isNotNull prepend="," property="description">DESCRIPTION</isNotNull>
+			<isNotNull prepend="," property="isMulti">IS_MULTI</isNotNull>
+			<isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+			<isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+			<isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+		</dynamic>
+		)
+		VALUES
+		(utc_timestamp() ,utc_timestamp()
+		<dynamic>
+			<isNotNull prepend="," property="charSpecId">#charSpecId#</isNotNull>
+			<isNotNull prepend="," property="charSpecName">#charSpecName#</isNotNull>
+			<isNotNull prepend="," property="code">#code#</isNotNull>
+			<isNotNull prepend="," property="charSpecType">#charSpecType#</isNotNull>
+			<isNotNull prepend="," property="charSpecMaintainType">#charSpecMaintainType#</isNotNull>
+			<isNotNull prepend="," property="valueType">#valueType#</isNotNull>
+			<isNotNull prepend="," property="defaultValue">#defaultValue#</isNotNull>
+			<isNotNull prepend="," property="minCardinality">#minCardinality#</isNotNull>
+			<isNotNull prepend="," property="maxCardinality">#maxCardinality#</isNotNull>
+			<isNotNull prepend="," property="derivationFomula">#derivationFomula#</isNotNull>
+			<isNotNull prepend="," property="isCustomized">#isCustomized#</isNotNull>
+			<isNotNull prepend="," property="isComposite">#isComposite#</isNotNull>
+			<isNotNull prepend="," property="description">#description#</isNotNull>
+			<isNotNull prepend="," property="isMulti">#isMulti#</isNotNull>
+			<isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+			<isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+			<isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+	
+	<update id="updateCharSpec" parameterClass="com.ailk.eaap.op2.bo.CharSpec">
+		update char_spec SET STATUS_DATE = utc_timestamp() 
+		<dynamic>
+			<isNotNull prepend="," property="charSpecName">CHAR_SPEC_NAME=#charSpecName#</isNotNull>
+			<isNotNull prepend="," property="code">CODE=#code#</isNotNull>
+			<isNotNull prepend="," property="charSpecType">CHAR_SPEC_TYPE=#charSpecType#</isNotNull>
+			<isNotNull prepend="," property="charSpecMaintainType">SPEC_MAINTAIN_TYPE=#charSpecMaintainType#</isNotNull>
+			<isNotNull prepend="," property="valueType">VALUE_TYPE=#valueType#</isNotNull>
+			<isNotNull prepend="," property="defaultValue">DEFAULT_VALUE=#defaultValue#</isNotNull>
+			<isNotNull prepend="," property="minCardinality">MIN_CARDINALITY=#minCardinality#</isNotNull>
+			<isNotNull prepend="," property="maxCardinality">MAX_CARDINALITY=#maxCardinality#</isNotNull>
+			<isNotNull prepend="," property="derivationFomula">DERIVATION_FORMULA=#derivationFomula#</isNotNull>
+			<isNotNull prepend="," property="isCustomized">IS_CUSTOMIZED=#isCustomized#</isNotNull>
+			<isNotNull prepend="," property="isComposite">IS_COMPOSITE=#isComposite#</isNotNull>
+			<isNotNull prepend="," property="description">DESCRIPTION=#description#</isNotNull>
+			<isNotNull prepend="," property="isMulti">IS_MULTI=#isMulti#</isNotNull>
+			<isNotNull prepend="," property="orgId">ORG_ID=#orgId#</isNotNull>
+			<isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    </dynamic>
+	    where CHAR_SPEC_ID = #charSpecId#
+	    and tenant_id=#tenantId#
+	</update>
+	
+	<delete id="delCharSpec" parameterClass="java.util.HashMap">
+		delete from char_spec where CHAR_SPEC_ID = #charSpecId# and tenant_id=#tenantId#
+	</delete>
+	
+	<select id="qryCharSpecValue" parameterClass="com.ailk.eaap.op2.bo.CharSpecValue" resultClass="com.ailk.eaap.op2.bo.CharSpecValue">
+		select CHAR_SPEC_VALUE_ID charSpecValueId,
+			   CHAR_SPEC_ID charSpecId,
+			   CODE code,
+			   VALUE value,
+			   DISPLAY_VALUE displayValue,
+			   IS_DEFAULT isDefault,
+			   DESCRIPTION description,
+			   VALUE_FROM valueFrom,
+			   VALUE_TO valueTo,
+			   INCREMENT increment,
+			   SEQ_ID seqId,
+			   STATUS_CD statusCd,
+			   TENANT_ID tenantId 
+	     from char_spec_value
+		 <dynamic prepend=" where ">
+			<isNotNull prepend="and" property="charSpecId"> CHAR_SPEC_ID=#charSpecId# </isNotNull>
+			<isNotNull prepend="and" property="charSpecValueId"> CHAR_SPEC_VALUE_ID=#charSpecValueId# </isNotNull>
+			<isNotNull prepend="and" property="statusCd"> STATUS_CD=#statusCd# </isNotNull>
+			<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+	</select>
+	
+	<insert id="insertCharSpecValue" parameterClass="com.ailk.eaap.op2.bo.CharSpecValue">
+		INSERT INTO char_spec_value
+		(STATUS_DATE,CREATE_DATE  
+		<dynamic>
+			<isNotNull prepend="," property="charSpecValueId">CHAR_SPEC_VALUE_ID</isNotNull>
+			<isNotNull prepend="," property="charSpecId">CHAR_SPEC_ID</isNotNull>
+			<isNotNull prepend="," property="code">CODE</isNotNull>
+			<isNotNull prepend="," property="value">VALUE</isNotNull>
+			<isNotNull prepend="," property="displayValue">DISPLAY_VALUE</isNotNull>
+			<isNotNull prepend="," property="isDefault">IS_DEFAULT</isNotNull>
+			<isNotNull prepend="," property="description">DESCRIPTION</isNotNull>
+			<isNotNull prepend="," property="valueFrom">VALUE_FROM</isNotNull>
+			<isNotNull prepend="," property="valueTo">VALUE_TO</isNotNull>
+			<isNotNull prepend="," property="increment">INCREMENT</isNotNull>
+			<isNotNull prepend="," property="seqId">SEQ_ID</isNotNull>
+			<isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+			<isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+		</dynamic>
+		)
+		VALUES
+		(utc_timestamp() ,utc_timestamp()
+		<dynamic>
+			<isNotNull prepend="," property="charSpecValueId">#charSpecValueId#</isNotNull>
+			<isNotNull prepend="," property="charSpecId">#charSpecId#</isNotNull>
+			<isNotNull prepend="," property="code">#code#</isNotNull>
+			<isNotNull prepend="," property="value">#value#</isNotNull>
+			<isNotNull prepend="," property="displayValue">#displayValue#</isNotNull>
+			<isNotNull prepend="," property="isDefault">#isDefault#</isNotNull>
+			<isNotNull prepend="," property="description">#description#</isNotNull>
+			<isNotNull prepend="," property="valueFrom">#valueFrom#</isNotNull>
+			<isNotNull prepend="," property="valueTo">#valueTo#</isNotNull>
+			<isNotNull prepend="," property="increment">#increment#</isNotNull>
+			<isNotNull prepend="," property="seqId">#seqId#</isNotNull>
+			<isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+			<isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+	
+	<update id="updateCharSpecValue" parameterClass="com.ailk.eaap.op2.bo.CharSpecValue">
+		update char_spec_value SET STATUS_DATE = utc_timestamp() 
+		<dynamic>
+			<isNotNull prepend="," property="charSpecId">CHAR_SPEC_ID=#charSpecId#</isNotNull>
+			<isNotNull prepend="," property="code">CODE=#code#</isNotNull>
+			<isNotNull prepend="," property="value">VALUE=#value#</isNotNull>
+			<isNotNull prepend="," property="displayValue">DISPLAY_VALUE=#displayValue#</isNotNull>
+			<isNotNull prepend="," property="isDefault">IS_DEFAULT=#isDefault#</isNotNull>
+			<isNotNull prepend="," property="description">DESCRIPTION=#description#</isNotNull>
+			<isNotNull prepend="," property="valueFrom">VALUE_FROM=#valueFrom#</isNotNull>
+			<isNotNull prepend="," property="valueTo">VALUE_TO=#valueTo#</isNotNull>
+			<isNotNull prepend="," property="increment">INCREMENT=#increment#</isNotNull>
+			<isNotNull prepend="," property="seqId">SEQ_ID=#seqId#</isNotNull>
+			<isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+		</dynamic>
+		where CHAR_SPEC_VALUE_ID = #charSpecValueId#
+		and TENANT_ID=#tenantId#
+	</update>
+	
+	<delete id="delCharSpecValue" parameterClass="java.util.HashMap">
+		delete from char_spec_value where CHAR_SPEC_ID = #charSpecId#
+		and TENANT_ID=#tenantId#
+	</delete>
+	
+	<insert id="insertCharSpecCategory" parameterClass="com.ailk.eaap.op2.bo.CharSpecCategory">
+		INSERT INTO char_spec_category(CHAR_SPEC_CATEGORY_ID,CHAR_SPEC_ID,CATEGORY_CODE,TENANT_ID) 
+		VALUES(#charSpecCategoryId#,#charSpecId#,#categoryCode#,#tenantId#);
+	</insert>
+	
+	<select id="qryCharSpecCategory" parameterClass="com.ailk.eaap.op2.bo.CharSpecCategory" resultClass="com.ailk.eaap.op2.bo.CharSpecCategory">
+		select CHAR_SPEC_CATEGORY_ID charSpecCategoryId,
+			   CHAR_SPEC_ID charSpecId,
+			   CATEGORY_CODE categoryCode ,
+			   TENANT_ID tenantId 
+	    from char_spec_category 
+	    <dynamic prepend=" where ">
+			<isNotNull prepend="and" property="charSpecCategoryId"> CHAR_SPEC_CATEGORY_ID=#charSpecCategoryId# </isNotNull>
+			<isNotNull prepend="and" property="charSpecId"> CHAR_SPEC_ID=#charSpecId# </isNotNull>
+			<isNotNull prepend="and" property="categoryCode"> CATEGORY_CODE=#categoryCode# </isNotNull>
+			<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+	</select>
+	
+	<delete id="delCharSpecCategory" parameterClass="java.util.HashMap">
+		delete from char_spec_category where CHAR_SPEC_ID=#charSpecId#
+		and TENANT_ID=#tenantId#
+	</delete>	
+</sqlMap>	 
+	 

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="partnerAccount">
+
+ 	 <select id="selectPartnerAccountSeq" resultClass="java.lang.String">
+		SELECT SEQ_PARTNER_ACCOUNT.NEXTVAL FROM DUAL
+	 </select>
+	 
+	 <select id="selectPartnerAccount" parameterClass="com.ailk.eaap.op2.bo.PartnerAccount" resultClass="com.ailk.eaap.op2.bo.PartnerAccount">
+	 	SELECT ACCOUNT_ID accountId,ORG_ID orgId,ACCOUNT_NAME accountName,ACCOUNT_NUMBER accountNumber,CONTACT_PHONE contactPhone,
+	 		MOBILE_PHONE mobilePhone,IF_DEFAULT ifDefault,STATUS_CD statusCd,STATUS_DATE statusDate,CREATE_DATE createDate
+	 	FROM PARTNER_ACCOUNT WHERE 1=1
+	  <dynamic>
+	    <isNotNull prepend="and" property="accountId"> ACCOUNT_ID=#accountId#</isNotNull>
+	    <isNotNull prepend="and" property="orgId"> ORG_ID=#orgId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	 <insert id="insertPartnerAccount" parameterClass="com.ailk.eaap.op2.bo.PartnerAccount">
+		  insert into PARTNER_ACCOUNT
+		  (STATUS_CD,STATUS_DATE,CREATE_DATE  
+		  <dynamic >
+		    <isNotNull prepend=","  property="accountId">ACCOUNT_ID</isNotNull>
+		    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+		    <isNotNull prepend="," property="accountName">ACCOUNT_NAME</isNotNull>
+		    <isNotNull prepend="," property="accountNumber">ACCOUNT_NUMBER</isNotNull>
+		    <isNotNull prepend="," property="contactPhone">CONTACT_PHONE</isNotNull>
+		    <isNotNull prepend="," property="mobilePhone">MOBILE_PHONE</isNotNull>
+		    <isNotNull prepend="," property="ifDefault">IF_DEFAULT</isNotNull>
+		  </dynamic>
+		  )
+		  values
+		  ('10' ,sysdate,sysdate
+		   <dynamic >
+		    <isNotNull prepend="," property="accountId">#accountId#</isNotNull>
+		    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+		    <isNotNull prepend="," property="accountName">#accountName#</isNotNull>
+		    <isNotNull prepend="," property="accountNumber">#accountNumber#</isNotNull>
+		    <isNotNull prepend="," property="contactPhone">#contactPhone#</isNotNull>
+		    <isNotNull prepend="," property="mobilePhone">#mobilePhone#</isNotNull>
+		    <isNotNull prepend="," property="ifDefault">#ifDefault#</isNotNull>
+		   </dynamic>
+		  )
+	</insert>
+</sqlMap>

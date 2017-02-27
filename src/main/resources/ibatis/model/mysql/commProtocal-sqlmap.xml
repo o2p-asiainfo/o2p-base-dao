@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="commProtocal">
+	<select id="selectCommProtocal" parameterClass="com.ailk.eaap.op2.bo.CommProtocal" resultClass="com.ailk.eaap.op2.bo.CommProtocal">
+	 SELECT COMM_PRO_CD commProCd,COMM_PRO_NAME commProName,COMM_PRO_DESC commProDesc FROM COMM_PROTOCAL
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="and" property="commProCd"> COMM_PRO_CD=#commProCd#</isNotNull>
+	  </dynamic>
+	</select>
+</sqlMap>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="busi-data-info" >
+<insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.BusiDataInfo" >
+    <selectKey resultClass="int" keyProperty="businessId">
+		 SELECT  nextval('SEQ_BUSI_DATA_INFO');
+    </selectKey>
+    insert into busi_data_info (CREATE_DATE,UPDATE_DATE
+    <dynamic>
+      <isNotNull prepend="," property="businessId">
+          BUSINESS_ID
+      </isNotNull>
+      <isNotNull prepend="," property="businessName" >
+        BUSINESS_NAME
+      </isNotNull>
+      <isNotNull prepend="," property="businessValue" >
+        BUSINESS_VALUE
+      </isNotNull>
+      <isNotNull prepend="," property="businessModule" >
+        BUSINESS_MODULE
+      </isNotNull>
+      <isNotNull prepend="," property="businessDesc" >
+        BUSINESS_DESC
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>   
+      )
+    </dynamic>
+    values (utc_timestamp(),utc_timestamp()
+    <dynamic>
+     <isNotNull prepend="," property="businessId">
+         #businessId#
+     </isNotNull>
+      <isNotNull prepend="," property="businessName" >
+        #businessName#
+      </isNotNull>
+      <isNotNull prepend="," property="businessValue" >
+        #businessValue#
+      </isNotNull>
+      <isNotNull prepend="," property="businessModule" >
+        #businessModule#
+      </isNotNull>
+      <isNotNull prepend="," property="businessDesc" >
+        #businessDesc#
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>   
+    </dynamic>
+    )
+  </insert>
+  
+  
+  <select id="qryBusiDataInfoByName" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.BusiDataInfo">
+		select BUSINESS_ID businessId,
+				  BUSINESS_NAME businessName,
+		          BUSINESS_VALUE  businessValue,
+		          BUSINESS_MODULE businessModule,
+		          BUSINESS_DESC businessDesc,
+		          CREATE_DATE createDate,
+		          tenant_id tenantId
+		from busi_data_info bdi  
+		where  bdi.BUSINESS_NAME=#businessName#  
+		and tenant_id=#tenantId#
+   </select>
+   
+   <select id="loadBusiDataInfo" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.BusiDataInfo">
+		select BUSINESS_ID businessId,
+				  BUSINESS_NAME businessName,
+		          BUSINESS_VALUE  businessValue,
+		          BUSINESS_MODULE businessModule,
+		          BUSINESS_DESC businessDesc,
+		          CREATE_DATE createDate
+		from busi_data_info bdi
+		where  tenant_id=#tenantId# 
+   </select>
+   
+   <update id="updateBusiDataInfo" parameterClass="com.ailk.eaap.op2.bo.BusiDataInfo">
+		update busi_data_info SET UPDATE_DATE = utc_timestamp() 
+		<dynamic>
+    	    <isNotNull prepend="," property="businessValue" >BUSINESS_VALUE=#businessValue#</isNotNull>
+	    </dynamic>
+	    where BUSINESS_ID = #businessId#
+	    and tenant_id=#tenantId# 
+	</update>
+  </sqlMap>

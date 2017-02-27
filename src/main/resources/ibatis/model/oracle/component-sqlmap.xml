@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="component">
+     <select id="selectSysdate" resultClass="java.lang.String">
+		   select name from COMPONENT where COMPONENT_ID = '1'
+	 </select>
+     
+	<delete id="deleteComponent" parameterClass="com.ailk.eaap.op2.bo.Component">
+	  delete COMPONENT
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="componentId">COMPONENT_ID=#componentId#</isNotNull>
+	    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+	  </dynamic>
+	</delete>
+	
+	<update id="updateComponent" parameterClass="com.ailk.eaap.op2.bo.Component">
+	  update COMPONENT
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="orgId">ORG_ID=#orgId#</isNotNull>
+	    <isNotNull prepend="," property="code">CODE=#code#</isNotNull>
+	    <isNotNull prepend="," property="name">NAME=#name#</isNotNull>
+	    <isNotNull prepend="," property="componentTypeId">COMPONENT_TYPE_ID=#componentTypeId#</isNotNull>
+	    <isNotNull prepend="," property="regTime">REG_TIME=#regTime#</isNotNull>
+	    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+	    <isNotNull prepend="," property="stateTime">STATE_TIME=#stateTime#</isNotNull>
+	    <isNotNull prepend="," property="password">PASSWORD=#password#</isNotNull>
+	    <isNotNull prepend="," property="descriptor">DESCRIPTOR=#descriptor#</isNotNull>
+	    <isNotNull prepend="," property="sfileId">S_FILE_ID=#sfileId#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="componentId">COMPONENT_ID=#componentId#</isNotNull>
+	    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+	  </dynamic>
+	</update>
+	
+	<insert id="insertComponent" parameterClass="com.ailk.eaap.op2.bo.Component">
+	 <selectKey resultClass="String" keyProperty="componentId">
+				 SELECT to_char(SEQ_COMPONENT.NEXTVAL) FROM DUAL  
+	 </selectKey>	
+	    insert into COMPONENT
+	    (REG_TIME,STATE,STATE_TIME
+	  <dynamic>
+	    <isNotNull prepend="," property="componentId">COMPONENT_ID</isNotNull>
+	    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+	    <isNotNull prepend="," property="code">CODE</isNotNull>
+	    <isNull prepend="," property="code">CODE</isNull>
+	    <isNotNull prepend="," property="name">NAME</isNotNull>
+	    <isNotNull prepend="," property="componentTypeId">COMPONENT_TYPE_ID</isNotNull>
+	    <isNotNull prepend="," property="password">PASSWORD</isNotNull>
+	    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+	    <isNotNull prepend="," property="sfileId">S_FILE_ID</isNotNull>
+	     <isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull> 
+	  </dynamic>
+	  )
+	  values(SYS_EXTRACT_UTC(current_timestamp)+0 ,
+	  <dynamic>
+	  	<isNotNull property="state">#state#</isNotNull>
+	  	<isNull property="state">'A'</isNull>
+	  </dynamic>
+	  ,SYS_EXTRACT_UTC(current_timestamp)+0
+	  <dynamic>
+	    <isNotNull prepend="," property="componentId">#componentId#</isNotNull>
+	    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+	    <isNotNull prepend="," property="code">#code#</isNotNull>
+	    <isNull prepend="," property="code">#componentId#</isNull>
+	    <isNotNull prepend="," property="name">#name#</isNotNull>
+	    <isNotNull prepend="," property="componentTypeId">#componentTypeId#</isNotNull>
+	    <isNotNull prepend="," property="password">#password#</isNotNull>
+	    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+	    <isNotNull prepend="," property="sfileId">#sfileId#</isNotNull>
+	     <isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+
+<select id="selectComponent" parameterClass="com.ailk.eaap.op2.bo.Component" resultClass="com.ailk.eaap.op2.bo.Component">
+  select COMPONENT_ID componentId , ORG_ID orgId , CODE code , NAME name, 
+         COMPONENT_TYPE_ID componentTypeId, REG_TIME regTime , STATE state, 
+         STATE_TIME  stateTime, PASSWORD password, DESCRIPTOR descriptor from COMPONENT
+ <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="componentId">  COMPONENT_ID=#componentId#</isNotNull>
+    <isNotNull prepend="and" property="orgId"> ORG_ID=#orgId#</isNotNull>
+    <isNotNull prepend="and" property="code"> CODE=#code#</isNotNull>
+    <isNotNull prepend="and" property="name"> NAME LIKE '%'||#name#||'%' </isNotNull>
+    <isNotNull prepend="and" property="componentTypeId"> COMPONENT_TYPE_ID=#componentTypeId#</isNotNull>
+    <isNotNull prepend="and" property="regTime"> REG_TIME=#regTime#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="stateTime"> STATE_TIME=#stateTime#</isNotNull>
+    <isNotNull prepend="and" property="password"> PASSWORD=#password#</isNotNull>
+    <isNotNull prepend="and" property="descriptor"> DESCRIPTOR=#descriptor#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+  </dynamic>
+</select>
+
+<!-- 选择组件控件 分业列表 -->
+<select id="queryAllComptList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+ SELECT * FROM (SELECT ROW_NUMBER() OVER( ORDER BY COMPONENT_ID ) rn , newtab.* FROM (
+  SELECT COMPONENT_ID COMPONENT_ID , ORG_ID ORG_ID , CODE CODE , NAME NAME, 
+         COMPONENT_TYPE_ID COMPONENT_TYPE_ID, REG_TIME REG_TIME , STATE STATE, 
+         STATE_TIME  STATE_TIME, PASSWORD PASSWORD, DESCRIPTOR DESCRIPTOR FROM COMPONENT
+         WHERE  STATE NOT IN ('G','X')
+ <dynamic>
+   <isNotNull prepend="and" property="componentId">  COMPONENT_ID IN ($componentId$)</isNotNull>
+   <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+ </dynamic>
+   ) newtab ) WHERE rn BETWEEN #pro# AND #end# 
+</select>
+
+<!-- 总记录数 -->
+<select id="queryAllComptCount" parameterClass="java.util.HashMap"  resultClass="java.util.HashMap">
+	  SELECT  COUNT(1) ALLNUM FROM COMPONENT
+	   WHERE  STATE NOT IN ('G','X')
+	<dynamic>
+		<isNotNull prepend="and" property="componentId">  COMPONENT_ID IN ($componentId$)</isNotNull>
+		<isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+	</dynamic>
+</select>
+
+<!-- 组件自动补全专用 -->
+<select id="queryComponent" parameterClass="com.ailk.eaap.op2.bo.Component" resultClass="com.ailk.eaap.op2.bo.Component">
+  SELECT COMPONENT_ID componentId , NAME name FROM COMPONENT
+   WHERE  STATE NOT IN ('G','X')
+ <dynamic>
+    <isNotNull prepend="and" property="name"> NAME LIKE '%'||#name#||'%' </isNotNull>
+    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+  </dynamic>
+</select>
+
+<select id="selectComponentList" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.Component">
+  select COMPONENT_ID componentId , ORG_ID orgId , CODE code , NAME name, 
+         COMPONENT_TYPE_ID componentTypeId, REG_TIME regTime , STATE state, 
+         STATE_TIME  stateTime, PASSWORD password, DESCRIPTOR descriptor from COMPONENT
+   WHERE  STATE NOT IN ('G','X')
+   and TENANT_ID=#tenantId#
+ <dynamic>
+    <isNotNull prepend="and" property="componentId">  COMPONENT_ID IN ($componentId$)</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+  </dynamic>
+</select>
+
+<select id="validatorComponentInfoExistList" parameterClass="com.ailk.eaap.op2.bo.Component" resultClass="com.ailk.eaap.op2.bo.Component">
+  select * 
+    from COMPONENT
+   WHERE code = #code#
+ <dynamic>
+    <isNotNull prepend="and" property="componentId">  COMPONENT_ID != #componentId#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+  </dynamic>
+</select>
+</sqlMap>

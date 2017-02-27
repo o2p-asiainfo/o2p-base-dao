@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="prodOfferDistributor">
+	<insert id="insertProdOfferDistributor" parameterClass="com.ailk.eaap.op2.bo.ProdOfferDistributor">
+	 <selectKey resultClass="Integer" keyProperty="prodOfferDistributorId">
+		SELECT SEQ_PROD_OFFER_DISTRIBUTOR.NEXTVAL FROM DUAL  
+	 </selectKey>	
+	 INSERT INTO PROD_OFFER_DISTRIBUTOR
+	    (
+	  <dynamic>
+	    <isNotNull property="prodOfferDistributorId">PROD_OFFER_DISTRIBUTOR_ID</isNotNull>
+	    <isNotNull prepend="," property="prodOfferId">PROD_OFFER_ID</isNotNull>
+	    <isNotNull prepend="," property="distributorId">DISTRIBUTOR_ID</isNotNull>
+	    <isNotNull prepend="," property="description">DESCRIPTION</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES(
+	  <dynamic>
+	    <isNotNull property="prodOfferDistributorId">#prodOfferDistributorId#</isNotNull>
+	    <isNotNull prepend="," property="prodOfferId">#prodOfferId#</isNotNull>
+	    <isNotNull prepend="," property="distributorId">#distributorId#</isNotNull>
+	    <isNotNull prepend="," property="description">#description#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+</sqlMap>

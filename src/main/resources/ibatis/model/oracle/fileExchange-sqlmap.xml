@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="fileExchange">
+	<typeAlias alias="ftpDirBean" type="com.ailk.eaap.o2p.fileExchange.model.DirBean"/>
+ 	<resultMap class="ftpDirBean" id="ftpDirBeanMap">
+ 		  <result property="dirId" column="dir_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="parentDirId" column="up_dir_id"  nullValue="-1"  jdbcType="DECIMAL"/>
+ 	      <result property="dirPath" column="dir_path"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="dirType" column="dir_type"  nullValue=""  jdbcType="CHAR"/>
+		  <result property="createTime" column="create_time"  nullValue=""  jdbcType="DATE"/>
+		  <result property="remoteAuthId" column="remote_auth_id"  nullValue="-1"  jdbcType="DECIMAL"/>
+		  <result property="remoteAuth" column="remote_auth_id" select="fileExchange.getRemoteAuthById"   jdbcType="DECIMAL"/>
+		  <result property="description" column="description"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="urlPath" column="URL_PATH"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="downloadRule" column="DOWNLOAD_RULE"  nullValue=""  jdbcType="TEXT"/>
+   </resultMap>	
+   <resultMap class="ftpDirBean" id="ftpDirBeanSerMap">
+ 		  <result property="dirId" column="dir_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="parentDirId" column="up_dir_id"  nullValue="-1"  jdbcType="DECIMAL"/>
+ 	      <result property="dirPath" column="dir_path"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="dirType" column="dir_type"  nullValue=""  jdbcType="CHAR"/>
+		  <result property="createTime" column="create_time"  nullValue=""  jdbcType="DATE"/>
+		  <result property="remoteAuthId" column="remote_auth_id"  nullValue="-1"  jdbcType="DECIMAL"/>
+		  <result property="remoteAuth" column="remote_auth_id" select="fileExchange.getRemoteAuthById"   jdbcType="DECIMAL"/>
+		  <result property="description" column="description"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="urlPath" column="URL_PATH"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="downloadRule" column="DOWNLOAD_RULE"  nullValue=""  jdbcType="TEXT"/>
+		  <result property="serInvokeInsId" column="SER_INVOKE_INS_ID" nullValue="" jdbcType="DECIMAL"/>
+   </resultMap>	
+	<typeAlias alias="hostConfBean" type="com.ailk.eaap.o2p.fileExchange.model.Host"/>
+ 	<resultMap class="hostConfBean" id="hostBeanMap">
+ 		  <result property="hostId" column="HOST_CONF_ID"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="hostName" column="HOST_NAME"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="hostTypeCd" column="HOST_TYPE_CD"  nullValue=""  jdbcType="CHAR"/>
+ 	      <result property="ip" column="HOST_IP"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="fsType" column="FILE_SYS_TYPE"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="port" column="FTP_PORT"  nullValue="22"  jdbcType="DECIMAL"/>
+		  <result property="hostDesc" column="HOST_DESC"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="hostHomePath" column="FILE_HOME"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap>	   
+   	<typeAlias alias="remoteAuthBean" type="com.ailk.eaap.o2p.fileExchange.model.RemoteAuth"/>
+ 	<resultMap class="remoteAuthBean" id="remoteAuthMap">
+ 		  <result property="id" column="REMOTE_AUTH_ID"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="hostConfId" column="HOST_CONF_ID"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="userName" column="USER_NAME"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="password" column="USER_PASSWORD"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="authFilePath" column="AUTH_FILE"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="passphrase" column="PASSPHRASE"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="desc" column="REMARK"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="createDt" column="CREATE_DT"  nullValue=""  jdbcType="DATE"/>
+		  <result property="hostName" column="HOST_NAME"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="hostIp" column="HOST_IP"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="ftpType" column="FTP_TYPE"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="ftpPort" column="FTP_PORT"  nullValue=""  jdbcType="DECIMAL"/>
+   </resultMap>	
+    <typeAlias alias="fileMoveRuleBean" type="com.ailk.eaap.o2p.fileExchange.model.FileMoveRule"/>
+ 	<resultMap class="fileMoveRuleBean" id="fileMoveRuleMap">
+ 		  <result property="fileMoveRuleId" column="FTP_MOVE_DIRE_ID"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="moveType" column="MOVE_TYPE"  nullValue=""  jdbcType="CHAR"/>
+ 	      <result property="srcdirBean" column="DIR_ID" select="fileExchange.getDirById"   jdbcType="DECIMAL"/>
+ 	      <result property="tarDirBean" column="FTP_DIR_ID" select="fileExchange.getDirById"   jdbcType="DECIMAL"/>
+		  <result property="moveRule" column="MOVE_RULE"  nullValue=""  jdbcType="CHAR"/>
+		  <result property="moveExpr" column="MOVE_EXPR"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="createDt" column="CREATE_TIME"  nullValue=""  jdbcType="DATE"/>
+		  <result property="state" column="STATE"  nullValue=""  jdbcType="CHAR"/>
+		  <result property="stateDt" column="STATE_TIME"  nullValue=""  jdbcType="DATE"/>
+		  <result property="desc" column="MOVE_DESC"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap>	
+    <typeAlias alias="fileMoveSerInstBean" type="com.ailk.eaap.o2p.fileExchange.model.FileMoveSerInst"/>
+ 	<resultMap class="fileMoveSerInstBean" id="fileMoveSerInstMap">
+ 		  <result property="serInvokeInstId" column="SER_INVOKE_INS_ID"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="dirBean" column="DIR_ID"  select="fileExchange.getDirById"  jdbcType="DECIMAL"/>
+ 	      <result property="isBatch" column="IS_BATCH"  nullValue="Y"  jdbcType="CHAR"/>
+ 	      <result property="isSrcRm" column="IS_SRC_RM"  nullValue="Y"  jdbcType="CHAR"/>
+ 	      <result property="reqOrResp" column="REQ_RSP" nullValue="0"  jdbcType="CHAR"/>
+		  <result property="createDt" column="CREATE_DT"   jdbcType="DATE"/>
+		  <result property="state" column="STATE"   jdbcType="CHAR"/>
+		  <result property="fileFilterExp" column="FILE_FILTER_EXP" nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="suffixFmt" column="SUFFIX_FMT"   jdbcType="CHAR"/>
+		  <result property="isFileCheck" column="IS_FILE_CHECK"   jdbcType="CHAR"/>
+		  <result property="fileAlg" column="FILE_ALG"   jdbcType="CHAR"/>
+		   <result property="fileFormats" column="FILE_FORMATS"   jdbcType="VARCHAR"/>
+   </resultMap>	 
+    <typeAlias alias="fileExFailDispatchBean" type="com.ailk.eaap.o2p.fileExchange.model.FileExFailDispatch"/>
+ 	<resultMap class="fileExFailDispatchBean" id="fileExFailDispatchMap">
+ 		  <result property="id" column="FE_R_S_ID"   jdbcType="DECIMAL"/>
+ 	      <result property="fdNbr" column="FD_NBR"    jdbcType="VARCHAR"/>
+ 	      <result property="userName" column="USER_NAME"    jdbcType="VARCHAR"/>
+ 	      <result property="remoteIp" column="REMOTE_IP"    jdbcType="VARCHAR"/>
+ 	      <result property="operType" column="OPER_TYPE"    jdbcType="VARCHAR"/>
+ 	      <result property="dirId" column="USER_DIR_ID"  nullValue="-1001"  jdbcType="DECIMAL"/>
+ 	      <result property="filePath" column="FILE_PATH"    jdbcType="VARCHAR"/>
+ 	      <result property="operPath" column="OPER_PATH"    jdbcType="VARCHAR"/>
+ 	      <result property="servInvokeInstId" column="SERV_INVOKE_ID"   jdbcType="DECIMAL"/>
+ 	      <result property="dealFlag" column="DEAL_FLAG"   jdbcType="CHAR"/>
+ 	      <result property="dealDt" column="DEAL_DT"   jdbcType="DATE"/>
+		  <result property="createDt" column="CREATE_DT"   jdbcType="DATE"/>
+		  <result property="recordCd" column="RECORD_CD"    jdbcType="CHAR"/>
+		  <result property="remark" column="REMARK"    jdbcType="VARCHAR"/>
+   </resultMap>	     
+    <typeAlias alias="serInvokeInstBean" type="com.ailk.eaap.op2.bo.SerInvokeIns"/>
+ 	<resultMap class="serInvokeInstBean" id="serInvokeInstMap">
+ 		  <result property="serInvokeInsId" column="ser_invoke_ins_id"   jdbcType="DECIMAL"/>
+ 	      <result property="messageFlowId" column="message_flow_id"    jdbcType="DECIMAL"/>
+ 	      <result property="componentId" column="component_id"    jdbcType="DECIMAL"/>
+ 	      <result property="serviceId" column="service_id"    jdbcType="DECIMAL"/>
+ 	      <result property="serInvokeInsName" column="ser_invoke_ins_name"    jdbcType="DECIMAL"/>
+ 	      <result property="createDate" column="create_date"  jdbcType="DATE"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+ 	      <result property="lastestDate" column="lastest_date"    jdbcType="DATE"/>
+ 	      <result property="componentCode" column="component_code"    jdbcType="VARCHAR"/>
+ 	      <result property="logLevel" column="log_level"    jdbcType="VARCHAR"/>
+   </resultMap>	   
+    <typeAlias alias="serviceBean" type="com.ailk.eaap.op2.bo.Service"/>
+ 	<resultMap class="serviceBean" id="serviceMap">
+ 		  <result property="serviceId" column="service_id"   jdbcType="DECIMAL"/>
+ 	      <result property="contractVersionId" column="contract_version_id"    jdbcType="DECIMAL"/>
+ 	      <result property="serviceCode" column="service_code"    jdbcType="DECIMAL"/>
+ 	      <result property="serviceType" column="service_type"    jdbcType="CHAR"/>
+ 	      <result property="serviceVersion" column="service_version"    jdbcType="VARCHAR"/>
+ 	      <result property="createDate" column="create_date"  jdbcType="DATE"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+ 	      <result property="lastestDate" column="lastest_date"    jdbcType="DATE"/>
+ 	      <result property="serviceDesc" column="service_desc"    jdbcType="VARCHAR"/>
+ 	      <result property="isPublished" column="is_published"    jdbcType="CHAR"/>
+ 	      <result property="contractVersion" column="contract_version_id" select="fileExchange.selectContractVersionById"   jdbcType="CHAR"/>
+   </resultMap>	   
+    <typeAlias alias="contractVersionBean" type="com.ailk.eaap.op2.bo.ContractVersion"/>
+ 	<resultMap class="contractVersionBean" id="contractVersionMap">
+ 	      <result property="contractVersionId" column="contract_version_id"    jdbcType="DECIMAL"/>
+ 	      <result property="contractId" column="contract_id"    jdbcType="DECIMAL"/>
+ 	      <result property="version" column="version"    jdbcType="CHAR"/>
+ 	      <result property="createTime" column="create_time"  jdbcType="DATE"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+ 	      <result property="lastestTime" column="lastest_time"    jdbcType="DATE"/>
+ 	      <result property="descriptor" column="descriptor"    jdbcType="VARCHAR"/>
+ 	      <result property="isNeedCheck" column="is_need_check"    jdbcType="CHAR"/>
+ 	      <result property="contract" column="contract_id"  select="fileExchange.selectContractById"  jdbcType="CHAR"/>
+   </resultMap>	   
+    <typeAlias alias="contractBean" type="com.ailk.eaap.op2.bo.Contract"/>
+ 	<resultMap class="contractBean" id="contractMap">
+ 	      <result property="contractId" column="contract_id"    jdbcType="DECIMAL"/>
+ 	      <result property="baseContractId" column="base_contract_id"    jdbcType="DECIMAL"/>
+ 	      <result property="name" column="name"    jdbcType="VARCHAR"/>
+ 	      <result property="code" column="code"    jdbcType="VARCHAR"/>
+ 	      <result property="createTime" column="create_time"  jdbcType="DATE"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+ 	      <result property="lastestTime" column="lastest_time"    jdbcType="DATE"/>
+ 	      <result property="descriptor" column="descriptor"    jdbcType="VARCHAR"/>
+   </resultMap>   
+	<select id="ALL_SQL_CONT_CONVERTER" resultClass="java.util.HashMap"
+		 >
+		select * from cont_converter where state='A'
+	</select>
+	<select id="getFTPUserHome" resultClass="java.util.HashMap"
+		parameterClass="java.util.HashMap"  >
+		select
+		USER_INDENTITY,LOCK_DIR_ID,HOST_CONF_ID,FULL_PATH,BAK_PATH,SER_INVOKE_INS_ID from
+		apache_ftp_user fu where fu.IS_FROZON = 'N' and EXISTS
+		(select 1 from FTP_USER_2_SERVICE_INST fusi where
+		fusi.FTP_USER_ID=fu.ftp_user_id and fusi.state='A')
+	</select>
+	<select id="isExistsSerivce" resultClass="java.lang.String"
+		 >
+		SELECT SERVICE_CODE FROM SERVICE where state='A' and is_published='Y'
+	</select>
+	<select id="getDirById" resultMap="ftpDirBeanMap"  >
+		select DIR_ID,UP_DIR_ID,DIR_PATH,DIR_TYPE,CREATE_TIME,REMOTE_AUTH_ID,DESCRIPTION,URL_PATH,DOWNLOAD_RULE from FTP_DIR where DIR_ID = #dirId#
+	</select> 
+	<select id="getHostById" resultMap="hostBeanMap"  >
+		select HOST_CONF_ID,HOST_NAME,HOST_TYPE_CD,HOST_IP,FILE_SYS_TYPE,FTP_PORT,HOST_DESC,FILE_HOME from HOST_CONF where HOST_CONF_ID = #hostId#
+	</select>
+	<select id="getRemoteAuthById" resultMap="remoteAuthMap"  >
+		select
+		RA.REMOTE_AUTH_ID,RA.HOST_CONF_ID,RA.USER_NAME,RA.USER_PASSWORD,RA.AUTH_FILE,RA.PASSPHRASE,RA.REMARK,RA.CREATE_DT,HC.HOST_IP,HC.HOST_NAME,
+		HC.FTP_PORT,HC.FTP_TYPE
+		from REMOTE_AUTH RA,HOST_CONF HC
+		where RA.REMOTE_AUTH_ID = #remoteAuthId# AND
+		HC.HOST_CONF_ID=RA.HOST_CONF_ID
+	</select>
+	<select id="getDir" resultMap="ftpDirBeanMap"  >
+		select DIR_ID,UP_DIR_ID,DIR_PATH,DIR_TYPE,CREATE_TIME,REMOTE_AUTH_ID,DESCRIPTION,URL_PATH,DOWNLOAD_RULE from FTP_DIR 
+	</select>
+	<select id="getHost" resultMap="hostBeanMap"  >
+		select HOST_CONF_ID,HOST_NAME,HOST_TYPE_CD,HOST_IP,FILE_SYS_TYPE,FTP_PORT,HOST_DESC,FILE_HOME from HOST_CONF 
+	</select>
+	<select id="getRemoteAuth" resultMap="remoteAuthMap"  >
+		select
+		RA.REMOTE_AUTH_ID,RA.HOST_CONF_ID,RA.USER_NAME,RA.USER_PASSWORD,RA.AUTH_FILE,RA.PASSPHRASE,RA.REMARK,RA.CREATE_DT,HC.HOST_IP,HC.HOST_NAME,
+		HC.FTP_PORT,HC.FTP_TYPE
+		from REMOTE_AUTH RA,HOST_CONF HC
+		where HC.HOST_CONF_ID=RA.HOST_CONF_ID
+	</select>
+	<!-- 
+	<select id="getUserUploadDir" resultMap="ftpDirBeanMap"  >
+	select DIR_ID,UP_DIR_ID,DIR_PATH,DIR_TYPE,CREATE_TIME,REMOTE_AUTH_ID,DESCRIPTION,URL_PATH,DOWNLOAD_RULE
+	from FTP_DIR fd where EXISTS
+	( SELECT 1  FROM F_MOVE_2_SER_INST FMD WHERE FMD.SER_INVOKE_INS_ID=#serInvokeInstId# and fd.dir_id=FMD.DIR_ID and FMD.REQ_RSP='0' and state='A')
+	</select>
+	 -->
+	<select id="getUserUploadDir" resultMap="ftpDirBeanSerMap"  >
+	select fd.DIR_ID,UP_DIR_ID,DIR_PATH,DIR_TYPE,CREATE_TIME,REMOTE_AUTH_ID,DESCRIPTION,URL_PATH,DOWNLOAD_RULE,fmd.SER_INVOKE_INS_ID
+	from FTP_DIR fd,F_MOVE_2_SER_INST FMD where fd.dir_id=FMD.DIR_ID and FMD.REQ_RSP='0' and FMD.state='A'
+	</select>
+	<select id="getFileMvRuleBySerInst" resultMap="fileMoveRuleMap"  >
+		SELECT FTP_MOVE_DIRE_ID,MOVE_TYPE,DIR_ID,FTP_DIR_ID,MOVE_RULE,MOVE_EXPR,CREATE_TIME,STATE,STATE_TIME,MOVE_DESC FROM FTP_MOVE_DIRE FMD WHERE EXISTS 
+		(SELECT 1 FROM F_MOVE_2_SER_INST FMSI 
+		WHERE FMSI.SER_INVOKE_INS_ID=#serInvokeInstId# AND FMD.FTP_MOVE_DIRE_ID=FMSI.FTP_MOVE_DIRE_ID  AND FMSI.STATE='A')
+		AND FMD.STATE='A'
+	</select>	
+	<select id="getFileEx2RouteSer" resultClass="java.util.HashMap" >
+		SELECT FE_R_S_ID,FD_NBR,USER_NAME,REMOTE_IP,OPER_TYPE,USER_DIR_ID,FILE_PATH,OPER_PATH,SERV_INVOKE_ID,DEAL_DT,CREATE_DT,REMARK 
+		FROM FILE_EX_2_ROUTE_SER WHERE and SERV_INVOKE_ID=#serInvokeInstId# and DEAL_FLAG='A'
+	</select>
+	<!--
+	<select id="getFileMoveSerInstById" resultMap="fileMoveSerInstMap" parameterClass="java.util.Map">
+		SELECT SER_INVOKE_INS_ID,DIR_ID,IS_BATCH,IS_SRC_RM,REQ_RSP,CREATE_DT,STATE,FILE_FILTER_EXP,SUFFIX_FMT,IS_FILE_CHECK,FILE_ALG,FILE_FORMATS FROM F_MOVE_2_SER_INST
+		WHERE SER_INVOKE_INS_ID=#serInvokeInstId#
+		  <dynamic>
+		  	<isNotNull prepend="AND" property="dirId"> DIR_ID=#dirId#</isNotNull>
+		   	<isNotNull prepend="AND" property="state"> STATE=#state#</isNotNull>
+		    <isNotNull prepend="AND" property="reqOrResp"> REQ_RSP=#reqOrResp#</isNotNull>
+		  </dynamic>
+	</select>	
+	  -->
+	<select id="getFileMoveSerInst" resultMap="fileMoveSerInstMap" parameterClass="java.util.Map">
+		SELECT SER_INVOKE_INS_ID,DIR_ID,IS_BATCH,IS_SRC_RM,REQ_RSP,CREATE_DT,STATE,FILE_FILTER_EXP,SUFFIX_FMT,IS_FILE_CHECK,FILE_ALG,FILE_FORMATS FROM F_MOVE_2_SER_INST
+	</select>
+	<insert id="insertFileExFailDispatch" parameterClass="com.ailk.eaap.o2p.fileExchange.model.FileExFailDispatch">
+	  INSERT INTO FILE_EX_FAIL_DISPATH
+	  (
+	  	FE_R_S_ID,
+	    FD_NBR,
+	   	USER_NAME,
+	    REMOTE_IP,
+	    OPER_TYPE,
+	    USER_DIR_ID,
+	    FILE_PATH,
+	    OPER_PATH,
+	    SERV_INVOKE_ID,
+	    DEAL_FLAG,
+	    DEAL_DT,
+	    CREATE_DT,
+	    RECORD_CD,
+	    REMARK)
+	    values
+	  (
+	    seq_file_ex_fail_dispath.nextval,
+	    #fdNbr#,
+	  	#userName#,
+	  	#remoteIp#,
+	  	#operType#,
+	  	#dirId#,
+	  	#filePath#,
+	  	#operPath#,
+	  	#servInvokeInstId#,
+	  	#dealFlag#,
+	  	#dealDt#,
+	  	#createDt#,
+	  	#recordCd#,
+	  	#remark#)
+	</insert>
+	<insert id="insertFileExFailDispatchHis" parameterClass="com.ailk.eaap.o2p.fileExchange.model.FileExFailDispatch">
+		  INSERT INTO FILE_EX_FAIL_DISPATH_HIS 
+		  (FE_R_S_ID,
+		  	FD_NBR,
+		   	USER_NAME,
+		    REMOTE_IP,
+		    OPER_TYPE,
+		    USER_DIR_ID,
+		    FILE_PATH,
+		    OPER_PATH,
+		    SERV_INVOKE_ID,
+		    DEAL_FLAG,
+		    DEAL_DT,
+		    CREATE_DT,
+		    RECORD_CD,
+		    REMARK)
+		    values
+		  (	#id#,
+		  	#fdNbr#,
+		  	#userName#,
+		  	#remoteIp#,
+		  	#operType#,
+		  	#dirId#,
+		  	#filePath#,
+		  	#operPath#,
+		  	#servInvokeInstId#,
+		  	#dealFlag#,
+		  	#dealDt#,
+		  	#createDt#,
+		  	#recordCd#,
+		  	#remark#)
+	</insert>	
+	<select id="selectFileExFailDispatch" resultMap="fileExFailDispatchMap" parameterClass="com.ailk.eaap.o2p.fileExchange.model.FileExFailDispatch">
+		select FE_R_S_ID,FD_NBR,USER_NAME, REMOTE_IP,OPER_TYPE,USER_DIR_ID,FILE_PATH,OPER_PATH,SERV_INVOKE_ID,DEAL_FLAG,DEAL_DT,CREATE_DT,RECORD_CD,REMARK
+		from FILE_EX_FAIL_DISPATH
+		where 1=1
+		  <dynamic>
+		  	<isNotNull prepend="AND" property="userName"> USER_NAME=#userName#</isNotNull>
+		  	<isNotNull prepend="AND" property="remoteIp"> REMOTE_IP=#remoteIp#</isNotNull>
+		   	<isNotNull prepend="AND" property="fdNbr"> FD_NBR=#fdNbr#</isNotNull>
+		   	<isNotNull prepend="AND" property="servInvokeInstId"> SERV_INVOKE_ID=#servInvokeInstId#</isNotNull>
+		   	<isNotNull prepend="AND" property="filePath"> FILE_PATH=#filePath#</isNotNull>
+		    <isNotNull prepend="AND" property="dealFlag"> DEAL_FLAG=#dealFlag#</isNotNull>
+		  </dynamic>		
+	</select>	
+	<update id="updateFileExFailDispatch"  parameterClass="com.ailk.eaap.o2p.fileExchange.model.FileExFailDispatch">
+	 UPDATE FILE_EX_FAIL_DISPATH 
+		 <dynamic prepend="set">   
+		    <isNotNull prepend="," property="fdNbr">FD_NBR=#fdNbr#</isNotNull>
+		    <isNotNull prepend="," property="dealFlag">DEAL_FLAG=#dealFlag#</isNotNull>
+		    <isNotNull prepend="," property="dealDt">DEAL_DT=#dealDt#</isNotNull>
+		    <isNotNull prepend="," property="remark">REMARK=#remark#</isNotNull>
+		    <isNotNull prepend="," property="operType">OPER_TYPE=#operType#</isNotNull>
+		    <isNotNull prepend="," property="userName">USER_NAME=#userName#</isNotNull>
+		 </dynamic>
+		where FE_R_S_ID = #id#
+	</update>	
+	<update id="delFileExFailDispatch"  >
+	 delete from FILE_EX_FAIL_DISPATH where FE_R_S_ID = #id#
+	</update>		
+	<!-- <select id="getSerInvokeInstById" resultMap="serInvokeInstMap"  >
+		select s.ser_invoke_ins_id,message_flow_id,s.component_id,(select c.code from component c where c.component_id=s.component_id) component_code,service_id,ser_invoke_ins_name,create_date,state,lastest_date from ser_invoke_ins s
+		where s.ser_invoke_ins_id= #serInvokeInstId# and s.state='A'	
+	</select>
+	<select id="selectServiceById" resultMap="serviceMap"  >
+		select service_id,contract_version_id,service_code,service_en_name,service_type,service_version,create_date,state,lastest_date,service_desc,is_published
+		from service where service_id = #serviceId#
+	</select>	
+	<select id="selectContractVersionById" resultMap="contractVersionMap"  >
+		select contract_version_id,contract_id,version,create_time,state,lastest_time,descriptor,is_need_check from contract_version
+		where contract_version_id= #contract_version_id# 
+	</select>	
+	<select id="selectContractById" resultMap="contractMap"  >
+		select contract_id,base_contract_id,name,create_time,state,lastest_time,descriptor,code from contract
+		where contract_id= #contractId# 
+	</select> -->
+	<select id="getSerInvokeInst" resultMap="serInvokeInstMap"  >
+		select s.ser_invoke_ins_id,message_flow_id,s.component_id,(select c.code from component c where c.component_id=s.component_id) component_code,service_id,ser_invoke_ins_name,create_date,state,log_level,lastest_date from ser_invoke_ins s
+		where  s.state='A'	
+	</select>
+	<select id="selectService" resultMap="serviceMap"  >
+		select service_id,contract_version_id,service_code,service_en_name,service_type,service_version,create_date,state,lastest_date,service_desc,is_published
+		from service 
+	</select>	
+	<select id="selectContractVersionById" resultMap="contractVersionMap"  >
+		select contract_version_id,contract_id,version,create_time,state,lastest_time,descriptor,is_need_check from contract_version where contract_version_id= #contract_version_id# 
+	</select>	
+	<select id="selectContractById" resultMap="contractMap"  >
+		select contract_id,base_contract_id,name,create_time,state,lastest_time,descriptor,code from contract where contract_id= #contractId# 
+	</select>
+</sqlMap>

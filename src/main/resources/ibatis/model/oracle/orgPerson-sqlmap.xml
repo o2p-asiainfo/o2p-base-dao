@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="orgPerson">
+
+ 	 <select id="selectOrgPersonSeq" resultClass="java.lang.String">
+		SELECT SEQ_ORG_PERSON.NEXTVAL FROM DUAL
+	 </select>
+	 
+	  <select id="selectOrgPerson" parameterClass="com.ailk.eaap.op2.bo.OrgPerson" resultClass="com.ailk.eaap.op2.bo.OrgPerson">
+	  SELECT B.ORG_PERSON orgPerson,B.ORG_ID orgId,B.SYS_PERSON_ID sysPersonId,B.ORG_ROLE orgRole
+	  FROM ORG O,ORG_PERSON B WHERE O.ORG_ID = B.ORG_ID
+	  <dynamic>
+	    <isNotNull prepend="and" property="orgId"> B.ORG_ID=#orgId#</isNotNull>
+	    <isNotNull prepend="and" property="tenantId"> B.tenant_id=#tenantId#</isNotNull>
+        <isNotNull prepend="and" property="tenantId"> O.tenant_id=#tenantId#</isNotNull>
+	  </dynamic>
+	</select>
+	 
+	  <insert id="insertOrgPerson" parameterClass="com.ailk.eaap.op2.bo.OrgPerson">
+		  insert into ORG_PERSON
+		  (  
+		  <dynamic >
+		    <isNotNull property="orgPerson">ORG_PERSON</isNotNull>
+		    <isNotNull prepend="," property="orgId">ORG_ID</isNotNull>
+		    <isNotNull prepend="," property="sysPersonId">SYS_PERSON_ID</isNotNull>
+		    <isNotNull prepend="," property="orgRole">ORG_ROLE</isNotNull>
+		    <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+		  </dynamic>
+		  )
+		  values
+		  (
+		   <dynamic >
+		    <isNotNull property="orgPerson">#orgPerson#</isNotNull>
+		    <isNotNull prepend="," property="orgId">#orgId#</isNotNull>
+		    <isNotNull prepend="," property="sysPersonId">#sysPersonId#</isNotNull>
+		    <isNotNull prepend="," property="orgRole">#orgRole#</isNotNull>
+		    <isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+		   </dynamic>
+		  )
+	</insert>
+</sqlMap>

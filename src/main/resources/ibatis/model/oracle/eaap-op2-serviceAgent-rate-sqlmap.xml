@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="eaap-op2-serviceAgent-rate">
+
+	<!-- 查询销售品数量 -->
+    <select id="getProductNum" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+        SELECT COUNT(1) PRODUCT_NUM 
+		FROM PROD_OFFER T,PROD_OFFER_CHANNEL TT,CHANNEL TTT
+		WHERE T.EXT_PROD_OFFER_ID = #extProdOfferId#
+		AND T.PROD_OFFER_ID = TT.PROD_OFFER_ID
+		AND TT.CHANNEL_ID = TTT.CHANNEL_ID
+		AND TTT.ORG_ID = #orgId#
+    </select>
+	
+</sqlMap>

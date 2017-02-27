@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="prodOfferAttr">
+
+	<!-- 获取销售品属性表序列 -->
+ 	 <select id="selectProdOfferAttrSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PROD_OFFER_ATTR.NEXTVAL FROM DUAL
+	 </select>
+	 
+	 <insert id="insertProdOfferAttr" parameterClass="com.ailk.eaap.op2.bo.ProdOfferAttr">
+	  INSERT INTO PROD_OFFER_ATTR
+	  (STATUS_DATE,CREATE_DATE
+	  <dynamic>
+	 	<isNotNull prepend="," property="prodOfferAttrId">PROD_OFFER_ATTR_ID</isNotNull>
+	    <isNotNull prepend="," property="prodOfferId">PROD_OFFER_ID</isNotNull>
+	    <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID</isNotNull>
+	    <isNotNull prepend="," property="defaultValue">DEFAULT_VALUE</isNotNull>
+	    <isNotNull prepend="," property="minValue">MIN_VALUE</isNotNull>
+	    <isNotNull prepend="," property="maxValue">MAX_VALUE</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES
+	  (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+	  <dynamic>
+	  	<isNotNull prepend="," property="prodOfferAttrId">#prodOfferAttrId#</isNotNull>
+	    <isNotNull prepend="," property="prodOfferId">#prodOfferId#</isNotNull>
+	    <isNotNull prepend="," property="attrSpecId">#attrSpecId#</isNotNull>
+	    <isNotNull prepend="," property="defaultValue">#defaultValue#</isNotNull>
+	    <isNotNull prepend="," property="minValue">#minValue#</isNotNull>
+	    <isNotNull prepend="," property="maxValue">#maxValue#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	  </dynamic>
+	  )
+</insert>
+
+	<update id="updateProdOfferAttr" parameterClass="com.ailk.eaap.op2.bo.ProdOfferAttr">
+		  UPDATE PROD_OFFER_ATTR  
+		  <dynamic prepend="SET">
+		    <isNotNull prepend="," property="prodOfferId">PROD_OFFER_ID=#prodOfferId#</isNotNull>
+		    <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID=#attrSpecId#</isNotNull>
+		    <isNotNull prepend="," property="defaultValue">DEFAULT_VALUE=#defaultValue#</isNotNull>
+		    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+		    <isNotNull prepend="," property="minValue">MIN_VALUE=#minValue#</isNotNull>
+		    <isNotNull prepend="," property="maxValue">MAX_VALUE=#maxValue#</isNotNull>
+		    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+		  </dynamic>
+		   , STATUS_DATE = SYS_EXTRACT_UTC(current_timestamp)+0 
+		  <dynamic prepend="WHERE">
+		    <isNotNull prepend="AND" property="prodOfferAttrId"> PROD_OFFER_ATTR_ID=#prodOfferAttrId#</isNotNull>
+		  </dynamic>
+	</update>
+	
+	<select id="selectProdOfferAttr" resultClass="java.util.HashMap" parameterClass="java.lang.String">
+	       SELECT POA.PROD_OFFER_ID prodOfferId,
+		          POA.DEFAULT_VALUE defaultValue,
+		          ASPC.ATTR_SPEC_NAME attrSpecName,
+		          ASPC.ATTR_SPEC_CODE attrSpecCode,
+		          ASPC.ATTR_SPEC_DESC attrSpecDesc
+		     FROM PROD_OFFER_ATTR POA
+		LEFT JOIN ATTR_SPEC ASPC
+       		   ON ASPC.ATTR_SPEC_ID = POA.ATTR_SPEC_ID
+       	    WHERE POA.PROD_OFFER_ID=#prodOfferId#
+	</select>
+</sqlMap>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="app_type">
+     <select id="selectSysdate" resultClass="java.lang.String">
+		   select name from APP_TYPE where APP_TYPE_CD = '1'
+	 </select>
+     
+        <delete id="deleteAppType" parameterClass="com.ailk.eaap.op2.bo.AppType">
+		  delete APP_TYPE
+		  <dynamic prepend="where">
+		    <isNotNull prepend="and" property="appTypeCd">APP_TYPE_CD=#appTypeCd#</isNotNull>
+		  </dynamic>
+		</delete>
+		<update id="updateAppType" parameterClass="com.ailk.eaap.op2.bo.AppType">
+		  update APP_TYPE
+		  <dynamic prepend="set">
+		    <isNotNull prepend="," property="appTypeName">APP_TYPE_NAME=#appTypeName#</isNotNull>
+		    <isNotNull prepend="," property="appTypeDesc">APP_TYPE_DESC=#appTypeDesc#</isNotNull>
+		  </dynamic>
+		  <dynamic prepend="where">
+		    <isNotNull prepend="and" property="appTypeCd">APP_TYPE_CD=#appTypeCd#</isNotNull>
+		  </dynamic>
+		</update>
+		<insert id="insertAppType" parameterClass="com.ailk.eaap.op2.bo.AppType">
+		  insert into APP_TYPE
+		  <dynamic open="(" close=")">
+		    <isNotNull prepend="," property="appTypeName">APP_TYPE_NAME</isNotNull>
+		    <isNotNull prepend="," property="appTypeDesc">APP_TYPE_DESC</isNotNull>
+		  </dynamic>
+		  values
+		  <dynamic open="(" close=")">
+		    <isNotNull prepend="," property="appTypeName">#appTypeName#</isNotNull>
+		    <isNotNull prepend="," property="appTypeDesc">#appTypeDesc#</isNotNull>
+		  </dynamic>
+		</insert>
+		<select id="selectAppType" parameterClass="com.ailk.eaap.op2.bo.AppType" resultClass="com.ailk.eaap.op2.bo.AppType">
+		  select APP_TYPE_CD appTypeCd , APP_TYPE_NAME appTypeName , APP_TYPE_DESC appTypeDesc from APP_TYPE
+		  <dynamic prepend="where">
+		    <isNotNull prepend="and" property="appTypeCd"> APP_TYPE_CD=#appTypeCd#</isNotNull>
+		    <isNotNull prepend="and" property="appTypeName"> APP_TYPE_NAME=#appTypeName#</isNotNull>
+		    <isNotNull prepend="and" property="appTypeDesc"> APP_TYPE_DESC=#appTypeDesc#</isNotNull>
+		  </dynamic>
+		</select>
+
+		<select id="selectAppTypeById" parameterClass="com.ailk.eaap.op2.bo.AppType" resultClass="com.ailk.eaap.op2.bo.AppType">
+		  select APP_TYPE_CD appTypeCd , APP_TYPE_NAME appTypeName , APP_TYPE_DESC appTypeDesc from APP_TYPE   
+		   <dynamic prepend="where">
+		    <isNotNull prepend="and" property="appTypeCd"> APP_TYPE_CD=#appTypeCd#</isNotNull>
+		  </dynamic>
+		</select>
+</sqlMap>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="applyInfoDetail">
+	<insert id="insertApplyInfoDetail" parameterClass="com.ailk.eaap.op2.bo.ApplyInfoDetail">
+	 INSERT INTO APPLY_INFO_DETAIL
+	    (APPLY_DETAIL_ID
+	  <dynamic>
+	    <isNotNull prepend="," property="applyId">APPLY_ID</isNotNull>
+	    <isNotNull prepend="," property="resTypeId">RES_TYPE_ID</isNotNull>
+	    <isNotNull prepend="," property="priovince">PRIOVINCE</isNotNull>
+	    <isNotNull prepend="," property="city">CITY</isNotNull>
+	    <isNotNull prepend="," property="amount">AMOUNT</isNotNull>
+	    <isNotNull prepend="," property="isContinuous">IS_CONTINUOUS</isNotNull>
+	    <isNotNull prepend="," property="numberSegment">NUMBER_SEGMENT</isNotNull>
+	    <isNotNull prepend="," property="resultResTypeId">RESULT_RES_TYPE_ID</isNotNull>
+	    <isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES(SEQ_APPLY_INFO_DETAIL.NEXTVAL
+	  <dynamic>
+	    <isNotNull prepend="," property="applyId">#applyId#</isNotNull>
+	    <isNotNull prepend="," property="resTypeId">#resTypeId#</isNotNull>
+	    <isNotNull prepend="," property="priovince">#priovince#</isNotNull>
+	    <isNotNull prepend="," property="city">#city#</isNotNull>
+	    <isNotNull prepend="," property="amount">#amount#</isNotNull>
+	    <isNotNull prepend="," property="isContinuous">#isContinuous#</isNotNull>
+	    <isNotNull prepend="," property="numberSegment">#numberSegment#</isNotNull>
+	    <isNotNull prepend="," property="resultResTypeId">#resultResTypeId#</isNotNull>
+	    <isNotNull prepend="," property="tenantId"> tenant_id=#tenantId#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+	<update id="editApplyInfoDetail" parameterClass="com.ailk.eaap.op2.bo.ApplyInfoDetail">
+		  UPDATE APPLY_INFO_DETAIL  
+		  <dynamic prepend="SET">
+		    <isNotNull prepend="," property="resTypeId">RESULT_RES_TYPE_ID=#resTypeId#</isNotNull>
+		    <isNotNull prepend="," property="amount">RESULT_AMOUNT=#amount#</isNotNull>
+		    <isNotNull prepend="," property="priovince">PRIOVINCE=#priovince#</isNotNull>
+		    <isNotNull prepend="," property="city">CITY=#city#</isNotNull>
+		  </dynamic>
+		  <dynamic prepend="WHERE">
+		    <isNotNull prepend="AND" property="applyDetailId"> APPLY_DETAIL_ID=#applyDetailId#</isNotNull>
+		    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		  </dynamic>
+	</update>
+	
+	<select id="selectApplyInfoDetail" parameterClass="com.ailk.eaap.op2.bo.ApplyInfoDetail" resultClass="com.ailk.eaap.op2.bo.ApplyInfoDetail">
+		SELECT RES_TYPE_ID resultResTypeId,AMOUNT resultAmount FROM APPLY_INFO_DETAIL
+		<dynamic prepend="where">
+		    <isNotNull prepend="and" property="applyDetailId"> APPLY_DETAIL_ID=#applyDetailId#</isNotNull>
+		    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId#</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap>

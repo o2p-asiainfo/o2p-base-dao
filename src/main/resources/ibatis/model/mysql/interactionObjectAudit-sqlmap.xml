@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="interObjAudit">
+
+  <insert id="insertInterObjAudit" parameterClass="com.ailk.eaap.op2.bo.InterObjectAudit">
+  <selectKey resultClass="java.math.BigDecimal" keyProperty="interObjId">
+		  SELECT nextval('SEQ_INTER_OBJ_AUDIT') from dual
+    </selectKey>
+  insert into INTER_OBJ_AUDIT 
+  (STATUS,STATUS_DATE,CREATE_DATE 
+  <dynamic>
+    <isNotNull prepend=","  property="interObjId">INTER_OBJ_ID</isNotNull>
+    <isNotNull prepend=","  property="objType">OBJ_TYPE</isNotNull>
+    <isNotNull prepend="," property="objId">OBJ_ID</isNotNull>
+    <isNotNull prepend="," property="checkResult">CHECK_RESULT</isNotNull>
+    <isNotNull prepend="," property="remark">REMARK</isNotNull>
+    <isNotNull prepend="," property="opId">OP_ID</isNotNull>
+    <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+  </dynamic>
+  )
+  values
+  ('A' ,utc_timestamp(),utc_timestamp()
+   <dynamic >
+    <isNotNull prepend="," property="interObjId">#interObjId#</isNotNull>
+    <isNotNull prepend="," property="objType">#objType#</isNotNull>
+    <isNotNull prepend="," property="objId">#objId#</isNotNull>
+    <isNotNull prepend="," property="checkResult">#checkResult#</isNotNull>
+    <isNotNull prepend="," property="remark">#remark#</isNotNull>
+    <isNotNull prepend="," property="opId">#opId#</isNotNull>
+    <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+   </dynamic>
+  )
+</insert> 
+
+<select id="selectInterObjAudit" parameterClass="com.ailk.eaap.op2.bo.InterObjectAudit" resultClass="com.ailk.eaap.op2.bo.InterObjectAudit">
+   select INTER_OBJ_ID interObjId,
+   		  OBJ_TYPE objType,
+          OBJ_ID objId,
+          CHECK_RESULT checkResult,
+          REMARK remark,
+          OP_ID opId,
+          STATUS status,
+          date_format(STATUS_DATE,'%Y-%c-%d') statusDateFormat,
+          date_format(CREATE_DATE,'%Y-%c-%d') formatCreateDate
+     from INTER_OBJ_AUDIT where OBJ_TYPE=#objType# and OBJ_ID=#objId# and STATUS=#status#
+     and tenant_id=#tenantId#
+      order by STATUS_DATE desc
+</select>
+
+<update id="updateInterObjAudit" parameterClass="com.ailk.eaap.op2.bo.InterObjectAudit">
+    update INTER_OBJ_AUDIT SET STATUS_DATE=utc_timestamp()
+     <dynamic>
+	    <isNotNull prepend="," property="status">STATUS=#status#</isNotNull>
+	    <isNotNull prepend="," property="opId">OP_ID=#opId#</isNotNull>
+	    <isNotNull prepend="," property="checkResult">CHECK_RESULT=#checkResult#</isNotNull>
+	    <isNotNull prepend="," property="remark">REMARK=#remark#</isNotNull>
+	  </dynamic>
+	    WHERE OBJ_TYPE=#objType# and OBJ_ID=#objId# and STATUS='A'
+	    and tenant_id=#tenantId#
+</update>
+	
+</sqlMap>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="service">
+<!-- 选择服务控件 分页列表 -->
+<select id="queryAllServiceList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+ SELECT * FROM (SELECT ROW_NUMBER() OVER( ORDER BY SERVICE_ID ) rn , newtab.* FROM (
+  SELECT SERVICE_ID SERVICE_ID , SERVICE_CN_NAME SERVICE_CN_NAME , SERVICE_EN_NAME SERVICE_EN_NAME , SERVICE_CODE SERVICE_CODE, 
+         SERVICE_TYPE SERVICE_TYPE, SERVICE_VERSION SERVICE_VERSION , CREATE_DATE CREATE_DATE, STATE STATE,LASTEST_DATE LASTEST_DATE,
+         SERVICE_DESC  SERVICE_DESC, IS_PUBLISHED IS_PUBLISHED, SERVICE_PRIORITY SERVICE_PRIORITY,SERVICE_TIMEOUT SERVICE_TIMEOUT,DEFAULT_MSG_FLOW DEFAULT_MSG_FLOW,AUDIT_FLOW_ID AUDIT_FLOW_ID FROM SERVICE
+   WHERE STATE = 'A'
+ <dynamic>
+   <isNotNull prepend="and" property="serviceId"> SERVICE_ID IN ($serviceId$)</isNotNull>
+ </dynamic>
+   ) newtab ) WHERE rn BETWEEN #pro# AND #end# 
+</select>
+
+<!-- 总记录数 -->
+<select id="queryAllServiceCount" parameterClass="java.util.HashMap"  resultClass="java.util.HashMap">
+	  SELECT  COUNT(1) ALLNUM FROM SERVICE WHERE STATE = 'A'
+	<dynamic>
+		<isNotNull prepend="and" property="serviceId">  SERVICE_ID IN ($serviceId$)</isNotNull>
+	</dynamic>
+</select>
+
+<!-- 服务自动补全专用 -->
+<select id="queryService" parameterClass="com.ailk.eaap.op2.bo.Service" resultClass="com.ailk.eaap.op2.bo.Service">
+ 	 SELECT  SERVICE_ID serviceId, SERVICE_CN_NAME serviceCnName FROM SERVICE WHERE STATE = 'A'
+ <dynamic>
+    <isNotNull prepend="and" property="serviceCnName"> SERVICE_CN_NAME LIKE concat('%',#serviceCnName#,'%') </isNotNull>
+  </dynamic>
+</select>
+
+<select id="selectService" parameterClass="com.ailk.eaap.op2.bo.Service" resultClass="com.ailk.eaap.op2.bo.Service">
+ 	 SELECT  SERVICE_ID serviceId,CONTRACT_VERSION_ID contractVersionId, SERVICE_CN_NAME serviceCnName,SERVICE_EN_NAME serviceEnName,SERVICE_CODE serviceCode,SERVICE_TYPE serviceType,SERVICE_VERSION serviceVersion,DEFAULT_MSG_FLOW defaultMsgFlow,
+ 	 		CREATE_DATE createDate,STATE state,LASTEST_DATE lastestDate,SERVICE_DESC serviceDesc,IS_PUBLISHED isPublished,SERVICE_PRIORITY servicePriority,SERVICE_TIMEOUT serviceTimeout 
+ 	  FROM SERVICE WHERE STATE = 'A'
+ <dynamic>
+    <isNotNull prepend="and" property="serviceId"> SERVICE_ID = #serviceId# </isNotNull>
+  </dynamic>
+</select>
+</sqlMap>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="ctgLogs">
+	
+	<!-- 获取CTG_LOGS序列 -->
+	<select id="getSequenceValue" resultClass="java.lang.String">
+		select SEQ_CTG_LOGS.nextval from dual
+	</select>
+	
+	<!-- 插入CTG_LOGS对象 -->
+	<insert id="insertCtgLogs" parameterClass="com.ailk.eaap.op2.bo.CtgLogs">
+	  insert into CTG_LOGS$tabSuffix$
+	  (CREATE_DATE
+	  <dynamic>
+	  	<isNotNull prepend="," property="logsSeq">LOGS_SEQ</isNotNull>
+	    <isNotNull prepend="," property="contractInteractionId">CONTRACT_INTERACTION_ID</isNotNull>
+	    <isNotNull prepend="," property="errCode">ERR_CODE</isNotNull>
+	    <isNotNull prepend="," property="funName">FUN_NAME</isNotNull>
+	    <isNotNull prepend="," property="errorMsg">ERROR_MSG</isNotNull>
+	    <isNotNull prepend="," property="descriptor">DESCRIPTOR</isNotNull>
+	    <isNotNull prepend="," property="status">STATUS</isNotNull>
+	  </dynamic>
+	  )
+	  values
+	  (sysdate
+	  	<isNotNull prepend="," property="logsSeq">SEQ_CTG_LOGS.nextval</isNotNull>
+	    <isNotNull prepend="," property="contractInteractionId">#contractInteractionId#</isNotNull>
+	    <isNotNull prepend="," property="errCode">#errCode#</isNotNull>
+	    <isNotNull prepend="," property="funName">#funName#</isNotNull>
+	    <isNotNull prepend="," property="errorMsg">#errorMsg#</isNotNull>
+	    <isNotNull prepend="," property="descriptor">#descriptor#</isNotNull>
+	    <isNotNull prepend="," property="status">#status#</isNotNull>
+	  )
+	</insert>
+</sqlMap>

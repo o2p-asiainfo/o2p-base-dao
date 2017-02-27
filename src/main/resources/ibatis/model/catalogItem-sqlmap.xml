@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="catalogItem">
+	<select id="selectCatalogItem" parameterClass="com.ailk.eaap.op2.bo.CatalogItem" resultClass="com.ailk.eaap.op2.bo.CatalogItem">
+	    SELECT CATALOG_ITEM_ID catalogItemid,
+		       UP_CATALOG_ITEM_ID upCatalogItemId,
+		       CATALOG_ITEM_NAME catalogItemName,
+		       CATALOG_ID catalogId,
+		       CATALOG_ITEM_DESC catalogItemDesc,
+		       CATALOG_ITEM_TYPE catalogItemType,
+		       CATALOG_ITEM_CD catalogItemCd,
+		       CATALOG_LEVEL catalogLevel,
+		       SEQ_ID seqId,
+		       ICON_URL iconUrl,
+		       USE_STATUS useStatus,
+		       PATH_NAME pathName,
+		       'closed' state,
+		       '0' isNode
+		  FROM CATALOG_ITEM
+		 WHERE (UP_CATALOG_ITEM_ID is null or UP_CATALOG_ITEM_ID = '')
+		  <dynamic>
+		    <isNotNull prepend="AND" property="catalogId"> CATALOG_ID=#catalogId#</isNotNull>
+		  </dynamic>
+	</select>
+	
+	<select id="selectChildCatalogItem" parameterClass="com.ailk.eaap.op2.bo.CatalogItem" resultClass="com.ailk.eaap.op2.bo.CatalogItem">
+	    SELECT CATALOG_ITEM_ID catalogItemid,
+		       gi.UP_CATALOG_ITEM_ID upCatalogItemId,
+		       CATALOG_ITEM_NAME catalogItemName,
+		       CATALOG_ID catalogId,
+		       CATALOG_ITEM_DESC catalogItemDesc,
+		       CATALOG_ITEM_TYPE catalogItemType,
+		       CATALOG_ITEM_CD catalogItemCd,
+		       CATALOG_LEVEL catalogLevel,
+		       SEQ_ID seqId,
+		       ICON_URL iconUrl,
+		       USE_STATUS useStatus,
+		       PATH_NAME pathName,
+		       decode(childnode.num,null,'','closed') state,
+		       decode(childnode.num,null,'1','0') isNode
+	      FROM CATALOG_ITEM gi
+	 LEFT JOIN (SELECT UP_CATALOG_ITEM_ID,count(*) num FROM CATALOG_ITEM GROUP BY UP_CATALOG_ITEM_ID) childnode
+	        ON childnode.UP_CATALOG_ITEM_ID = gi.CATALOG_ITEM_ID
+		  <dynamic prepend="WHERE">
+		    <isNotNull prepend="AND" property="upCatalogItemId"> gi.UP_CATALOG_ITEM_ID=#upCatalogItemId#</isNotNull>
+		  </dynamic>
+	</select>
+	
+</sqlMap>

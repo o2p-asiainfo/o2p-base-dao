@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="productServiceRel">
+	 
+	 <insert id="insertProductService" parameterClass="com.ailk.eaap.op2.bo.ProductServiceRel">
+  	INSERT INTO PRODUCT_SERVICE_REL 
+  	  (PRODUCT_ID,SERVICE_ID,STATUS,TENANT_ID)
+	  VALUES
+	  (#productId#,#serviceId#,#status#,#tenantId#)
+	</insert>
+	
+	<update id="updateProductService" parameterClass="com.ailk.eaap.op2.bo.ProductServiceRel">
+  	UPDATE PRODUCT_SERVICE_REL 
+	  <dynamic prepend="SET">
+	    <isNotNull prepend="," property="status">STATUS=#status#</isNotNull>
+	    <isNotNull prepend="," property="serviceId">SERVICE_ID=#serviceId#</isNotNull>
+	  </dynamic>
+	  WHERE PRODUCT_ID=#productId#
+	</update>
+	
+	<delete id="delProductService" parameterClass="java.lang.String">
+		delete from PRODUCT_SERVICE_REL where PRODUCT_ID=#productId#
+	</delete>
+	
+	<select id="queryProductService" parameterClass="com.ailk.eaap.op2.bo.ProductServiceRel" resultClass="com.ailk.eaap.op2.bo.ProductServiceRel">
+	SELECT PRODUCT_ID productId,
+		   SERVICE_ID serviceId,
+		   STATUS status 
+	FROM PRODUCT_SERVICE_REL 
+	<dynamic prepend="WHERE">
+	    <isNotNull prepend="and" property="productId"> PRODUCT_ID=#productId# </isNotNull>
+	    <isNotNull prepend="and" property="serviceId"> SERVICE_ID=#serviceId# </isNotNull>
+	    <isNotNull prepend="and" property="status"> STATUS=#status# </isNotNull>
+	    <isNotNull prepend="and" property="tenantId"> tenant_id=#tenantId# </isNotNull>
+	  </dynamic>
+	</select>
+</sqlMap>

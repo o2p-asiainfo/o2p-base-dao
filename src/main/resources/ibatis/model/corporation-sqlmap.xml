@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="corporation">
+
+<select id="selectCorporation" parameterClass="com.ailk.eaap.op2.bo.Corporation" resultClass="com.ailk.eaap.op2.bo.Corporation">
+	  SELECT CORPORATION_ID corporationId,CORPORATION_TYPE corporationType,CORPORATION_NATURE corporationNature,TAX_CODE taxCode,
+	  	REGISTERED_CAPITAL registeredCapital,REGISTERED_TIME registeredTime,REGISTERED_ADDRESS registeredAddress,UPDATE_TIME updateTime
+	  FROM CORPORATION WHERE 1=1
+	  <dynamic>
+	    <isNotNull prepend="and" property="corporationId"> CORPORATION_ID=#corporationId#</isNotNull>
+	  </dynamic>
+</select>
+
+<insert id="insertCorporation" parameterClass="com.ailk.eaap.op2.bo.Corporation">
+  insert into CORPORATION
+  (UPDATE_TIME  
+  <dynamic >
+    <isNotNull prepend=","  property="corporationId">CORPORATION_ID</isNotNull>
+    <isNotNull prepend="," property="corporationType">CORPORATION_TYPE</isNotNull>
+    <isNotNull prepend="," property="corporationNature">CORPORATION_NATURE</isNotNull>
+    <isNotNull prepend="," property="taxCode">TAX_CODE</isNotNull>
+    <isNotNull prepend="," property="registeredCapital">REGISTERED_CAPITAL</isNotNull>
+    <isNotNull prepend="," property="registeredAddress">REGISTERED_ADDRESS</isNotNull>
+    <isNotNull prepend="," property="registeredTime">REGISTERED_TIME</isNotNull>
+  </dynamic>
+  )
+  values
+  (sysdate
+   <dynamic >
+    <isNotNull prepend="," property="corporationId">#corporationId#</isNotNull>
+    <isNotNull prepend="," property="corporationType">#corporationType#</isNotNull>
+    <isNotNull prepend="," property="corporationNature">#corporationNature#</isNotNull>
+    <isNotNull prepend="," property="taxCode">#taxCode#</isNotNull>
+    <isNotNull prepend="," property="registeredCapital">#registeredCapital#</isNotNull>
+    <isNotNull prepend="," property="registeredAddress">#registeredAddress#</isNotNull>
+    <isNotNull prepend="," property="registeredTime">#registeredTime#</isNotNull>
+   </dynamic>
+  )
+</insert>
+</sqlMap>

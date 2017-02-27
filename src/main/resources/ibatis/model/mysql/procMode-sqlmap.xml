@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="procMode">
+	<select id="selectProcMode" parameterClass="com.ailk.eaap.op2.bo.ProcMode" resultClass="com.ailk.eaap.op2.bo.ProcMode">
+	  SELECT 
+	  	PROC_MODE_ID procModeId,
+	  	PROC_MODE_NAME procModeName,
+	  	PROC_MODE_CODE procModeCode,
+	  	PROC_MODE_DESC procModeDesc,
+	  	PROC_MODE_TYPE procModeType,
+	  	VERSION_NUMBER versionNumber,
+	  	CREATE_DATE createDate,
+	  	STATUS_CD statusCd,
+	  	STATUS_DATE statusDate,
+	  	FORMAT format,
+	  	IMPL_SYS_ID implSysId
+	   FROM PROC_MODE
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="procModeId"> PROC_MODE_ID=#procModeId#</isNotNull>
+	    <isNotNull prepend="AND" property="procModeName"> PROC_MODE_NAME=#procModeName#</isNotNull>
+	    <isNotNull prepend="AND" property="procModeCode"> PROC_MODE_CODE=#procModeCode#</isNotNull>
+	    <isNotNull prepend="AND" property="procModeDesc"> PROC_MODE_DESC=#procModeDesc#</isNotNull>
+	    <isNotNull prepend="AND" property="procModeType"> PROC_MODE_TYPE=#procModeType#</isNotNull>
+	    <isNotNull prepend="AND" property="versionNumber"> VERSION_NUMBER=#versionNumber#</isNotNull>
+	    <isNotNull prepend="AND" property="createDate"> CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="AND" property="statusCd"> STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="AND" property="statusDate"> STATUS_DATE=#statusDate#</isNotNull>
+	    <isNotNull prepend="AND" property="format"> FORMAT=#format#</isNotNull>
+	    <isNotNull prepend="AND" property="implSysId"> IMPL_SYS_ID=#implSysId#</isNotNull>
+	    <isNotNull prepend="AND" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	<!-- 统计总记录数 -->
+	<select id="selectProcModeNum" parameterClass="java.util.HashMap" resultClass="Integer">
+		SELECT COUNT(*) FROM PROC_MODE
+		<dynamic  prepend="WHERE">
+			<isNotEmpty prepend="AND" property="procModeId"> PROC_MODE_ID LIKE '%$procModeId$%'</isNotEmpty>
+			<isNotEmpty prepend="AND" property="procModeName"> PROC_MODE_NAME LIKE '%$procModeName$%'</isNotEmpty>
+			<isNotEmpty prepend="AND" property="statusCd"> STATUS_CD=#statusCd#</isNotEmpty>
+			<isNotNull prepend="AND" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+		</dynamic>		
+	</select>	
+	
+	<select id="selectProcModeInfo" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.ProcMode">	
+		SELECT *
+		  FROM (SELECT row_.*
+		          FROM  (
+					 SELECT 
+					  	PROC_MODE_ID procModeId,
+					  	PROC_MODE_NAME procModeName,
+					  	PROC_MODE_CODE procModeCode,
+					  	PROC_MODE_DESC procModeDesc,
+					  	PROC_MODE_TYPE procModeType,
+					  	VERSION_NUMBER versionNumber,
+					  	CREATE_DATE createDate,
+					  	STATUS_CD statusCd,
+					  	STATUS_DATE statusDate,
+					  	FORMAT format,
+					  	IMPL_SYS_ID implSysId
+					 FROM PROC_MODE
+					<dynamic  prepend="WHERE">
+						<isNotEmpty prepend="AND" property="procModeId"> PROC_MODE_ID LIKE '%$procModeId$%'</isNotEmpty>
+						<isNotEmpty prepend="AND" property="procModeName"> PROC_MODE_NAME LIKE '%$procModeName$%'</isNotEmpty>
+						<isNotEmpty prepend="AND" property="statusCd"> STATUS_CD=#statusCd#</isNotEmpty>
+						<isNotEmpty prepend="AND" property="tenantId"> TENANT_ID = #tenantId#</isNotEmpty>
+					</dynamic>
+					ORDER BY PROC_MODE_ID ASC          
+		          ) row_
+		         ) as a 
+	   limit #skipRow#,#maxResult#
+	</select> 
+</sqlMap>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="sysPerson">
+
+ 	 <select id="selectSysPersonSeq" resultClass="java.lang.String">
+			SELECT SEQ_SYS_PERSON.NEXTVAL FROM DUAL 
+	 </select>
+	 
+	 <select id="selectSysPerson" parameterClass="com.ailk.eaap.op2.bo.SysPerson" resultClass="com.ailk.eaap.op2.bo.SysPerson">
+	 	SELECT SYS_PERSON_ID sysPersonId,NAME name,MOBILE mobile,PASSWORD password,LAST_1_PWD last1Pwd,EMAIL email,
+	 		SYS_ID_TYPE_ID sysIdTypeId,SYS_CARD_TYPE_ID sysCardTypeId,SYS_AREA_ID sysAreaId,CARD_NUMBER cardNumber,
+	 		SYS_USER_TYPE sysUserType,CREATE_DATE createDate,SYS_STATUS_ID sysStatusId,STATE_DATE stateDate,PWD_LAST_UP_TIME pwdLastUpTime,PWD_EFF_TIME pwdEffTime
+	 	FROM OP2_SM.SYS_PERSON
+	 	<dynamic prepend="WHERE">
+	      <isNotNull prepend="and" property="sysPersonId"> SYS_PERSON_ID=#sysPersonId#</isNotNull>
+	    </dynamic>
+	 </select>
+	 
+	 <insert id="insertSysPerson" parameterClass="com.ailk.eaap.op2.bo.SysPerson">
+		  insert into SYS_PERSON
+		  (  CREATE_DATE,SYS_STATUS_ID,STATE_DATE,PWD_LAST_UP_TIME,PWD_EFF_TIME
+		  <dynamic >
+		    <isNotNull prepend="," property="sysPersonId">SYS_PERSON_ID</isNotNull>
+		    <isNotNull prepend="," property="name">NAME</isNotNull>
+		    <isNotNull prepend="," property="mobile">MOBILE</isNotNull>
+		    <isNotNull prepend="," property="password">PASSWORD</isNotNull>
+		    <isNotNull prepend="," property="last1Pwd">LAST_1_PWD</isNotNull>
+		    <isNotNull prepend="," property="last2Pwd">LAST_2_PWD</isNotNull>
+		    <isNotNull prepend="," property="email">EMAIL</isNotNull>
+		    <isNotNull prepend="," property="sysIdTypeId">SYS_ID_TYPE_ID</isNotNull>
+		    <isNotNull prepend="," property="sysCardTypeId">SYS_CARD_TYPE_ID</isNotNull>
+		    <isNotNull prepend="," property="sysAreaId">SYS_AREA_ID</isNotNull>
+		    <isNotNull prepend="," property="cardNumber">CARD_NUMBER</isNotNull>
+		    <isNotNull prepend="," property="sysUserType">SYS_USER_TYPE</isNotNull>
+		  </dynamic>
+		  )
+		  values
+		  ( SYS_EXTRACT_UTC(current_timestamp)+0,'1',SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+		   <dynamic >
+		    <isNotNull prepend="," property="sysPersonId">#sysPersonId#</isNotNull>
+		    <isNotNull prepend="," property="name">#name#</isNotNull>
+		    <isNotNull prepend="," property="mobile">#mobile#</isNotNull>
+		    <isNotNull prepend="," property="password">#password#</isNotNull>
+		    <isNotNull prepend="," property="last1Pwd">#last1Pwd#</isNotNull>
+		    <isNotNull prepend="," property="last2Pwd">#last2Pwd#</isNotNull>
+		    <isNotNull prepend="," property="email">#email#</isNotNull>
+		    <isNotNull prepend="," property="sysIdTypeId">#sysIdTypeId#</isNotNull>
+		    <isNotNull prepend="," property="sysCardTypeId">#sysCardTypeId#</isNotNull>
+		    <isNotNull prepend="," property="sysAreaId">#sysAreaId#</isNotNull>
+		    <isNotNull prepend="," property="cardNumber">#cardNumber#</isNotNull>
+		    <isNotNull prepend="," property="sysUserType">#sysUserType#</isNotNull>
+		   </dynamic>
+		  )
+	</insert>
+</sqlMap>

@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="transformerRule">
+    <typeAlias alias="contractVersionBean" type="com.ailk.eaap.op2.bo.ContractVersion"/>
+ 	<resultMap class="contractVersionBean" id="contractVersionMap">
+ 	      <result property="contractVersionId" column="contract_version_id"    jdbcType="DECIMAL"/>
+ 	      <result property="contractId" column="contract_id"    jdbcType="DECIMAL"/>
+ 	      <result property="version" column="version"    jdbcType="CHAR"/>
+ 	      <result property="createTime" column="create_time"  jdbcType="DATE"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+ 	      <result property="lastestTime" column="lastest_time"    jdbcType="DATE"/>
+ 	      <result property="descriptor" column="descriptor"    jdbcType="VARCHAR"/>
+ 	      <result property="isNeedCheck" column="is_need_check"    jdbcType="CHAR"/>
+ 	      <result property="contract" column="contract_id"  select="transformerRule.selectContractById"  jdbcType="CHAR"/>
+   </resultMap>	   
+    <typeAlias alias="contractBean" type="com.ailk.eaap.op2.bo.Contract"/>
+ 	<resultMap class="contractBean" id="contractMap">
+ 	      <result property="contractId" column="contract_id"    jdbcType="DECIMAL"/>
+ 	      <result property="baseContractId" column="base_contract_id"    jdbcType="DECIMAL"/>
+ 	      <result property="name" column="name"    jdbcType="VARCHAR"/>
+ 	      <result property="code" column="code"    jdbcType="VARCHAR"/>
+ 	      <result property="createTime" column="create_time"  jdbcType="DATE"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+ 	      <result property="lastestTime" column="lastest_time"    jdbcType="DATE"/>
+ 	      <result property="descriptor" column="descriptor"    jdbcType="VARCHAR"/>
+   </resultMap>   
+	<typeAlias alias="transformerRuleBean" type="com.ailk.eaap.op2.bo.TransformerRule"/>
+ 	<resultMap class="transformerRuleBean" id="transformerRuleMap">
+ 	      <result property="id" column="CONTRACT_ADAPTER_ID"    jdbcType="DECIMAL"/>
+ 	      <result property="srcContractFormat" column="SRC_CTR_F_ID"  select="transformerRule.selectContractFormatById"  jdbcType="DECIMAL"/>
+ 	      <result property="tarContractFormat" column="TAR_CTR_F_ID"  select="transformerRule.selectContractFormatById"  jdbcType="DECIMAL"/>
+ 	      <result property="name" column="APAPTER_NAME"    jdbcType="VARCHAR"/>
+ 	      <result property="transformerType" column="ADAPTER_TYPE" nullValue="1" jdbcType="DECIMAL"/>
+ 	      <result property="scriptContent" column="SCRIPT_SRC"    jdbcType="VARCHAR"/>
+ 	      <result property="state" column="state"    jdbcType="STATE"/>
+ 	      <result property="nodeDescMappers" column="CONTRACT_ADAPTER_ID"  select="transformerRule.selectNodeMapperById"   jdbcType="DECIMAL"/>
+          <result property="paramVarMaps" column="CONTRACT_ADAPTER_ID" select="transformerRule.selectParamVarMapByTransformerRuleId" jdbcType="DECIMAL"/>
+          <result property="contractAdapter2AttrSpecs" column="CONTRACT_ADAPTER_ID"   jdbcType="DECIMAL" select="transformerRule.selectContractAdapter2AttrSpecById"/>
+<!--           <result property="replaceListContractAdapterEndpoint" column="CONTRACT_ADAPTER_ID"  select="transformerRule.selectContactAdapterEndpointByRAndContractAdapterId"   jdbcType="DECIMAL"/> -->
+          <result property="transListContractAdapterEndpoint" column="CONTRACT_ADAPTER_ID"  select="transformerRule.selectContactAdapterEndpointByTAndContractAdapterId"   jdbcType="DECIMAL"/>
+    </resultMap>
+	<typeAlias alias="nodeDescMapperBean" type="com.ailk.eaap.op2.bo.NodeDescMapper"/>
+ 	<resultMap class="nodeDescMapperBean" id="nodeDescMapperMap">
+ 	      <result property="Id" column="NODE_DESC_MAPER_ID"    jdbcType="DECIMAL"/>
+ 	      <result property="srcNode" column="SRC_NODE_DESC_ID"  select="transformerRule.selectNodeDescById"  jdbcType="DECIMAL"/>
+ 	      <result property="tarNode" column="TAR_NODE_DESC_ID"  select="transformerRule.selectNodeDescById"  jdbcType="DECIMAL"/>
+ 	      <result property="operTypeCd" column="ACTION_TYPE_CD"    jdbcType="VARCHAR"/>
+ 	      <result property="transformerId" column="CONTRACT_ADAPTER_ID"  jdbcType="DECIMAL"/>
+ 	      <result property="createDt" column="CREATE_DT"    jdbcType="DATE"/>
+ 	      <!--<result property="tarNodeValReq" column="TAR_NODE_DESC_ID"  select="transformerRule.selectNodeValReqByNodeId"  jdbcType="DECIMAL"/>-->
+   </resultMap>    
+   
+	<typeAlias alias="nodeValReqBean" type="com.ailk.eaap.op2.bo.NodeValReq"/>
+ 	<resultMap class="nodeValReqBean" id="nodeValReqMap">
+ 	      <result property="nodeValReqId" column="NODE_VAL_ADAPTER_REQ_ID"    jdbcType="DECIMAL"/>
+ 	      <!-- <result property="nodeDesc" column="NODE_DESC_ID"   jdbcType="DECIMAL"/> -->
+ 	      <result property="nodeDescId" column="NODE_DESC_ID"   jdbcType="DECIMAL"/>
+ 	      <result property="transformerRuleId" column="CONTRACT_ADAPTER_ID"    jdbcType="DECIMAL"/>
+ 	      <result property="nodeValSourceCd" column="NODE_VALUE_SOURCE_CD"  jdbcType="VARCHAR"/>
+ 	      <result property="valueExpress" column="VALUE_EXPRESS"    jdbcType="VARCHAR"/>
+ 	      <result property="script" column="SCRIPT"    jdbcType="VARCHAR"/>
+ 	      <result property="triggerExpress" column="TRIGGER_EXPRESS"    jdbcType="VARCHAR"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+   </resultMap>     
+   
+   	<typeAlias alias="paramVarMapBean" type="com.ailk.eaap.op2.bo.ParamVarMap"/>
+ 	<resultMap class="paramVarMapBean" id="paramVarMapBeanMap">
+ 	      <result property="varMapId" column="VAR_MAPING_ID"    jdbcType="DECIMAL"/>
+ 	      <result property="mapDataSource" column="DATA_SOURCE" jdbcType="VARCHAR"/>
+ 	      <result property="mapTypeCd" column="CONS_MAP_CD"   jdbcType="VARCHAR"/>
+ 	      <result property="key" column="KEY_EXPRESS"    jdbcType="VARCHAR"/>
+ 	      <result property="val" column="VAL_EXPRESS"  jdbcType="VARCHAR"/>
+ 	      <result property="version" column="VERSION"    jdbcType="DATE"/>
+ 	      <result property="state" column="state"    jdbcType="CHAR"/>
+   </resultMap>    
+   
+   <typeAlias alias="contractFormatBean" type="com.ailk.eaap.op2.bo.ContractFormatEx"/>
+   <resultMap class="contractFormatBean" id="contractFormatMap">
+ 		  <result property="tcpCtrFId" column="tcp_ctr_f_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="contractVersionId" column="contract_version_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="reqRsp" column="req_rsp"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="conType" column="con_type"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="xsdHeaderFor" column="xsd_header_for"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="xsdFormat" column="xsd_format"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="xsdDemo" column="xsd_demo"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="createTime" column="create_time"  nullValue=""  jdbcType="DATE"/>
+		  <result property="lastestTime" column="lastest_time"    jdbcType="DATE"/>
+		  <result property="descriptor" column="descriptor"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="contract2AttrSpecs" column="tcp_ctr_f_id"   jdbcType="DECIMAL" select="transformerRule.selectContract2AttrSpecByCtrFId"/>
+  		  <result property="nodeDescs" column="tcp_ctr_f_id"   jdbcType="DECIMAL" select="transformerRule.selectNodeDescByCtrFId"/>
+   </resultMap>	 
+   <typeAlias alias="nodeDescBean" type="com.ailk.eaap.op2.bo.NodeDesc"/>
+   <resultMap class="nodeDescBean" id="nodeDescBeannMap">
+ 		  <result property="nodeDescId" column="node_desc_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="tcpCtrFId" column="tcp_ctr_f_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	      <result property="parentNodeId" column="parent_node_id"  nullValue="0"  jdbcType="DECIMAL"/>
+ 	      <result property="nodeName" column="node_name"  nullValue=""  jdbcType="VARCHAR"/>
+ 	      <result property="nodeCode" column="node_code"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nodePath" column="node_path"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nodeType" column="node_type"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nodeLengthCons" column="node_length_cons"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nodeTypeCons" column="node_type_cons"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nodeNumberCons" column="node_number_cons"  nullValue=""  jdbcType="DATE"/>
+		  <result property="isNeedCheck" column="is_need_check"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="isNeedSign" column="is_need_sign"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nevlConsType" column="nevl_cons_type"  nullValue=""  jdbcType="VARCHAR"/>
+		  <result property="nevlConsValue" column="nevl_cons_value"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap>	  
+    <typeAlias alias="contract2AttrSpecBean" type="com.ailk.eaap.op2.bo.Contract2AttrSpec"/>
+    <resultMap class="contract2AttrSpecBean" id="contract2AttrSpecBeanMap">
+   		<result property="contract2AttrSpecId" column="contract_2_attr_spec_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	    <result property="tcpCtrFId" column="tcp_ctr_f_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	    <result property="attrSpecId" column="attr_spec_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	    <result property="attrSpec" column="attr_spec_id"  select="transformerRule.selectAttrSpecById"  jdbcType="DECIMAL"/>
+ 	    <result property="value" column="value"  nullValue=""  jdbcType="VARCHAR"/>
+ 	    <result property="state" column="state"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap>
+    <typeAlias alias="contractAdapter2AttrSpecBean" type="com.ailk.eaap.op2.bo.ContractAdapter2AttrSpec"/>
+    <resultMap class="contractAdapter2AttrSpecBean" id="contractAdapter2AttrSpecBeanMap">
+        <result property="contractAdapter2AttrSpecId" column="CONTRACT_ADAPTER_2_ATTR_ID"  nullValue=""  jdbcType="DECIMAL"/>
+        <result property="adapter_id" column="CONTRACT_ADAPTER_ID"  nullValue=""  jdbcType="DECIMAL"/>
+        <result property="attrSpecId" column="attr_spec_id"  nullValue=""  jdbcType="DECIMAL"/>
+        <result property="attrSpec" column="attr_spec_id"  select="transformerRule.selectAttrSpecById"  jdbcType="DECIMAL"/>
+        <result property="value" column="value"  nullValue=""  jdbcType="VARCHAR"/>
+        <result property="state" column="state"  nullValue=""  jdbcType="VARCHAR"/>
+    </resultMap>
+    <typeAlias alias="AttrSpecBean" type="com.ailk.eaap.op2.bo.AttrSpec"/>
+    <resultMap class="AttrSpecBean" id="AttrSpecBeanMap">
+   		<result property="attrSpecId" column="attr_spec_id"  nullValue=""  jdbcType="DECIMAL"/>
+ 	    <result property="attrSpecName" column="attr_spec_name"  nullValue=""  jdbcType="VARCHAR"/>
+ 	    <result property="attrSpecCode" column="attr_spec_code"  nullValue=""  jdbcType="VARCHAR"/>
+ 	    <result property="defaultValue" column="default_value"  nullValue=""  jdbcType="VARCHAR"/>
+ 	    <result property="nullable" column="nullable"  nullValue=""  jdbcType="VARCHAR"/>
+ 	    <result property="upAttrSpecId" column="up_attr_spec_id"  nullValue="0"  jdbcType="DECIMAL"/>
+ 	    <result property="state" column="state"  nullValue=""  jdbcType="VARCHAR"/>
+ 	    <result property="attrSpecDesc" column="attr_spec_desc"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap>  
+   <typeAlias alias="ContractAdapterEndpointBean" type="com.ailk.eaap.op2.bo.ContractAdapterEndpoint"/>
+    <resultMap class="ContractAdapterEndpointBean" id="ContractAdapterEndpointBeanMap">
+   		<result property="contractAdapterEndpointId" column="contract_adapter_endpoint_id" nullValue="" jdbcType="DECIMAL"/>
+ 	    <result property="contractAdapterId" column="contract_adapter_id" nullValue="" jdbcType="DECIMAL"/>
+ 	    <result property="endpointId" column="endpoint_id" nullValue="" jdbcType="DECIMAL"/>
+ 	    <result property="contractFormat" column="contract_formate_id"  select="transformerRule.selectContractFormatById"  jdbcType="DECIMAL"/>
+ 	    <result property="actionType" column="action_type"  nullValue=""  jdbcType="VARCHAR"/>
+   </resultMap> 
+    
+	<select id="selectContractVersionById" resultMap="contractVersionMap" >
+		select contract_version_id,contract_id,version,create_time,state,lastest_time,descriptor,is_need_check from contract_version
+		where contract_version_id= #contract_version_id# 
+	</select>	
+	<select id="selectContractById" resultMap="contractMap" >
+		select contract_id,base_contract_id,name,create_time,state,lastest_time,descriptor,code from contract
+		where contract_id= #contractId# 
+	</select>
+	<select id="selectContractFormatById" resultMap="contractFormatMap" >
+		select f.tcp_ctr_f_id,f.contract_version_id,f.req_rsp,f.con_type,f.xsd_header_for,f.xsd_format,f.xsd_demo,f.create_time,f.lastest_time,f.descriptor from contract_format f where f.state='A' and f.TCP_CTR_F_ID=#id#
+	</select>	
+	<select id="selectNodeDescById" parameterClass="Integer" resultMap="nodeDescBeannMap" >
+		select n.node_desc_id,n.tcp_ctr_f_id,n.parent_node_id,n.node_name,n.node_code,n.node_path,n.node_type,n.node_length_cons,n.node_type_cons,n.node_number_cons,n.is_need_check,n.is_need_sign,n.nevl_cons_type,n.nevl_cons_value from node_desc n where n.state='A' and n.node_desc_id=#nodeDescId# order by node_desc_id asc 
+	</select>
+	<select id="selectNodeMapperById" parameterClass="Integer" resultMap="nodeDescMapperMap" >
+            select node_desc_maper_id,src_node_desc_id,tar_node_desc_id,contract_adapter_id,action_type_cd,create_dt from node_desc_maper where contract_adapter_id=#contractAdapterId#
+	</select>	
+	<select id="selectAllUseable" resultMap="transformerRuleMap" >
+		select CONTRACT_ADAPTER_ID,SRC_CTR_F_ID,TAR_CTR_F_ID,APAPTER_NAME,ADAPTER_TYPE,SCRIPT_SRC,CREATE_DT,STATE from CONTRACT_ADAPTER where state='A'
+	</select>	
+	<select id="selectTransformerRuleById" resultMap="transformerRuleMap">
+		select CONTRACT_ADAPTER_ID,SRC_CTR_F_ID,TAR_CTR_F_ID,APAPTER_NAME,ADAPTER_TYPE,SCRIPT_SRC,CREATE_DT,STATE from CONTRACT_ADAPTER where contract_adapter_id=#contractAdapterId#
+	</select>
+	<select id="selectContract2AttrSpecByCtrFId" parameterClass="Integer" resultMap="contract2AttrSpecBeanMap" >
+		select contract_2_attr_spec_id,tcp_ctr_f_id,attr_spec_id,value,state from contract_2_attr_spec where tcp_ctr_f_id=#tcpCtrFId#
+	</select>
+    <select id="selectContractAdapter2AttrSpecById" parameterClass="Integer" resultMap="contractAdapter2AttrSpecBeanMap" >
+        select CONTRACT_ADAPTER_2_ATTR_ID,CONTRACT_ADAPTER_ID,attr_spec_id,value,state from CONTRACT_ADAPTER_2_ATTR where CONTRACT_ADAPTER_ID=#CONTRACT_ADAPTER_ID#
+    </select>
+	<select id="selectNodeDescByCtrFId" parameterClass="Integer" resultMap="nodeDescBeannMap" >
+		select n.node_desc_id,n.tcp_ctr_f_id,n.parent_node_id,n.node_name,n.node_code,n.node_path,n.node_type,n.node_length_cons,n.node_type_cons,n.node_number_cons,n.is_need_check,n.is_need_sign,n.nevl_cons_type,n.nevl_cons_value from node_desc n where n.state='A' and n.tcp_ctr_f_id=#tcpCtrFId# order by node_desc_id asc 
+	</select>
+
+    <!--
+	<select id="selectNodeValReqByNodeId" resultMap="nodeValReqMap">
+		select NODE_VAL_ADAPTER_REQ_ID,NODE_DESC_ID,CONTRACT_ADAPTER_ID,NODE_VALUE_SOURCE_CD,VALUE_EXPRESS,SCRIPT,TRIGGER_EXPRESS,STATE,VERSION from NODE_VAL_ADAPTER_REQ where NODE_DESC_ID=#id# and state='A'
+	</select>
+	-->
+
+	<select id="selectParamVarMapByMapType" resultMap="paramVarMapBeanMap">
+		select VAR_MAPING_ID,CONS_MAP_CD,DATA_SOURCE,KEY_EXPRESS,VAL_EXPRESS,VERSION,STATE from VARIABLE_MAP where CONS_MAP_CD = #code#
+	</select>
+	<select id="selectAttrSpecById" parameterClass="Integer" resultMap="AttrSpecBeanMap">
+		select attr_spec_id,attr_spec_name,attr_spec_code,default_value,nullable,up_attr_spec_id,state,attr_spec_desc from attr_spec where state='A' and attr_spec_id=#attrSpecId#
+	</select>
+	<select id="selectNodeValReqByNodeId" parameterClass="java.util.Map"  resultMap="nodeValReqMap">
+		select NODE_VAL_ADAPTER_REQ_ID,NODE_DESC_ID,CONTRACT_ADAPTER_ID,NODE_VALUE_SOURCE_CD,VALUE_EXPRESS,SCRIPT,TRIGGER_EXPRESS,STATE,VERSION from NODE_VAL_ADAPTER_REQ where NODE_DESC_ID=#nodeDescId# and contract_adapter_id=#transformerRuleId# and state='A'
+	</select>
+    <select id="selectParamVarMapByTransformerRuleId" parameterClass="Integer" resultMap="paramVarMapBeanMap">
+        select var.VAR_MAPING_ID,CONS_MAP_CD,DATA_SOURCE,KEY_EXPRESS,VAL_EXPRESS,VERSION,var.STATE
+        from VARIABLE_MAP var inner join trans_script_2_param trans on (var.VAR_MAPING_ID = trans.VAR_MAPING_ID)
+        where trans.CONTRACT_ADAPTER_ID = #contractAdapterId# and trans.state= 'A' and var.state = 'A'
+    </select>
+    <select id="selectParamVarMap" resultMap="paramVarMapBeanMap">
+        select var.VAR_MAPING_ID,CONS_MAP_CD,DATA_SOURCE,KEY_EXPRESS,VAL_EXPRESS,VERSION,var.STATE
+        from VARIABLE_MAP var inner join trans_script_2_param trans on (var.VAR_MAPING_ID = trans.VAR_MAPING_ID)
+        where trans.state= 'A' and var.state = 'A'
+    </select>
+
+    <select id="selectContactAdapterEndpointByTAndContractAdapterId" parameterClass="Integer" resultMap="ContractAdapterEndpointBeanMap">
+        select contract_adapter_endpoint_id,contract_adapter_id,contract_formate_id,
+        endpoint_id,action_type from contract_adapter_endpoint where contract_adapter_id = #CONTRACT_ADAPTER_ID#
+    </select>
+</sqlMap>

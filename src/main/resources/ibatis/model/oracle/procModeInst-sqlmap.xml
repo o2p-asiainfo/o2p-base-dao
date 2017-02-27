@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="procModeInst">
+<delete id="deleteProcModeInst" parameterClass="com.ailk.eaap.op2.bo.ProcModeInst">
+  delete PROC_MODE_INST where PROC_MODE_INST.PROC_MODE_INST_ID=#procModeInstId#
+</delete>
+</sqlMap>

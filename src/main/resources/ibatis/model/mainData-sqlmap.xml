@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="mainData">
+     <select id="selectSysdate" resultClass="java.lang.String">
+		   select name from MAIN_DATA where MAIND_ID = '1'
+	 </select>
+<delete id="deleteMainData" parameterClass="com.ailk.eaap.op2.bo.MainData">
+  delete MAIN_DATA
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="maindId">MAIND_ID=#maindId#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateMainData" parameterClass="com.ailk.eaap.op2.bo.MainData">
+  update MAIN_DATA
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="mdtCd"> MDT_CD=#mdtCd#</isNotNull>
+    <isNotNull prepend="," property="baseMaindId"> BASE_MAIND_ID=#baseMaindId#</isNotNull>
+    <isNotNull prepend="," property="cepName"> CEP_NAME=#cepName#</isNotNull>
+    <isNotNull prepend="," property="cepCode"> CEP_CODE=#cepCode#</isNotNull>
+    <isNotNull prepend="," property="cepValues"> CEP_VALUES=#cepValues#</isNotNull>
+    <isNotNull prepend="," property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    
+    <isNotNull prepend="," property="cepDes"> CEP_DES=#cepDes#</isNotNull>
+  </dynamic>
+   , LASTEST_TIME = sysdate  
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="maindId">MAIND_ID=#maindId#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertMainData" parameterClass="com.ailk.eaap.op2.bo.MainData">
+   <selectKey resultClass="int" keyProperty="maindId">
+			SELECT SEQ_MAIN_DATA.NEXTVAL FROM DUAL
+   </selectKey>	
+  insert into MAIN_DATA
+  (CREATE_TIME
+  <dynamic>
+    <isNotNull prepend="," property="maindId">MAIND_ID</isNotNull>
+    <isNotNull prepend="," property="mdtCd">MDT_CD</isNotNull>
+    <isNotNull prepend="," property="baseMaindId">BASE_MAIND_ID</isNotNull>
+    <isNotNull prepend="," property="cepName">CEP_NAME</isNotNull>
+    <isNotNull prepend="," property="cepCode">CEP_CODE</isNotNull>
+    <isNotNull prepend="," property="cepValues">CEP_VALUES</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME</isNotNull>
+    <isNotNull prepend="," property="cepDes">CEP_DES</isNotNull>
+  </dynamic>
+  )
+  values
+  (sysdate
+  <dynamic>
+    <isNotNull prepend="," property="maindId">#maindId#</isNotNull>
+    <isNotNull prepend="," property="mdtCd">#mdtCd#</isNotNull>
+    <isNotNull prepend="," property="baseMaindId">#baseMaindId#</isNotNull>
+    <isNotNull prepend="," property="cepName">#cepName#</isNotNull>
+    <isNotNull prepend="," property="cepCode">#cepCode#</isNotNull>
+    <isNotNull prepend="," property="cepValues">#cepValues#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="cepDes">#cepDes#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<select id="selectMainData" parameterClass="com.ailk.eaap.op2.bo.MainData" resultClass="com.ailk.eaap.op2.bo.MainData">
+  select MAIND_ID maindId, MDT_CD mdtCd, BASE_MAIND_ID baseMaindId,  CEP_NAME cepName, CEP_CODE cepCode,
+  CEP_VALUES cepValues,  STATE state,  CREATE_TIME createTime, LASTEST_TIME lastestTime, CEP_DES cepDes from MAIN_DATA
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="maindId"> MAIND_ID=#maindId#</isNotNull>
+    <isNotNull prepend="and" property="mdtCd"> MDT_CD=#mdtCd#</isNotNull>
+    <isNotNull prepend="and" property="baseMaindId"> BASE_MAIND_ID=#baseMaindId#</isNotNull>
+    <isNotNull prepend="and" property="cepName"> CEP_NAME=#cepName#</isNotNull>
+    <isNotNull prepend="and" property="cepCode"> CEP_CODE=#cepCode#</isNotNull>
+    <isNotNull prepend="and" property="cepValues"> CEP_VALUES=#cepValues#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="and" property="cepDes"> CEP_DES=#cepDes#</isNotNull>
+  </dynamic>
+</select>
+
+</sqlMap>

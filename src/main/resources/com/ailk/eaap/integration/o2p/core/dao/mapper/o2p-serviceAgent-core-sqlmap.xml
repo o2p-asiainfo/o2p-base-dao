@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="o2p-serviceAgent-core">
+	<typeAlias alias="dataSourceBean" type="com.ailk.eaap.op2.bo.JdbcDataSource"/>
+	<resultMap class="dataSourceBean" id="dataSourceBean">
+	  <result property="dataSourceId" column="data_source_id" jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="isBeginInit" column="isBeginInit"  jdbcType="VARCHAR"/>
+	  <result property="driverClassName" column="driverclassname"  jdbcType="VARCHAR"/>
+	  <result property="url" column="url"  jdbcType="VARCHAR"/>
+	  <result property="username" column="username" jdbcType="VARCHAR"/>
+	  <result property="password" column="passwd"  jdbcType="VARCHAR"/>
+	  <result property="defaultAutoCommit" column="defaultautocommit"  nullValue="true" javaType="java.lang.Boolean"  jdbcType="VARCHAR"/>
+	  <result property="defaultReadOnly" column="defaultreadonly"  nullValue="false" javaType="java.lang.Boolean"  jdbcType="VARCHAR"/>
+	  <result property="defaultTransactionIsolation" column="defaulttransactionisolation"  nullValue="-1"  jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="initialSize" column="initialsize"  nullValue="0"  jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="maxActive" column="maxactive"  nullValue="8"  jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="maxIdle" column="maxidle"  nullValue="8"  jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="minIdle" column="minidle"  nullValue="0"  jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="maxWait" column="maxwait"  nullValue="-1"  jdbcType="VARCHAR" javaType="java.lang.Long"/>
+	  <result property="validationQuery" column="validationquery" jdbcType="VARCHAR"/>
+	  <result property="testOnBorrow" column="testonborrow"  nullValue="true"  jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+	  <result property="testOnReturn" column="testonreturn"  nullValue="false"  jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+	  <result property="testWhileIdle" column="testwhileidle"  nullValue="false"  jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+	  <result property="timeBetweenEvictionRunsMillis" column="timebetweenevictionrunsmillis"  nullValue="-1"  jdbcType="VARCHAR" javaType="java.lang.Long"/>
+	  <result property="numTestsPerEvictionRun" column="numtestsperevictionrun"  nullValue="3"  jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="minEvictableIdleTimeMillis" column="minevictableidletimemillis"  nullValue="1800000"  jdbcType="VARCHAR" javaType="java.lang.Long"/>
+	  <result property="poolPreparedStatements" column="poolpreparedstatements"  nullValue="false"  jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+	  <result property="maxOpenPreparedStatements" column="maxopenpreparedstatements"  nullValue="-1"  jdbcType="VARCHAR" javaType="java.lang.Integer"/>
+	  <result property="accessToUnderlyingConnectionAllowed" column="accesstounderlyingconnectional"  nullValue="false"  jdbcType="VARCHAR" javaType="java.lang.Boolean"/>
+	  <result property="jndiName" column="jndi_name"  jdbcType="VARCHAR"/>
+	</resultMap>	
+	
+	<typeAlias alias="csvTemplateBean" type="com.ailk.eaap.op2.bo.CsvTemplate"/>
+	<resultMap class="csvTemplateBean" id="csvTemplateBean">
+	  <result property="csvTemplateId" column="csv_template_id" jdbcType="DECIMAL"/>
+	  <result property="csvFileName" column="csv_file_name" jdbcType="VARCHAR"/>
+	  <result property="fieldSeparator" column="field_separator" jdbcType="VARCHAR"/>
+	  <result property="firstLineType" column="first_line_type" nullValue="2" jdbcType="DECIMAL"/>
+	  <result property="isFileNameAddDate" column="is_file_name_add_date" jdbcType="VARCHAR"/>
+	  <result property="dateFormat" column="date_format" jdbcType="VARCHAR"/>
+	  <result property="fileNameAndDateSeparator" column="file_name_and_date_separator" jdbcType="VARCHAR"/>
+	  <result property="newLineCharacter" column="new_line_character" jdbcType="VARCHAR"/>
+	  <result property="isTextfieldAddQuoteMark" column="is_textfield_add_quote_mark" jdbcType="VARCHAR"/>
+	  <result property="fileCharset" column="file_charset" jdbcType="VARCHAR"/>
+	</resultMap>
+	
+	<select id="getAllDataSource" resultMap="dataSourceBean">
+		SELECT
+		ds.data_source_id,
+		ds.isBeginInit,
+		ds_db.driverclassname,
+		ds_db.url,
+		ds_db.username,
+		ds_db.passwd,
+		ds_db.defaultautocommit,
+		ds_db.defaultreadonly,
+		ds_db.defaulttransactionisolation,
+		ds_db.initialsize,
+		ds_db.maxactive,
+		ds_db.maxidle,
+		ds_db.minidle,
+		ds_db.maxwait,
+		ds_db.validationquery,
+		ds_db.testonborrow,
+		ds_db.testonreturn,
+		ds_db.testwhileidle,
+		ds_db.timebetweenevictionrunsmillis,
+		ds_db.numtestsperevictionrun,
+		ds_db.minevictableidletimemillis,
+		ds_db.poolpreparedstatements,
+		ds_db.maxopenpreparedstatements,
+		ds_db.accesstounderlyingconnectional,
+		ds_jn.jndi_name
+		FROM
+			data_source ds
+		LEFT JOIN data_source_dbcp ds_db ON ds.data_source_id = ds_db.data_source_id
+		LEFT JOIN data_source_jndi ds_jn ON ds.data_source_id = ds_jn.data_source_id order by data_source_id
+	</select>
+	
+	<select id="getAllCsvTemplate" resultMap="csvTemplateBean">
+		select * from csv_template
+	</select>
+</sqlMap>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="productAttrGroupRela">
+	<select id="queryProductAttrGroupRelaSeq" resultClass="java.lang.String">
+		SELECT SEQ_PRODUCT_ATTR_GROUP_RELA.NEXTVAL FROM DUAL
+	 </select>
+	 <select id="queryProductAttrGroupRela" parameterClass="com.ailk.eaap.op2.bo.ProductAttrGroupRela" resultClass="com.ailk.eaap.op2.bo.ProductAttrGroupRela">
+		SELECT SEQ_PRODUCT_ATTR.NEXTVAL FROM DUAL
+	 </select>
+	 <insert id="insertProductAttrGroupRela" parameterClass="com.ailk.eaap.op2.bo.ProductAttrGroupRela">
+		INSERT INTO PRODUCT_ATTR_GROUP_RELA
+		(
+		<dynamic>
+			<isNotNull  property="groupRelaId">GROUP_RELA_ID</isNotNull>
+			<isNotNull prepend="," property="productAttrId">PRODUCT_ATTR_ID</isNotNull>
+			<isNotNull prepend="," property="productAttrGroupId">PRODUCT_ATTR_GROUP_ID</isNotNull>
+		</dynamic>
+		)
+		VALUES
+		(
+		<dynamic>
+			<isNotNull  property="groupRelaId">#groupRelaId#</isNotNull>
+			<isNotNull prepend="," property="productAttrId">#productAttrId#</isNotNull>
+			<isNotNull prepend="," property="productAttrGroupId">#productAttrGroupId#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+	<delete id="deleteProductAttrGroupRela" parameterClass="com.ailk.eaap.op2.bo.ProductAttrGroupRela">
+		delete PRODUCT_ATTR_GROUP_RELA
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="productAttrGroupId">PRODUCT_ATTR_GROUP_ID=#productAttrGroupId#
+			</isNotNull>
+		</dynamic>
+	</delete>
+</sqlMap>

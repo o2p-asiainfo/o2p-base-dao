@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="commonLoad">
+<!-- 
+
+     加载公共配置
+      
+     1.单表返回bean
+     2.多表返回MAP
+
+ -->
+<!-- load 业务编码 -->
+<select id="getBusCode"  
+ resultClass="com.ailk.eaap.op2.bo.BizFunction">
+	SELECT CODE,STATE,CODE FROM BIZ_FUNCTION
+</select> 
+
+<!-- load 机构编码  ...-->
+<select id="getComponent"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT  C.CODE COMPONENT,C.STATE, O.ORG_CODE ORGCODE FROM COMPONENT C, ORG O WHERE C.ORG_ID=O.ORG_ID AND C.CODE=#CODE#
+</select> 
+
+<!-- load 协议   -->
+<select id="getContractFormat" parameterClass="java.lang.String"  
+ resultClass="java.util.HashMap">
+	SELECT * 
+	FROM CONTRACT_VERSION C, CONTRACT_FORMAT F 
+	 WHERE C.CONTRACT_VERSION_ID = F.CONTRACT_VERSION_ID AND C.CONTRACT_VERSION_ID=#CONTRACT_VERSION_ID#
+</select> 
+
+<!-- load 协议 协议版本 -->
+<select id="getContractVer"  
+ resultClass="java.util.HashMap">
+	 SELECT * FROM CONTRACT_VERSION A, CONTRACT B WHERE A.CONTRACT_ID = B.CONTRACT_ID
+</select> 
+
+<!-- load 协议  -->
+<select id="getContractByContractId" parameterClass="java.lang.String" 
+ resultClass="com.ailk.eaap.op2.bo.Contract">
+	SELECT * FROM CONTRACT WHERE CONTRACT_ID=#CONTRACT_ID#
+</select> 
+
+<!-- load 协议 协议版本 多表查询-->
+<select id="getBizfunctionCode"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT B.CODE FFROM FUNC_2_SERVICE F, BIZ_FUNCTION B WHERE F.BIZ_FUNCTION_ID = B.BIZ_FUNCTION_ID AND F.SERVICE_ID = #SERVICE_ID#
+</select> 
+
+
+<select id="getServiceRela"  parameterClass="java.lang.String" resultClass="java.util.HashMap">
+	SELECT REG_SERVICE_ID,SER_RELA_TYPE FROM SERVICE_RELA WHERE OPEN_SERVICE_ID=#OPEN_SERVICE_ID#
+</select> 
+
+<!-- load 组织机构-->
+<select id="getAllOrg"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.Org">
+	 SELECT * FROM ORG
+</select> 
+
+<select id="getOrgByOrgCode"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.Org">
+	 SELECT * FROM ORG WHERE ORG_CODE=#OrgCode#
+</select> 
+
+<!-- load UserInfo-->
+<select id="getUserInfo"  
+ resultClass="com.ailk.eaap.op2.bo.UserInfo">
+	SELECT * FROM USER_INFO
+</select> 
+
+<!-- load getAppAccTokenAndApp 多表查询返回结果集为MAP-->
+<select id="getAppAccTokenAndApp"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	  SELECT AAT.OAUTH_API_LIST, AAT.APP_ID
+	    FROM APP_ACC_TOKEN AAT, APP A
+	   WHERE AAT.USER_ID = #USER_ID#
+	     AND AAT.APP_ID = A.APP_ID
+</select> 
+
+<!--  多表查询返回结果集为MAP-->
+<select id="getSerInvokeInsAndService"  
+ resultClass="java.util.HashMap">
+	SELECT *  FROM SER_INVOKE_INS SI,SERVICE S WHERE S.SERVICE_ID=SI.SERVICE_ID
+</select> 
+
+<select id="selectAppAccTokenCount"  
+ resultClass="java.lang.String">
+	 SELECT count(1) FROM APP_ACC_TOKEN A LEFT JOIN USER_INFO B ON A.USER_ID = B.USER_ID AND A.DISABLE_TIME>SYS_EXTRACT_UTC(current_timestamp)+0
+</select> 
+
+<!--  多表查询返回结果集为MAP-->
+<select id="getAppAccTokenAndUserInfo"  parameterClass="java.util.Map"
+ resultClass="java.util.HashMap">
+  SELECT APP_ID,
+         ACC_TOKEN,
+         APP_ACC_TOK_ID,
+         APP_ACC_TOK_ID,
+         PRODUCT_NBR,
+         DISABLE_TIME,
+         OAUTH_API_LIST
+    FROM (SELECT ROW_NUMBER() OVER(ORDER BY APP_ACC_TOK_ID DESC) RN,
+                 A.*,
+                 B.PRODUCT_NBR
+            FROM APP_ACC_TOKEN A
+            LEFT JOIN USER_INFO B
+              ON A.USER_ID = B.USER_ID
+             AND A.DISABLE_TIME > SYS_EXTRACT_UTC(current_timestamp)+0)
+   WHERE RN BETWEEN #parm1# AND #parm2#
+</select> 
+
+<!--  多表查询返回结果集为MAP-->
+<select id="getAppAccToken"  parameterMap=""
+ resultClass="java.util.HashMap">
+	SELECT * FROM (SELECT ROW_NUMBER() OVER( ORDER BY APP_ACC_TOK_ID DESC ) RN,A.*,B.PRODUCT_NBR  
+	FROM APP_ACC_TOKEN A LEFT JOIN USER_INFO B ON A.USER_ID = B.USER_ID AND A.DISABLE_TIME>SYS_EXTRACT_UTC(current_timestamp)+0 ) WHERE RN BETWEEN #parm1# AND #parm2#";
+</select> 
+
+<!-- load 路由数据源  多表查询返回结果集为MAP -->
+<select id="loadDataSourceRoute"  
+ resultClass="java.util.HashMap">
+	 select DECISION_RULE,DATA_SOURCE_NAME,IS_DEFAULT,COMPONENT_ID,TAB_SUFFIX,PRI
+	 from DATA_SOURCE_ROUTE a,DATA_SOURCE b where a.data_source_id=b.data_source_id and a.state='A' order by PRI DESC
+</select>
+
+<!--  多表查询返回结果集为MAP-->
+<select id="getDataRource"  
+ resultClass="java.util.HashMap">
+      select DATA_SOURCE_NAME,COMPONENT_ID,TAB_SUFFIX from DATA_SOURCE order by decode(is_default,0,'99',is_default)
+</select>
+
+<!-- load 消息流 -->
+<select id="getFlow"  
+ resultClass="java.util.HashMap">
+     SELECT SER_INVOKE_INS_ID,CYCLE_VALUE,CYCLE_TYPE,CUTMS_VALUE,CC_CD FROM CTL_COUNTERMS_2_COMP
+</select>
+
+<select id="getFlowByFlowID"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.MessageFlow">
+    SELECT * FROM MESSAGE_FLOW N WHERE N.MESSAGE_FLOW_ID=#MESSAGE_FLOW_ID#
+</select>
+
+<!-- load getEndpointAndEndpointSpec 多表查询返回结果集为MAP -->
+<select id="getEndpointAndEndpointSpec"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.Endpoint">
+    SELECT ENDPOINTID,ENDPOINT_SPEC_CODE,IN_DATA_TYPE_ID,OUT_DATA_TYPE_ID,ENABLE_IN_TRACE,ENABLE_OUT_TRACE,ENABLE_IN_LOG,ENABLE_OUT_LOG
+     FROM ENDPOINT E  ,ENDPOINT_SPEC S WHERE E.ENDPOINT_SPEC_ID=S.ENDPOINT_SPEC_ID AND E.ENDPOINT_ID=#ENDPOINT_ID#
+</select>
+
+<!-- load API 多表查询返回结果集为MAP -->
+<select id="getApi"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+   SELECT A.SERVICE_ID, A.API_NAME, A.API_METHOD, A.API_ID, C.VERSION
+     FROM API A, SERVICE S, CONTRACT_VERSION C
+    WHERE A.SERVICE_ID = S.SERVICE_ID
+      AND S.SERVICE_TYPE = '0'
+      AND S.CONTRACT_VERSION_ID = C.CONTRACT_VERSION_ID
+      AND A.API_ID = #API_ID#
+</select> 
+
+<!-- load getApiByApiID  业务逻辑要求返回 MAP-->
+<select id="getApiByApiID"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.Api">
+  SELECT API_ID,API_METHOD,API_NAME,SERVICE_ID  FROM API WHERE API_ID=#API_ID#
+</select> 
+
+<!-- load getServiceAndCV  多表查询返回结果集为MAP -->
+<select id="getServiceAndCV"  
+ resultClass="java.util.HashMap">
+	SELECT *
+	   FROM SERVICE S, CONTRACT_VERSION C
+		  WHERE C.CONTRACT_VERSION_ID = S.CONTRACT_VERSION_ID
+		    AND SERVICE_TYPE = '0'
+</select> 
+
+
+<!-- load APIXXX  多表查询返回结果集为MAP -->
+<select id="getPriDefine"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+  SELECT PD.*
+    FROM API A, API_ACC_PRI_LIST AAPL, PRI_DEFINE PD
+   WHERE A.API_ID = AAPL.API_ID
+     AND PD.PRI_DEFINE_ID = AAPL.PRI_DEFINE_ID
+     AND A.API_ID = #API_ID#
+</select> 
+
+
+<!-- load 主数据类型-->
+<select id="getMainDataType"  
+ resultClass="com.ailk.eaap.op2.bo.MainData">
+  SELECT * FROM MAIN_DATA_TYPE
+</select> 
+
+<!-- load  业务逻辑需要MAP  -->
+<select id="getMainDataForMDTypeID"   parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+  SELECT * FROM MAIN_DATA MD WHERE MD.MDT_CD=#mdtId#
+</select> 
+
+<!-- load 数据类型  -->
+<select id="getDataTypeByDataTypeID"  parameterClass="java.lang.String"
+ resultClass="java.lang.String">
+  SELECT DATA_TYPE_CODE FROM DATA_TYPE WHERE DATA_TYPE_ID=#DATA_TYPE_ID#
+</select> 
+
+<!-- load endPointInfo  多表查询返回结果集为MAP -->
+<select id="getEndPointInfoByEndPointID"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	 SELECT EAV.ENDPOINT_ATTR_VALUE_ID,
+	        EAV.ENDPOINT_ID,
+	        EAV.ATTR_VALUE,
+	        ESA.ENDPOINT_SPEC_ID,
+	        ESA.ENDPOINT_SPEC_ATTR_ID,
+	        ASP.ATTR_SPEC_ID,
+	        ASP.ATTR_SPEC_NAME,
+	        ASP.ATTR_SPEC_CODE,
+	        DECODE(ASP.NULLABLE, 'Y', 'Y', 'N') NULLABLE,
+	        ASP.UP_ATTR_SPEC_ID
+	   FROM ENDPOINT_ATTR_VALUE EAV, ENDPOINT_SPEC_ATTR ESA, ATTR_SPEC ASP
+	  WHERE EAV.ENDPOINT_SPEC_ATTR_ID = ESA.ENDPOINT_SPEC_ATTR_ID
+	    AND ESA.ATTR_SPEC_ID = ASP.ATTR_SPEC_ID
+	    AND EAV.ENDPOINT_ID = #ENDPOINT_ID#
+</select> 
+
+<!--  多表查询返回结果集为MAP -->
+<select id="getRouteInfoByMessageFlowID"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+      SELECT DISTINCT LEVEL,
+                     SRC.ROUTE_ID,
+                     SRC.MESSAGE_FLOW_ID,
+                     SRC.SYN_ASYN,
+                     SRC.STATE,
+                     SRC.FROM_ENDPOINT_ID,
+                     SRC.TO_ENDPOINT_ID,
+                     SRC.ROUTE_POLICY_ID
+       FROM (SELECT SRC1.*, EP.ENDPOINT_ID, SRC2.ROUTE_ID UP_ID
+               FROM SERVICE_ROUTE_CONFIG SRC1
+               LEFT JOIN SERVICE_ROUTE_CONFIG SRC2
+                 ON SRC2.STATE = 'A'
+                AND SRC1.MESSAGE_FLOW_ID = SRC2.MESSAGE_FLOW_ID
+                AND SRC1.FROM_ENDPOINT_ID = SRC2.TO_ENDPOINT_ID
+               LEFT JOIN ENDPOINT EP
+                 ON EP.ENDPOINT_ID = SRC1.FROM_ENDPOINT_ID
+              WHERE SRC1.MESSAGE_FLOW_ID = #MESSAGE_FLOW_ID#
+                AND SRC1.STATE = 'A') SRC
+     CONNECT BY PRIOR SRC.ROUTE_ID = SRC.UP_ID
+      START WITH SRC.UP_ID IS NULL
+      ORDER BY LEVEL;
+</select> 
+
+<!--  多表查询返回结果集为MAP -->
+<select id="findRoutePolicyByRoutePolicyId"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT RP.ROUTE_POLICY_ID,
+	       RP.RULE_STRATEGY_ID,
+	       RS.RULE_STRATEGY_CODE,
+	       RS.RULE_STRATEGY_NAME,
+	       RP.ROUTE_COND_ID
+	  FROM ROUTE_POLICY RP
+	  LEFT JOIN RULE_STRATEGY RS
+	    ON RP.RULE_STRATEGY_ID = RS.RULE_STRATEGY_ID
+	 WHERE RP.ROUTE_POLICY_ID = #ROUTE_POLICY_ID#;
+</select> 
+
+<!--  多表查询返回结果集为MAP -->
+<select id="get0020"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	select NS.NAME_SPACE_ID,
+	       NS.NAME_SPACE_PREFIX,
+	       NS.NAME_SPACE_URI,
+	       NS.NAME_SPACE_DESC
+	  from XML_NAME_SPACE NS, EXPR_NAME_SPACE ENS
+	 where NS.NAME_SPACE_ID = ENS.NAME_SPACE_ID
+	   and ENS.EXPR_ID = #EXPR_ID#
+</select> 
+
+
+<!-- load   多表查询返回结果集为MAP -->
+<select id="get0001"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	  SELECT RC.ROUTE_COND_ID,
+	         RC.UP_ROUTE_COND_ID,
+	         RC.GET_VALUE_EXPR_ID,
+	         RC.OPERATOR_ID,
+	         CO.OPERATOR_CODE,
+	         RC.MATCH_VALUE,
+	         RC.COND_RELATION
+	    FROM ROUTE_CONDITION RC
+	    LEFT JOIN COMPARISON_OPERATOR CO
+	      ON RC.OPERATOR_ID = CO.OPERATOR_ID
+	  connect by prior ROUTE_COND_ID = UP_ROUTE_COND_ID
+	   start with ROUTE_COND_ID = #ROUTE_COND_ID#
+	   order by level;
+</select> 
+
+<!--    多表查询返回结果集为MAP -->
+<select id="get0002"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	select EXPR_ID, GVE.COND_EVALUATOR_ID, UP_EXPR_ID, EXPR, CE.COND_EVALUATOR_CODE
+	      from GET_VALUE_EXPR GVE, COND_EVALUATOR CE
+	      where GVE.COND_EVALUATOR_ID = CE.COND_EVALUATOR_ID
+	      connect by prior expr_id = up_expr_id
+	      start with expr_id = #expr_id#
+	     order by level;
+</select> 
+ 
+ <!--    多表查询返回结果集为MAP -->
+<select id="get0003"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT API_ID, API_METHOD
+  FROM APP_API_LIST A, API P
+ WHERE A.API_ID = P.API_ID
+   AND APP_ID = #APP_ID#
+</select> 
+
+<!--    多表查询返回结果集为MAP -->
+<select id="get0004"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT A.*, AO.AUTH_PATH
+	  FROM AUTH A, AUTH_BASE AB, AUTH_OBJ AO
+	 WHERE A.AUTH_ID = AB.AUTH_ID
+	   AND A.AUTH_OBJ_ID = AO.AUTH_OBJ_ID
+	   AND AB.SER_INVOKE_INS_ID = #SER_INVOKE_INS_ID#
+</select>
+
+
+<!--    多表查询返回结果集为MAP -->
+<select id="get0005"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT TT.ATTR_SPEC_CODE, AOA.ATTR_VALUE
+	  FROM AUTH_OBJ_ATTR AOA, AUTH D, ATTR_SPEC TT
+	 WHERE AOA.AUTH_ID = D.AUTH_ID
+	   AND TT.ATTR_SPEC_ID = AOA.ATTR_SPEC_ID
+	   AND AOA.AUTH_ID = #AUTH_ID#
+</select>
+
+<!--    多表查询返回结果集为MAP -->
+<select id="get0006"  
+ resultClass="java.util.HashMap">
+	SELECT G.GC_S_E_EXP,
+	       D.THREAD_NUMBER,
+	       D.TASK_TYPE_CD,
+	       A.SER_INVOKE_INS_ID,
+	       A.TECH_IMPL_ID
+	  FROM TASK_READ_TECH_CFG A, TASK_MANAGER D, GATHER_CYCLE G
+	 WHERE A.TASK_ID = D.TASK_ID
+	   AND D.GC_CD = G.GC_CD
+</select>
+
+<!--    多表查询返回结果集为MAP -->
+<select id="get0007"  parameterClass="java.lang.String"
+ resultClass="java.util.HashMap">
+	SELECT B.ATTR_SPEC_CODE, A.ATTR_SPEC_VALUE
+  FROM TECH_IMP_ATT A, ATTR_SPEC B
+ WHERE A.ATTR_SPEC_ID = B.ATTR_SPEC_ID
+   AND A.TECH_IMPL_ID = #TECH_IMPL_ID#
+</select>
+
+<!--    多表查询返回结果集为MAP -->
+<select id="get0008"  
+ resultClass="java.util.HashMap">
+	SELECT TL.*,
+       PL.SER_TECH_IMPL_ID,
+       PL.SERVICE_ID,
+       S.SERVICE_CODE,
+       S.SERVICE_VERSION,
+       PL.STATE SER_TECH_STATE
+  FROM SER_TECH_IMPL PL, SERVICE S, TECH_IMPL TL
+ WHERE PL.TECH_IMPL_ID = TL.TECH_IMPL_ID
+   AND S.SERVICE_ID = PL.SERVICE_ID;
+</select>
+
+<select id="get0009"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.TechImpContralPo">
+	SELECT * FROM TECH_IMP_CONTRAL_PO CT  WHERE CT.TECH_IMP_CON_PO_ID=#TECH_IMP_CON_PO_ID#
+</select>
+
+<select id="get0010"  parameterClass="java.lang.String"
+ resultClass="com.ailk.eaap.op2.bo.UsableMonitorConf">
+	SELECT * FROM USABLE_MONITOR_CONF WHERE TECH_IMPL_ID=#TECH_IMPL_ID# AND TECH_IMP_CON_PO_ID=#TECH_IMP_CON_PO_ID#
+</select>
+
+<!--    多表查询返回结果集为MAP -->
+<select id="get0011"  
+ resultClass="java.util.HashMap">
+	SELECT C.VERSION, P.TEMPLATE, S.REQ_OR_RSP
+  FROM CONTRACT_VERSION C, SERVICE_PARSE S, PARSE_TEMPLATE P
+ WHERE C.CONTRACT_VERSION_ID = S.CONTRACT_VERSION_ID
+   AND S.PARSE_TEMPLATE_ID = P.PARSE_TEMPLATE_ID
+   AND P.STATE = 'A'
+</select>
+
+<select id="getAppByAppID"  parameterClass="java.lang.String"
+resultClass="com.ailk.eaap.op2.bo.App">
+	SELECT *  FROM APP WHERE APP_ID= #appId#
+</select>
+
+<select id="getCtlCounterms2CompByTechImplId"  
+ resultClass="com.ailk.eaap.op2.bo.CtlCounterms2Comp">
+	SELECT CUTMS_VALUE,CYCLE_TYPE,CYCLE_VALUE,EFFECT_STATE,CC_CD FROM CTL_COUNTERMS_2_TECH CT  WHERE CT.TECH_IMPL_ID=#TECH_IMPL_ID#
+</select>
+
+<select id="getBizFunction"  parameterClass="java.lang.String"
+resultClass="com.ailk.eaap.op2.bo.BizFunction">
+	SELECT  CODE,STATE FROM BIZ_FUNCTION WHERE CODE=#CODE#
+</select>
+
+<select id="get1000"  parameterClass="int"
+resultClass="com.ailk.eaap.op2.bo.BizFunction">
+	SELECT PD.*
+  FROM API A, API_ACC_PRI_LIST AAPL, PRI_DEFINE PD
+ WHERE A.API_ID = AAPL.API_ID
+   AND PD.PRI_DEFINE_ID = AAPL.PRI_DEFINE_ID
+   AND A.API_ID = #apiId#
+</select>
+
+</sqlMap>

@@ -1,0 +1,616 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="pricing">
+	<!-- 序列 -->
+	<select id="selectPricingPlanSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PRICING_PLAN.NEXTVAL FROM DUAL
+	</select>
+	<select id="selectPricingPlanClassifyRelSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PRICING_PLAN_CLASSIFY_REL.NEXTVAL FROM DUAL
+	</select>
+	<select id="selectProdOfferPricinSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PROD_OFFER_PRICING.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="selectOfferProdRelPricingSeq" resultClass="java.lang.String">
+		   SELECT SEQ_OFFER_PROD_REL_PRICING.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="selectPricingPlan2ProcModeSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PRICING_PLAN_2_PROC_MODE_I.NEXTVAL FROM DUAL
+	</select>
+	
+	<select id="selectProcModeInstSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PROC_MODE_INST.NEXTVAL FROM DUAL
+	</select>
+	
+	<delete id="deleteOfferProdRelPricing" parameterClass="com.ailk.eaap.op2.bo.OfferProdRelPricing">
+	  delete OFFER_PROD_REL_PRICING
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="offerProdRelPricingId">OFFER_PROD_REL_PRICING_ID=#offerProdRelPricingId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateOfferProdRelPricing" parameterClass="com.ailk.eaap.op2.bo.OfferProdRelPricing">
+	  update OFFER_PROD_REL_PRICING
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="offerProdRelaId">OFFER_PROD_RELA_ID=#offerProdRelaId#</isNotNull>
+	    <isNotNull prepend="," property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="offerProdRelPricingId">OFFER_PROD_REL_PRICING_ID=#offerProdRelPricingId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertOfferProdRelPricing" parameterClass="com.ailk.eaap.op2.bo.OfferProdRelPricing">
+	  insert into OFFER_PROD_REL_PRICING
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend=" " property="offerProdRelPricingId">OFFER_PROD_REL_PRICING_ID</isNotNull>
+	    <isNotNull prepend="," property="offerProdRelaId">OFFER_PROD_RELA_ID</isNotNull>
+	    <isNotNull prepend="," property="pricingInfoId">PRICING_INFO_ID</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE</isNotNull>
+	  </dynamic>
+	  values
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend=" " property="offerProdRelPricingId">#offerProdRelPricingId#</isNotNull>
+	    <isNotNull prepend="," property="offerProdRelaId">#offerProdRelaId#</isNotNull>
+	    <isNotNull prepend="," property="pricingInfoId">#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="," property="createDate">#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">#statusDate#</isNotNull>
+	  </dynamic>
+	</insert>
+	<select id="selectOfferProdRelPricing" parameterClass="com.ailk.eaap.op2.bo.OfferProdRelPricing" resultClass="com.ailk.eaap.op2.bo.OfferProdRelPricing">
+	  select * from OFFER_PROD_REL_PRICING
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="offerProdRelPricingId">OFFER_PROD_REL_PRICING_ID=#offerProdRelPricingId#</isNotNull>
+	    <isNotNull prepend="and" property="offerProdRelaId">OFFER_PROD_RELA_ID=#offerProdRelaId#</isNotNull>
+	    <isNotNull prepend="and" property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="and" property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="and" property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="and" property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	</select>
+	<delete id="deleteProdOfferPricing" parameterClass="com.ailk.eaap.op2.bo.ProdOfferPricing">
+	  delete PROD_OFFER_PRICING
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="prodOfferPricingId">PROD_OFFER_PRICING_ID=#prodOfferPricingId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateProdOfferPricing" parameterClass="com.ailk.eaap.op2.bo.ProdOfferPricing">
+	  update PROD_OFFER_PRICING
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="prodOfferId">PROD_OFFER_ID=#prodOfferId#</isNotNull>
+	    <isNotNull prepend="," property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="prodOfferPricingId">PROD_OFFER_PRICING_ID=#prodOfferPricingId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertProdOfferPricing" parameterClass="com.ailk.eaap.op2.bo.ProdOfferPricing">
+	  insert into PROD_OFFER_PRICING (PROD_OFFER_PRICING_ID,PROD_OFFER_ID,PRICING_INFO_ID,CREATE_DATE, STATUS_CD,STATUS_DATE,PRICING_TYPE)  
+	  values( #prodOfferPricingId#,#prodOfferId#,#pricingInfoId#,#createDate#,#statusCd#,#statusDate#,#pricingType#)
+	</insert>
+	<select id="selectProdOfferPricing" parameterClass="com.ailk.eaap.op2.bo.ProdOfferPricing" resultClass="com.ailk.eaap.op2.bo.ProdOfferPricing">
+	  select * from PROD_OFFER_PRICING
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="prodOfferPricingId">PROD_OFFER_PRICING_ID=#prodOfferPricingId#</isNotNull>
+	    <isNotNull prepend="and" property="prodOfferId">PROD_OFFER_ID=#prodOfferId#</isNotNull>
+	    <isNotNull prepend="and" property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="and" property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="and" property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="and" property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	<!-- 定价关联配置能力 -->
+	<delete id="deletePricingPlan2ProcModeInst" parameterClass="com.ailk.eaap.op2.bo.PricingPlan2ProcModeInst">
+	  DELETE PRICING_PLAN_2_PROC_MODE_INST
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="relaId">RELA_ID=#relaId#</isNotNull>
+	  </dynamic>
+	</delete>
+	
+	<update id="updatePricingPlan2ProcModeInst" parameterClass="com.ailk.eaap.op2.bo.PricingPlan2ProcModeInst">
+	  UPDATE PRICING_PLAN_2_PROC_MODE_INST
+	  <dynamic prepend="SET">
+	    <isNotNull prepend="," property="seqId">SEQ_ID=#seqId#</isNotNull>
+	    <isNotNull prepend="," property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="," property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	    <isNotNull prepend="," property="relaType">RELA_TYPE=#relaType#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="relaId">RELA_ID=#relaId#</isNotNull>
+	  </dynamic>
+	</update>
+	
+	<insert id="insertPricingPlan2ProcModeInst" parameterClass="com.ailk.eaap.op2.bo.PricingPlan2ProcModeInst">
+	  INSERT INTO PRICING_PLAN_2_PROC_MODE_INST
+	  	(RELA_ID,SEQ_ID,PRICING_INFO_ID,PROC_MODE_INST_ID,RELA_TYPE)
+	  VALUES
+	  	(#relaId#,#seqId#,#pricingInfoId#,#procModeInstId#,#relaType#)
+	</insert>
+	
+	<select id="selectPricingPlan2ProcModeInst" parameterClass="com.ailk.eaap.op2.bo.PricingPlan2ProcModeInst" resultClass="com.ailk.eaap.op2.bo.PricingPlan2ProcModeInst">
+	  SELECT 
+	  	RELA_ID relaId,
+	  	SEQ_ID seqId,
+	  	PRICING_INFO_ID pricingInfoId,
+	  	PROC_MODE_INST_ID procModeInstId,
+	  	RELA_TYPE relaType
+	  FROM PRICING_PLAN_2_PROC_MODE_INST
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="relaId">RELA_ID=#relaId#</isNotNull>
+	    <isNotNull prepend="AND" property="seqId">SEQ_ID=#seqId#</isNotNull>
+	    <isNotNull prepend="AND" property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="AND" property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	    <isNotNull prepend="AND" property="relaType">RELA_TYPE=#relaType#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	<!-- 定价计划 -->
+	<delete id="deletePricingPlan" parameterClass="com.ailk.eaap.op2.bo.PricingPlan">
+	  DELETE PRICING_PLAN
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="pricingInfoId"> PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	  </dynamic>
+	</delete>
+	
+	<update id="updatePricingPlan" parameterClass="com.ailk.eaap.op2.bo.PricingPlan">
+	  UPDATE PRICING_PLAN
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="pricingType">PRICING_TYPE=#pricingType#</isNotNull>
+	    <isNotNull prepend="," property="pricingDesc">PRICING_DESC=#pricingDesc#</isNotNull>
+	    <isNotNull prepend="," property="beyondDesc">BEYOND_DESC=#beyondDesc#</isNotNull>
+	    <isNotNull prepend="," property="priceSign">PRICE_SIGN=#priceSign#</isNotNull>
+	    <isNotNull prepend="," property="priceCha">PRICE_CHA=#priceCha#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	    <isNotNull prepend="," property="effDate">EFF_DATE=#effDate#</isNotNull>
+	    <isNotNull prepend="," property="expDate">EXP_DATE=#expDate#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="and" property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	  </dynamic>
+	</update>
+	
+	<insert id="insertPricingPlan" parameterClass="com.ailk.eaap.op2.bo.PricingPlan">
+	  INSERT INTO PRICING_PLAN
+	  (CREATE_DATE,STATUS_DATE,EFF_DATE
+	  <dynamic>
+	  	<isNotNull prepend="," property="pricingInfoId">PRICING_INFO_ID</isNotNull>
+	    <isNotNull prepend="," property="pricingType">PRICING_TYPE</isNotNull>
+	    <isNotNull prepend="," property="pricingDesc">PRICING_DESC</isNotNull>
+	    <isNotNull prepend="," property="beyondDesc">BEYOND_DESC</isNotNull>
+	    <isNotNull prepend="," property="priceSign">PRICE_SIGN</isNotNull>
+	    <isNotNull prepend="," property="priceCha">PRICE_CHA</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="expDate">EXP_DATE</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES
+	  (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+	  <dynamic>
+	  	<isNotNull prepend="," property="pricingInfoId">#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="," property="pricingType">#pricingType#</isNotNull>
+	    <isNotNull prepend="," property="pricingDesc">#pricingDesc#</isNotNull>
+	    <isNotNull prepend="," property="beyondDesc">#beyondDesc#</isNotNull>
+	    <isNotNull prepend="," property="priceSign">#priceSign#</isNotNull>
+	    <isNotNull prepend="," property="priceCha">#priceCha#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="expDate">#expDate#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+	<select id="selectPricingPlan" parameterClass="com.ailk.eaap.op2.bo.PricingPlan" resultClass="com.ailk.eaap.op2.bo.PricingPlan">
+	  SELECT 
+	  	PRICING_INFO_ID pricingInfoId,
+	  	PRICING_CLASSIFY pricingClassify,
+	  	PRICING_TYPE pricingType,
+	  	PRICING_DESC pricingDesc,
+	  	PRICE_SIGN priceSign,
+	  	PRICE_CHA priceCha,
+	  	CREATE_DATE createDate,
+	  	STATUS_CD statusCd,
+	  	STATUS_DATE statusDate,
+	  	EFF_DATE effDate,
+	  	EXP_DATE expDate
+	  FROM PRICING_PLAN 
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="and" property="pricingInfoId">PRICING_INFO_ID=#pricingInfoId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	<!-- 配置能力实例 -->
+	<delete id="deleteProcModeInst" parameterClass="com.ailk.eaap.op2.bo.ProcModeInst">
+	  DELETE PROC_MODE_INST
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	  </dynamic>
+	</delete>
+	
+	<update id="updateProcModeInst" parameterClass="com.ailk.eaap.op2.bo.ProcModeInst">
+	  UPDATE PROC_MODE_INST
+	  <dynamic prepend="SET">
+	    <isNotNull prepend="," property="procModeId">PROC_MODE_ID=#procModeId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	    <isNotNull prepend="," property="parentProcModeInstId">PARENT_PROC_MODE_INST_ID=#parentProcModeInstId#</isNotNull>
+	    <isNotNull prepend="," property="procModeDesc">PROC_MODE_DESC=#procModeDesc#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="and" property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	  </dynamic>
+	</update>
+	
+	<insert id="insertProcModeInst" parameterClass="com.ailk.eaap.op2.bo.ProcModeInst">
+	  INSERT INTO PROC_MODE_INST
+	  (CREATE_DATE,STATUS_DATE
+	  <dynamic>
+	  	<isNotNull prepend="," property="procModeInstId">PROC_MODE_INST_ID</isNotNull>
+	    <isNotNull prepend="," property="procModeId">PROC_MODE_ID</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="parentProcModeInstId">PARENT_PROC_MODE_INST_ID</isNotNull>
+	    <isNotNull prepend="," property="procModeDesc">PROC_MODE_DESC</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES
+	  (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+	  <dynamic>
+	  	<isNotNull prepend="," property="procModeInstId">#procModeInstId#</isNotNull>
+	    <isNotNull prepend="," property="procModeId">#procModeId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="parentProcModeInstId">#parentProcModeInstId#</isNotNull>
+	    <isNotNull prepend="," property="procModeDesc">#procModeDesc#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+	<select id="selectProcModeInst" parameterClass="com.ailk.eaap.op2.bo.ProcModeInst" resultClass="com.ailk.eaap.op2.bo.ProcModeInst">
+	  SELECT 
+	  	PROC_MODE_INST_ID procModeInstId,
+	  	PROC_MODE_ID procModeId,
+	  	STATUS_CD statusCd,
+	  	CREATE_DATE createDate,
+	  	STATUS_DATE statusDate,
+	  	PARENT_PROC_MODE_INST_ID parentProcModeInstId,
+	  	PROC_MODE_DESC procModeDesc
+	  FROM PROC_MODE_INST
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="and" property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeId">PROC_MODE_ID=#procModeId#</isNotNull>
+	    <isNotNull prepend="and" property="parentProcModeInstId">PARENT_PROC_MODE_INST_ID=#parentProcModeInstId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	<!-- 配置能力实例关联 -->
+	<delete id="deleteProcModeInstRel" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstRel">
+	  delete PROC_MODE_INST_REL
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeInstRelId">PROC_MODE_INST_REL_ID=#procModeInstRelId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateProcModeInstRel" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstRel">
+	  update PROC_MODE_INST_REL
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="procModeInstAId">PROC_MODE_INST_A_ID=#procModeInstAId#</isNotNull>
+	    <isNotNull prepend="," property="procModeInstZId">PROC_MODE_INST_Z_ID=#procModeInstZId#</isNotNull>
+	    <isNotNull prepend="," property="relationTypeCd">RELATION_TYPE_CD=#relationTypeCd#</isNotNull>
+	    <isNotNull prepend="," property="useType">USE_TYPE=#useType#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeInstRelId">PROC_MODE_INST_REL_ID=#procModeInstRelId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertProcModeInstRel" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstRel">
+	  insert into PROC_MODE_INST_REL
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeInstAId">PROC_MODE_INST_A_ID</isNotNull>
+	    <isNotNull prepend="," property="procModeInstZId">PROC_MODE_INST_Z_ID</isNotNull>
+	    <isNotNull prepend="," property="relationTypeCd">RELATION_TYPE_CD</isNotNull>
+	    <isNotNull prepend="," property="useType">USE_TYPE</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE</isNotNull>
+	  </dynamic>
+	  values
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeInstAId">#procModeInstAId#</isNotNull>
+	    <isNotNull prepend="," property="procModeInstZId">#procModeInstZId#</isNotNull>
+	    <isNotNull prepend="," property="relationTypeCd">#relationTypeCd#</isNotNull>
+	    <isNotNull prepend="," property="useType">#useType#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="createDate">#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">#statusDate#</isNotNull>
+	  </dynamic>
+	</insert>
+	<select id="selectProcModeInstRel" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstRel" resultClass="com.ailk.eaap.op2.bo.ProcModeInstRel">
+	  select * from PROC_MODE_INST_REL
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeInstRelId">PROC_MODE_INST_REL_ID=#procModeInstRelId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeInstAId">PROC_MODE_INST_A_ID=#procModeInstAId#</isNotNull>
+	    <isNotNull prepend="and" property="relationTypeCd">RELATION_TYPE_CD=#relationTypeCd#</isNotNull>
+	    <isNotNull prepend="and" property="useType">USE_TYPE=#useType#</isNotNull>
+	    <isNotNull prepend="and" property="procModeInstZId">PROC_MODE_INST_Z_ID=#procModeInstZId#</isNotNull>
+	    <isNotNull prepend="and" property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="and" property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="and" property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	</select>
+	<delete id="deleteProcModeInstAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstAttr">
+	  delete PROC_MODE_INST_ATTR
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeInstAttrId">PROC_MODE_INST_ATTR_ID=#procModeInstAttrId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateProcModeInstAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstAttr">
+	  update PROC_MODE_INST_ATTR
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	    <isNotNull prepend="," property="procModeAttrId">PROC_MODE_ATTR_ID=#procModeAttrId#</isNotNull>
+	    <isNotNull prepend="," property="procModeInstAttrValue">PROC_MODE_INST_ATTR_VALUE=#procModeInstAttrValue#</isNotNull>
+	    <isNotNull prepend="," property="procModeValueId">PROC_MODE_VALUE_ID=#procModeValueId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeInstAttrId">PROC_MODE_INST_ATTR_ID=#procModeInstAttrId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertProcModeInstAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstAttr">
+	  insert into PROC_MODE_INST_ATTR
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeInstId">PROC_MODE_INST_ID</isNotNull>
+	    <isNotNull prepend="," property="procModeAttrId">PROC_MODE_ATTR_ID</isNotNull>
+	    <isNotNull prepend="," property="procModeInstAttrValue">PROC_MODE_INST_ATTR_VALUE</isNotNull>
+	    <isNotNull prepend="," property="procModeValueId">PROC_MODE_VALUE_ID</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE</isNotNull>
+	  </dynamic>
+	  values
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeInstId">#procModeInstId#</isNotNull>
+	    <isNotNull prepend="," property="procModeAttrId">#procModeAttrId#</isNotNull>
+	    <isNotNull prepend="," property="procModeInstAttrValue">#procModeInstAttrValue#</isNotNull>
+	    <isNotNull prepend="," property="procModeValueId">#procModeValueId#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="createDate">#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">#statusDate#</isNotNull>
+	  </dynamic>
+	</insert>
+	<select id="selectProcModeInstAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstAttr" resultClass="com.ailk.eaap.op2.bo.ProcModeInstAttr">
+	  select * from PROC_MODE_INST_ATTR
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeInstAttrId">PROC_MODE_INST_ATTR_ID=#procModeInstAttrId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeAttrId">PROC_MODE_ATTR_ID=#procModeAttrId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeInstAttrValue">PROC_MODE_INST_ATTR_VALUE=#procModeInstAttrValue#</isNotNull>
+	    <isNotNull prepend="and" property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="and" property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="and" property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	    <isNotNull prepend="and" property="procModeValueId">PROC_MODE_VALUE_ID=#procModeValueId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	
+	<delete id="deleteProcModeAttrValue" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttrValue">
+	  delete PROC_MODE_ATTR_VALUE
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeValueId">PROC_MODE_VALUE_ID=#procModeValueId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateProcModeAttrValue" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttrValue">
+	  update PROC_MODE_ATTR_VALUE
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="procModeAttrId">PROC_MODE_ATTR_ID=#procModeAttrId#</isNotNull>
+	    <isNotNull prepend="," property="attrValueId">ATTR_VALUE_ID=#attrValueId#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeValueId">PROC_MODE_VALUE_ID=#procModeValueId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertProcModeAttrValue" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttrValue">
+	  insert into PROC_MODE_ATTR_VALUE
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeAttrId">PROC_MODE_ATTR_ID</isNotNull>
+	    <isNotNull prepend="," property="attrValueId">ATTR_VALUE_ID</isNotNull>
+	  </dynamic>
+	  values
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeAttrId">#procModeAttrId#</isNotNull>
+	    <isNotNull prepend="," property="attrValueId">#attrValueId#</isNotNull>
+	  </dynamic>
+	</insert>
+	<select id="selectProcModeAttrValue" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttrValue" resultClass="com.ailk.eaap.op2.bo.ProcModeAttrValue">
+	  select * from PROC_MODE_ATTR_VALUE
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeValueId">PROC_MODE_VALUE_ID=#procModeValueId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeAttrId">PROC_MODE_ATTR_ID=#procModeAttrId#</isNotNull>
+	    <isNotNull prepend="and" property="attrValueId">ATTR_VALUE_ID=#attrValueId#</isNotNull>
+	  </dynamic>
+	</select>
+	<delete id="deleteProcModeAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttr">
+	  delete PROC_MODE_ATTR
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeAttrId">PROC_MODE_ATTR_ID=#procModeAttrId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateProcModeAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttr">
+	  update PROC_MODE_ATTR
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="procModeId">PROC_MODE_ID=#procModeId#</isNotNull>
+	    <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID=#attrSpecId#</isNotNull>
+	    <isNotNull prepend="," property="procModeSeq">PROC_MODE_SEQ=#procModeSeq#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeAttrId">PROC_MODE_ATTR_ID=#procModeAttrId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertProcModeAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttr">
+	  insert into PROC_MODE_ATTR
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeId">PROC_MODE_ID</isNotNull>
+	    <isNotNull prepend="," property="attrSpecId">ATTR_SPEC_ID</isNotNull>
+	    <isNotNull prepend="," property="procModeSeq">PROC_MODE_SEQ</isNotNull>
+	  </dynamic>
+	  values
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeId">#procModeId#</isNotNull>
+	    <isNotNull prepend="," property="attrSpecId">#attrSpecId#</isNotNull>
+	    <isNotNull prepend="," property="procModeSeq">#procModeSeq#</isNotNull>
+	  </dynamic>
+	</insert>
+	<select id="selectProcModeAttr" parameterClass="com.ailk.eaap.op2.bo.ProcModeAttr" resultClass="com.ailk.eaap.op2.bo.ProcModeAttr">
+	  select * from PROC_MODE_ATTR
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeAttrId">PROC_MODE_ATTR_ID=#procModeAttrId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeId">PROC_MODE_ID=#procModeId#</isNotNull>
+	    <isNotNull prepend="and" property="attrSpecId">ATTR_SPEC_ID=#attrSpecId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeSeq">PROC_MODE_SEQ=#procModeSeq#</isNotNull>
+	  </dynamic>
+	</select>
+	<delete id="deleteProcMode" parameterClass="com.ailk.eaap.op2.bo.ProcMode">
+	  delete PROC_MODE
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeId">PROC_MODE_ID=#procModeId#</isNotNull>
+	  </dynamic>
+	</delete>
+	<update id="updateProcMode" parameterClass="com.ailk.eaap.op2.bo.ProcMode">
+	  update PROC_MODE
+	  <dynamic prepend="set">
+	    <isNotNull prepend="," property="procModeName">PROC_MODE_NAME=#procModeName#</isNotNull>
+	    <isNotNull prepend="," property="procModeCode">PROC_MODE_CODE=#procModeCode#</isNotNull>
+	    <isNotNull prepend="," property="procModeDesc">PROC_MODE_DESC=#procModeDesc#</isNotNull>
+	    <isNotNull prepend="," property="procModeType">PROC_MODE_TYPE=#procModeType#</isNotNull>
+	    <isNotNull prepend="," property="versionNumber">VERSION_NUMBER=#versionNumber#</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	    <isNotNull prepend="," property="format">FORMAT=#format#</isNotNull>
+	    <isNotNull prepend="," property="implSysId">IMPL_SYS_ID=#implSysId#</isNotNull>
+	  </dynamic>
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeId">PROC_MODE_ID=#procModeId#</isNotNull>
+	  </dynamic>
+	</update>
+	<insert id="insertProcMode" parameterClass="com.ailk.eaap.op2.bo.ProcMode">
+	  insert into PROC_MODE
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeName">PROC_MODE_NAME</isNotNull>
+	    <isNotNull prepend="," property="procModeCode">PROC_MODE_CODE</isNotNull>
+	    <isNotNull prepend="," property="procModeDesc">PROC_MODE_DESC</isNotNull>
+	    <isNotNull prepend="," property="procModeType">PROC_MODE_TYPE</isNotNull>
+	    <isNotNull prepend="," property="versionNumber">VERSION_NUMBER</isNotNull>
+	    <isNotNull prepend="," property="createDate">CREATE_DATE</isNotNull>
+	    <isNotNull prepend="," property="statusCd">STATUS_CD</isNotNull>
+	    <isNotNull prepend="," property="statusDate">STATUS_DATE</isNotNull>
+	    <isNotNull prepend="," property="format">FORMAT</isNotNull>
+	    <isNotNull prepend="," property="implSysId">IMPL_SYS_ID</isNotNull>
+	  </dynamic>
+	  values
+	  <dynamic open="(" close=")">
+	    <isNotNull prepend="," property="procModeName">#procModeName#</isNotNull>
+	    <isNotNull prepend="," property="procModeCode">#procModeCode#</isNotNull>
+	    <isNotNull prepend="," property="procModeDesc">#procModeDesc#</isNotNull>
+	    <isNotNull prepend="," property="procModeType">#procModeType#</isNotNull>
+	    <isNotNull prepend="," property="versionNumber">#versionNumber#</isNotNull>
+	    <isNotNull prepend="," property="createDate">#createDate#</isNotNull>
+	    <isNotNull prepend="," property="statusCd">#statusCd#</isNotNull>
+	    <isNotNull prepend="," property="statusDate">#statusDate#</isNotNull>
+	    <isNotNull prepend="," property="format">#format#</isNotNull>
+	    <isNotNull prepend="," property="implSysId">#implSysId#</isNotNull>
+	  </dynamic>
+	</insert>
+	<select id="selectProcMode" parameterClass="com.ailk.eaap.op2.bo.ProcMode" resultClass="com.ailk.eaap.op2.bo.ProcMode">
+	  select * from PROC_MODE
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeId">PROC_MODE_ID=#procModeId#</isNotNull>
+	    <isNotNull prepend="and" property="procModeName">PROC_MODE_NAME=#procModeName#</isNotNull>
+	    <isNotNull prepend="and" property="procModeCode">PROC_MODE_CODE=#procModeCode#</isNotNull>
+	    <isNotNull prepend="and" property="procModeDesc">PROC_MODE_DESC=#procModeDesc#</isNotNull>
+	    <isNotNull prepend="and" property="procModeType">PROC_MODE_TYPE=#procModeType#</isNotNull>
+	    <isNotNull prepend="and" property="versionNumber">VERSION_NUMBER=#versionNumber#</isNotNull>
+	    <isNotNull prepend="and" property="createDate">CREATE_DATE=#createDate#</isNotNull>
+	    <isNotNull prepend="and" property="statusCd">STATUS_CD=#statusCd#</isNotNull>
+	    <isNotNull prepend="and" property="statusDate">STATUS_DATE=#statusDate#</isNotNull>
+	    <isNotNull prepend="and" property="format">FORMAT=#format#</isNotNull>
+	    <isNotNull prepend="and" property="implSysId">IMPL_SYS_ID=#implSysId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+	<select id="selectClassifyNameByProdofferId" parameterClass="com.ailk.eaap.op2.bo.ProdOfferPricing"
+      resultClass="java.util.HashMap" >
+         select b.PRICING_DESC, b.pricing_info_id, b.BEYOND_DESC, d.NAME
+  from PROD_OFFER_PRICING        a,
+       PRICING_PLAN              b,
+       PRICING_PLAN_CLASSIFY_REL c,
+       PRICING_CLASSIFY          d
+ where a.prod_offer_id = #prodOfferId# and a.pricing_type=#pricingType#
+   and a.pricing_info_id = b.pricing_info_id
+   and b.pricing_info_id = c.pricing_info_id
+   and c.pricing_classify = d.cd
+    </select>
+     <insert id="insertPricingPlanClassifyRel" parameterClass="com.ailk.eaap.op2.bo.PricingPlanClassifyRel">
+	  INSERT INTO PRICING_PLAN_CLASSIFY_REL
+	  (
+	  <dynamic>
+	  	<isNotNull prepend=" " property="pricingPlanClassifyRelId">PRICING_PLAN_CLASSIFY_REL_ID</isNotNull>
+	    <isNotNull prepend="," property="pricingInfoId">PRICING_INFO_ID</isNotNull>
+	    <isNotNull prepend="," property="pricingClassify">PRICING_CLASSIFY</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES
+	  (
+	  <dynamic>
+	  	<isNotNull prepend=" " property="pricingPlanClassifyRelId">#pricingPlanClassifyRelId#</isNotNull>
+	    <isNotNull prepend="," property="pricingInfoId">#pricingInfoId#</isNotNull>
+	    <isNotNull prepend="," property="pricingClassify">#pricingClassify#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+    <delete id="deleteProcModeInstAttrByProcModeInstId" parameterClass="com.ailk.eaap.op2.bo.ProcModeInstAttr">
+	  DELETE PROC_MODE_INST_ATTR
+	  <dynamic prepend="where">
+	    <isNotNull prepend="and" property="procModeInstId">PROC_MODE_INST_ID=#procModeInstId#</isNotNull>
+	  </dynamic>
+	</delete>
+	
+	<select id="selectRelPricingByProdofferId" parameterClass="com.ailk.eaap.op2.bo.ProdOfferPricing"
+      resultClass="java.util.HashMap" >
+		    select max(pp.PRICING_DESC) PRICING_DESC,
+		           pp.pricing_info_id,
+		           max(pp.BEYOND_DESC) BEYOND_DESC,
+		           max(pc.NAME) NAME
+		      from offer_prod_rel_pricing oprp
+		inner join Offer_Prod_Rel opr
+		        on opr.offer_prod_rela_id = oprp.offer_prod_rela_id
+		inner join pricing_plan pp
+		        on pp.pricing_info_id = oprp.pricing_info_id
+		inner join pricing_plan_2_proc_mode_inst pp2pmi
+		        on pp2pmi.pricing_info_id = pp.pricing_info_id
+		inner join proc_mode_inst pmi
+		        on pmi.proc_mode_inst_id = pp2pmi.proc_mode_inst_id
+		inner join pricing_plan_classify_rel ppcr
+		        on ppcr.pricing_info_id = pp.pricing_info_id
+		inner join pricing_classify pc
+		        on pc.cd = ppcr.pricing_classify
+		     where opr.prod_offer_id = #prodOfferId#
+		  group by pp.pricing_info_id
+    </select>
+	
+</sqlMap>

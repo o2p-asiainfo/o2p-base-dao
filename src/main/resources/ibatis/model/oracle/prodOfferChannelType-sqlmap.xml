@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="prodOfferChannelType">
+	<select id="selectProdOfferChannelType" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannelType"
+		resultClass="com.ailk.eaap.op2.bo.ProdOfferChannelType">
+		SELECT PROD_OFFER_CHANNEL_TYPE_ID prodOfferChannelTypeId,PROD_OFFER_ID
+		prodOfferId,CHANNEL_TYPE channelType FROM PROD_OFFER_CHANNEL_TYPE
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="prodOfferId">
+				PROD_OFFER_ID=#prodOfferId#</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="selectProdOfferChannelTypeSeq" resultClass="java.lang.String">
+		SELECT SEQ_PROD_OFFER_CHANNEL_TYPE.NEXTVAL FROM DUAL
+	</select>
+
+	<insert id="insertProdOfferChannelType" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannelType">
+		INSERT INTO PROD_OFFER_CHANNEL_TYPE
+		(PROD_OFFER_CHANNEL_TYPE_ID,PROD_OFFER_ID,CHANNEL_TYPE)
+		VALUES (#prodOfferChannelTypeId#,#prodOfferId#,#channelType#)
+	</insert>
+
+	<delete id="deleteProdOfferChannelType" parameterClass="com.ailk.eaap.op2.bo.ProdOffer">
+		delete PROD_OFFER_CHANNEL_TYPE
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="prodOfferId">PROD_OFFER_ID=#prodOfferId#
+			</isNotNull>
+		</dynamic>
+	</delete>
+
+
+	<select id="selectChannel" parameterClass="com.ailk.eaap.op2.bo.Channel"
+		resultClass="com.ailk.eaap.op2.bo.Channel">
+		SELECT b.channel_id as channelId,b.channel_name as channelName,
+		       b.channel_level_cd as channelLevelCd,b.channel_type_cd as channelTypeCd,
+		       b.channel_subtype_cd as channelSubTypeCd,b.status_cd as statusCd,
+		       b.parent_chn_id as parentChannelId,
+		       b.org_id as orgId,b.channel_main_type as channelMainType 
+		FROM CHANNEL b 
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="channelId">
+				channel_id=#channelId#</isNotNull>
+			<isNotNull prepend=" AND " property="channelTypeCd">
+				channel_type_cd=#channelTypeCd# </isNotNull>
+			<isNotNull prepend=" AND " property="channelMainType">
+				channel_main_type=#channelMainType# </isNotNull>
+			<isNotNull prepend=" AND " property="channelSubTypeCd">
+				channel_subtype_cd=#channelSubTypeCd# </isNotNull>
+			<isNotNull prepend=" AND " property="statusCd">
+				status_cd=#statusCd# </isNotNull>
+			<isNotNull prepend=" AND " property="parentChannelId">
+				parent_chn_id=#parentChannelId# </isNotNull>
+		</dynamic>
+		order by channel_id
+	</select>
+	<select id="selectProdOfferChannel" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannel"
+		resultClass="com.ailk.eaap.op2.bo.Channel">
+		SELECT a.channel_id as channelId,b.channel_name as channelName FROM PROD_OFFER_CHANNEL a,CHANNEL b
+		where a.channel_id=b.channel_id
+		<dynamic>
+			<isNotNull prepend="AND" property="prodOfferId">
+				prod_offer_id=#prodOfferId#</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="selectProdOfferChannelDetail" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannel"
+		resultClass="com.ailk.eaap.op2.bo.ProdOfferChannel">
+		SELECT prod_offer_channel_id prodOfferChannelId,
+		       prod_offer_id prodOfferId,
+		       channel_id channelId,
+		       status_cd statusCd,
+		       audit_flow_id auditFlowId,
+		       EFF_DATE effDate,
+		       EXP_DATE expDate 
+		FROM PROD_OFFER_CHANNEL 
+		where prod_offer_id=#prodOfferId# and status_cd=#statusCd#
+	</select>
+	
+	<insert id="insertProdOfferChannel" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannel">
+	 <selectKey resultClass="int" keyProperty="prodOfferChannelId">
+		 SELECT SEQ_PROD_OFFER_CHANNEL.NEXTVAL
+    	</selectKey>	
+		insert into PROD_OFFER_CHANNEL(prod_offer_channel_id,prod_offer_id,channel_id,status_cd,EFF_DATE,EXP_DATE)
+		VALUES (#prodOfferChannelId#,#prodOfferId#,#channelId#,#statusCd#,#effDate#,#expDate#)
+	</insert>
+	
+	<delete id="deleteProdOfferChannel" parameterClass="com.ailk.eaap.op2.bo.ProdOfferChannel">
+		delete from PROD_OFFER_CHANNEL where PROD_OFFER_ID=#prodOfferId#
+	</delete>
+</sqlMap>

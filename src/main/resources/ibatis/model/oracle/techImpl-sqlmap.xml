@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="techImpl">
+ <!-- 获取表序列 -->
+ <select id="selectTechImplSeq" resultClass="java.lang.String">
+   SELECT SEQ_TECH_IMPL.NEXTVAL FROM DUAL
+</select>
+
+<update id="updateTechImpl" parameterClass="com.ailk.eaap.op2.bo.TechImpl">
+  UPDATE TECH_IMPL
+  <dynamic prepend="SET">
+    <isNotNull prepend="," property="techImplName"> TECH_IMPL_NAME=#techImplName#</isNotNull>
+    <isNotNull prepend="," property="techImpConPoId"> TECH_IMP_CON_PO_ID=#techImpConPoId#</isNotNull>
+    <isNotNull prepend="," property="componentId"> COMPONENT_ID=#componentId#</isNotNull>
+    <isNotNull prepend="," property="commProCd"> COMM_PRO_CD=#commProCd#</isNotNull>
+    <isNotNull prepend="," property="usealbeState"> USEALBE_STATE=#usealbeState#</isNotNull>
+    <isNotNull prepend="," property="laestTime"> LAEST_TIME=#laestTime#</isNotNull>
+  </dynamic>
+  WHERE TECH_IMPL_ID=#techImplId#
+</update>
+
+<insert id="insertTechImpl" parameterClass="com.ailk.eaap.op2.bo.TechImpl">
+ INSERT INTO TECH_IMPL
+ (REG_TIME,LAEST_TIME,TECH_IMPL_CODE,TENANT_ID
+ <dynamic>
+	 <isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+	 <isNotNull prepend="," property="techImplName">TECH_IMPL_NAME</isNotNull>
+	 <isNotNull prepend="," property="techImpConPoId">TECH_IMP_CON_PO_ID</isNotNull>
+	 <isNotNull prepend="," property="componentId">COMPONENT_ID</isNotNull>
+	 <isNotNull prepend="," property="commProCd">COMM_PRO_CD</isNotNull>
+	 <isNotNull prepend="," property="usealbeState">USEALBE_STATE</isNotNull>
+ </dynamic>
+  )
+  VALUES
+  (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0,sys_guid(),#tenantId#
+  <dynamic>
+	  <isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+	  <isNotNull prepend="," property="techImplName">#techImplName#</isNotNull>
+	  <isNotNull prepend="," property="techImpConPoId">#techImpConPoId#</isNotNull>
+	  <isNotNull prepend="," property="componentId">#componentId#</isNotNull>
+	  <isNotNull prepend="," property="commProCd">#commProCd#</isNotNull>
+	  <isNotNull prepend="," property="usealbeState">#usealbeState#</isNotNull>
+  </dynamic>
+   )
+</insert>
+
+<select id="selectTechImpl" parameterClass="com.ailk.eaap.op2.bo.TechImpl" resultClass="com.ailk.eaap.op2.bo.TechImpl">
+ SELECT TECH_IMPL_ID techImplId,TECH_IMPL_NAME techImplName,TECH_IMP_CON_PO_ID techImpConPoId,COMPONENT_ID componentId,
+        COMM_PRO_CD commProCd,REG_TIME regTime,USEALBE_STATE usealbeState,LAEST_TIME laestTime FROM TECH_IMPL
+  <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+  </dynamic>
+</select>
+</sqlMap>

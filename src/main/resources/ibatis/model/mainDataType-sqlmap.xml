@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="mainDataType">
+     <select id="selectSysdate" resultClass="java.lang.String">
+		   select name from MAIN_DATA_TYPE where MDT_CD = '1'
+	 </select>
+<delete id="deleteMainDataType" parameterClass="com.ailk.eaap.op2.bo.MainDataType">
+  delete MAIN_DATA_TYPE
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="mdtCd">MDT_CD=#mdtCd#</isNotNull>
+  </dynamic>
+</delete>
+<update id="updateMainDataType" parameterClass="com.ailk.eaap.op2.bo.MainDataType">
+  update MAIN_DATA_TYPE
+  <dynamic prepend="set">
+    <isNotNull prepend="," property="mdtName"> MDT_NAME=#mdtName#</isNotNull>
+    <isNotNull prepend="," property="mdtDesc"> MDT_DESC=#mdtDesc#</isNotNull>
+    <isNotNull prepend="," property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="," property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="mdtSign"> MDT_SIGN=#mdtSign#</isNotNull>
+  </dynamic>
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="mdtCd"> MDT_CD=#mdtCd#</isNotNull>
+  </dynamic>
+</update>
+<insert id="insertMainDataType" parameterClass="com.ailk.eaap.op2.bo.MainDataType">
+    
+   <selectKey resultClass="String" keyProperty="mdtCd">
+		 SELECT  to_char(SEQ_MAIN_DATA_T.NEXTVAL)  FROM DUAL
+   </selectKey>	
+   insert into MAIN_DATA_TYPE
+  (CREATE_TIME
+ <dynamic>
+    <isNotNull prepend="," property="mdtCd">MDT_CD</isNotNull>
+    <isNotNull prepend="," property="mdtName">MDT_NAME</isNotNull>
+    <isNotNull prepend="," property="mdtDesc">MDT_DESC</isNotNull>
+    <isNotNull prepend="," property="state">STATE</isNotNull>
+    <isNotNull prepend="," property="lastestTime">LASTEST_TIME</isNotNull>
+    <isNotNull prepend="," property="mdtSign">MDT_SIGN</isNotNull>
+  </dynamic>
+  )
+  values
+  (sysdate
+   <dynamic>
+    <isNotNull prepend="," property="mdtCd">#mdtCd#</isNotNull>
+    <isNotNull prepend="," property="mdtName">#mdtName#</isNotNull>
+    <isNotNull prepend="," property="mdtDesc">#mdtDesc#</isNotNull>
+    <isNotNull prepend="," property="state">#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime">#lastestTime#</isNotNull>
+    <isNotNull prepend="," property="mdtSign">#mdtSign#</isNotNull>
+  </dynamic>
+  )
+</insert>
+<select id="selectMainDataType" parameterClass="com.ailk.eaap.op2.bo.MainDataType" resultClass="com.ailk.eaap.op2.bo.MainDataType">
+  select MDT_CD mdtCd, MDT_NAME mdtName ,MDT_DESC mdtDesc , CREATE_TIME createTime, STATE state ,LASTEST_TIME lastestTime,MDT_SIGN mdtSign from MAIN_DATA_TYPE
+  <dynamic prepend="where">
+    <isNotNull prepend="and" property="mdtCd"> MDT_CD=#mdtCd#</isNotNull>
+    <isNotNull prepend="and" property="mdtName"> MDT_NAME=#mdtName#</isNotNull>
+    <isNotNull prepend="and" property="mdtDesc"> MDT_DESC=#mdtDesc#</isNotNull>
+    <isNotNull prepend="and" property="createTime"> CREATE_TIME=#createTime#</isNotNull>
+    <isNotNull prepend="and" property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="and" property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+    <isNotNull prepend="and" property="mdtSign"> MDT_SIGN=#mdtSign#</isNotNull>
+  </dynamic>
+</select>
+
+</sqlMap>

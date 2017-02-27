@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="offerCatalogLocation">
+	<insert id="insertOfferCatalogLocation" parameterClass="com.ailk.eaap.op2.bo.OfferCatalogLocation">
+	 <selectKey resultClass="Integer" keyProperty="offerCatlgLocId">
+		SELECT SEQ_OFFER_CATALOG_LOCATION.NEXTVAL FROM DUAL  
+	 </selectKey>	
+	 INSERT INTO OFFER_CATALOG_LOCATION
+	    (
+	  <dynamic>
+	    <isNotNull property="offerCatlgLocId">OFFER_CATLG_LOC_ID</isNotNull>
+	    <isNotNull prepend="," property="prodOfferId">PROD_OFFER_ID</isNotNull>
+	    <isNotNull prepend="," property="dirId">DIR_ID</isNotNull>
+	    <isNotNull prepend="," property="catalogItemId">CATALOG_ITEM_ID</isNotNull>
+	    <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES(
+	  <dynamic>
+	    <isNotNull property="offerCatlgLocId">#offerCatlgLocId#</isNotNull>
+	    <isNotNull prepend="," property="prodOfferId">#prodOfferId#</isNotNull>
+	    <isNotNull prepend="," property="dirId">#dirId#</isNotNull>
+	    <isNotNull prepend="," property="catalogItemId">#catalogItemId#</isNotNull>
+	    <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+	<select id = "selectOfferCatalogLocation" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.OfferCatalogLocation">
+		SELECT
+			OFFER_CATLG_LOC_ID offerCatlgLocId,
+			PROD_OFFER_ID prodOfferId,
+			DIR_ID dirId,
+			CATALOG_ITEM_ID catalogItemId
+		FROM OFFER_CATALOG_LOCATION
+       WHERE PROD_OFFER_ID=#prodOfferId#
+       and tenant_id=#tenantId#
+	</select>
+	
+</sqlMap>

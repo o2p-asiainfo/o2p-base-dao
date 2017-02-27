@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="atrrSpec">
+	<!-- 获取产品表序列 -->
+	<select id="selectatrrSpecSeq" resultClass="java.lang.String">
+		SELECT
+		SEQ_ATTR_SPEC.NEXTVAL FROM DUAL
+	 </select>
+	<select id="selectAtrrSpec" parameterClass="com.ailk.eaap.op2.bo.AttrSpec"
+		resultClass="com.ailk.eaap.op2.bo.AttrSpec">
+		SELECT ATTR_SPEC_NAME attrSpecName from ATTR_SPEC
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="attrSpecId">
+				ATTR_SPEC_ID=#attrSpecId#
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="selectAtrrSpecList" parameterClass="java.util.HashMap" resultClass="com.ailk.eaap.op2.bo.AttrSpec">
+		SELECT ATTR_SPEC_ID attrSpecId, ATTR_SPEC_NAME attrSpecName ,ATTR_SPEC_CODE attrSpecCode,DEFAULT_VALUE defaultValue,
+		NULLABLE nullable,UP_ATTR_SPEC_ID upAttrSpecId,STATE state,CREATE_DATE createDate,ATTR_SPEC_DESC attrSpecDesc from ATTR_SPEC
+		<dynamic prepend="WHERE">
+			<isNotNull prepend="AND" property="attrSpecId"> ATTR_SPEC_ID IN ($attrSpecId$)</isNotNull>
+		</dynamic>
+	</select>
+	
+	<insert id="insertAttrSpec" parameterClass="com.ailk.eaap.op2.bo.AttrSpec">
+		INSERT INTO ATTR_SPEC
+		(
+		<dynamic>
+			<isNotNull property="attrSpecId">ATTR_SPEC_ID</isNotNull>
+			<isNotNull prepend="," property="attrSpecName">ATTR_SPEC_NAME</isNotNull>
+			<isNotNull prepend="," property="attrSpecCode">ATTR_SPEC_CODE</isNotNull>
+		</dynamic>
+		)
+		VALUES
+		(
+		<dynamic>
+			<isNotNull property="attrSpecId">#attrSpecId#</isNotNull>
+			<isNotNull prepend="," property="attrSpecName">#attrSpecName#</isNotNull>
+			<isNotNull prepend="," property="attrSpecCode">#attrSpecCode#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+		<delete id="deleteAttrSpec" parameterClass="com.ailk.eaap.op2.bo.AttrSpec">
+		delete ATTR_SPEC
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="attrSpecId">ATTR_SPEC_ID=#attrSpecId#
+			</isNotNull>
+		</dynamic>
+	</delete>
+</sqlMap>	 
+	 

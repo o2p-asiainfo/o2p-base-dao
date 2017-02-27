@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="prodOfferType">
+	<select id="selectProdOfferType" parameterClass="com.ailk.eaap.op2.bo.ProdOfferType" resultClass="com.ailk.eaap.op2.bo.ProdOfferType">
+	  SELECT CD cd,
+	         NAME name,
+	         EXPLAIN explain,
+	         STATUS_CD statusCd,
+	         STATUS_DATE statusDate
+ 	    FROM PROD_OFFER_TYPE A
+ 	   WHERE STATUS_CD = 'A'
+	</select>
+	
+</sqlMap>

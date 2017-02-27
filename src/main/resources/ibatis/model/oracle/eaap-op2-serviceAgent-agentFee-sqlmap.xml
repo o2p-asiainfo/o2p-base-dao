@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="eaap-op2-serviceAgent-agentFee">
+
+    <!-- 获取客户订单ID自增长序列 -->
+    <select id="getCustOrderlId" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">	
+ 		SELECT SEQ_CUSTOMER_ORDER.NEXTVAL CUST_ORDER_ID FROM DUAL
+ 	</select>
+ 	
+ 	<!-- 获取订单项ID自增长序列 -->
+    <select id="getOrderlItemId" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">	
+ 		SELECT SEQ_ORDER_ITEM.NEXTVAL ORDER_ITEM_ID FROM DUAL
+ 	</select>
+     
+	<!-- 新增客户订单表 -->
+    <insert id="addCustomOrder" parameterClass="java.util.HashMap">
+	    INSERT INTO CUSTOMER_ORDER(CUST_ORDER_ID,CHANNEL_ID,CUST_SO_NUMBER,STATUS_CD,STATUS_DATE,PRE_HANDLE_FLAG,ACCEPT_TIME,EXT_CUST_ORDER_ID,TRANSACTION_ID)
+        VALUES(#custOrderId#,#componentId#,#custOrderId#,'100000',SYS_EXTRACT_UTC(current_timestamp)+0,'F',SYS_EXTRACT_UTC(current_timestamp)+0,#extCustOrderId#,#transactionId#)
+	</insert>
+	
+	<!-- 查询订单关系信息 -->
+    <select id="queryOrderRealInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+        SELECT T.PROD_INST_ID, TTTT.ATTR_VALUE
+        FROM PROD_INST T, PROD_INST_ORDER TT, ORDER_ITEM TTT, PROD_INST_ATTR TTTT
+        WHERE T.PROD_INST_ID = TT.PROD_INST_ID
+        AND TT.ORDER_ITEM_ID = TTT.ORDER_ITEM_ID
+        AND T.PROD_INST_ID = TTTT.PROD_INST_ID
+        AND TTT.STATUS_CD = '300000'
+        AND TT.STATE = 'ADD'
+        AND T.ACC_NBR = #phoneNum#
+    </select>
+	
+	<!-- 新增订单项表 -->
+	<insert id="addOrderItem" parameterClass="java.util.HashMap">
+	    INSERT INTO ORDER_ITEM(ORDER_ITEM_ID,CUST_ORDER_ID,SERVICE_OFFER_ID,ORDER_ITEM_CD,STATUS_CD,STATUS_DATE,PRE_HANDLE_FLAG,HANDLE_TIME,EXT_ORDER_ITEM_ID)
+        VALUES(#orderItemId#,#custOrderId#,#serviceOfferId#,'1300','100000',SYS_EXTRACT_UTC(current_timestamp)+0,'F',SYS_EXTRACT_UTC(current_timestamp)+0,#extOrderItemId#)
+	</insert>
+	
+	<!-- 新增订单项关系表 -->
+	<insert id="addOrderItemRel" parameterClass="java.util.HashMap">
+	    INSERT INTO ORDER_ITEM_REL(PRODUCT_ORDER_REL_ID,ORDER_ITEM_ID,ORD_ORDER_ITEM_ID,ORDER_REL_TYPE)
+        VALUES(SEQ_ORDER_ITEM_REL.NEXTVAL,#orderItemId#,#ordOrderItemId#,'100')
+	</insert>
+	
+	<!-- 新增账目表 -->
+	<insert id="addAcctItem" parameterClass="java.util.HashMap">
+	    INSERT INTO ACCT_ITEM(ACCT_ITEM_ID,ORDER_ITEM_ID,AMOUNT,STATUS_DATE)
+	    VALUES(SEQ_ACCT_ITEM.NEXTVAL,#orderItemId#,#amount#,SYS_EXTRACT_UTC(current_timestamp)+0)
+	</insert>
+	
+	<!-- 新增产品动作表 -->
+	<insert id="addProdInstOrder" parameterClass="java.util.HashMap">
+	    INSERT INTO PROD_INST_ORDER(ORDER_ITEM_ID,PROD_INST_ID,STATE)
+        VALUES(#orderItemId#,#prodInstId#,'KIP')
+	</insert>
+	
+	<!-- 获取流水号 -->
+	<select id="getTransactionID" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	    SELECT '8000000001'||TO_CHAR(SYS_EXTRACT_UTC(current_timestamp)+0, 'YYYYMMDD') || LPAD(SEQ_SRC_TRAN_ID.NEXTVAL , 10, '0') TRANSACTION_ID FROM DUAL
+	</select>
+	
+	<!-- 更新订单项表 -->
+	<update id="updateOrderItem" parameterClass="java.util.HashMap">
+	    UPDATE ORDER_ITEM SET STATUS_CD = '300000',FINISH_TIME = #orderPayTime#
+	    <dynamic>
+	        <isNotEmpty prepend="," property="paySerialNbr">
+	            EXT_ORDER_ITEM_ID = #paySerialNbr#
+	        </isNotEmpty>
+	    </dynamic>
+	    WHERE ORDER_ITEM_ID = #outOrderId#
+	    <dynamic>
+	        <isNotEmpty prepend="AND" property="tbOrderId">
+	            EXT_ORDER_ITEM_ID = #tbOrderId#
+	        </isNotEmpty>
+	    </dynamic>
+	</update>
+	
+	<!-- 查询订单信息 -->
+	<select id="getOrderInfo" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT TT.ORD_ORDER_ITEM_ID,A.ACC_NBR,C.STATUS_CD,B.AMOUNT
+		FROM ORDER_ITEM T,ORDER_ITEM_REL TT,PROD_INST_ATTR TTT,PROD_INST_ORDER TTTT,PROD_INST A,ACCT_ITEM B,ORDER_ITEM C
+		WHERE T.ORDER_ITEM_ID = #outOrderId# 
+		AND T.SERVICE_OFFER_ID = '4041500001'
+		AND T.ORDER_ITEM_ID = TT.ORDER_ITEM_ID
+		AND TTT.ATTR_VALUE = #tbOrderId#
+		AND TTT.PROD_INST_ID = TTTT.PROD_INST_ID
+		AND TTTT.ORDER_ITEM_ID = T.ORDER_ITEM_ID
+		AND A.PROD_INST_ID = TTT.PROD_INST_ID
+		AND T.ORDER_ITEM_ID = B.ORDER_ITEM_ID
+		AND C.ORDER_ITEM_ID = TT.ORD_ORDER_ITEM_ID
+	</select>
+	
+	<!-- 查询订单状态数量 -->
+	<select id="getOrderStateNum" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+	    SELECT SUM(DECODE(TT.STATUS_CD,'300000',1,0)) SUCCECC_NUM,COUNT(1) TOTAL_NUM,T.CUST_ORDER_ID
+	    FROM ORDER_ITEM T,ORDER_ITEM TT
+		WHERE T.ORDER_ITEM_ID = #outOrderId# 
+		AND T.CUST_ORDER_ID = TT.CUST_ORDER_ID
+		AND TT.SERVICE_OFFER_ID = '4041500000'
+		GROUP BY T.CUST_ORDER_ID
+	</select>
+	
+	<!-- 更新客户订单表 -->
+	<update id="updateCustOrder" parameterClass="java.util.HashMap">
+	    UPDATE CUSTOMER_ORDER SET STATUS_CD = '300000',STATUS_DATE = SYS_EXTRACT_UTC(current_timestamp)+0 WHERE CUST_ORDER_ID = #custOrderId#
+	</update>
+</sqlMap>

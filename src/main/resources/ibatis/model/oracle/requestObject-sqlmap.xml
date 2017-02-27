@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="requestObject">
+	<insert id="insertRequestObject" parameterClass="com.ailk.eaap.op2.bo.RequestObject">
+	 <selectKey resultClass="Integer" keyProperty="requestObjectId">
+		SELECT SEQ_REQUEST_OBJECT.NEXTVAL FROM DUAL  
+	 </selectKey>	
+	 INSERT INTO REQUEST_OBJECT
+	    (
+	  <dynamic>
+	    <isNotNull property="requestObjectId">REQUEST_OBJECT_ID</isNotNull>
+	    <isNotNull prepend="," property="requestTemplateInstId">REQUEST_TEMPLATE_INST_ID</isNotNull>
+	    <isNotNull prepend="," property="objectType">OBJECT_TYPE</isNotNull>
+	    <isNotNull prepend="," property="objectCode">OBJECT_CODE</isNotNull>
+	    <isNotNull prepend="," property="objectName">OBJECT_NAME</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES(
+	  <dynamic>
+	    <isNotNull property="requestObjectId">#requestObjectId#</isNotNull>
+	    <isNotNull prepend="," property="requestTemplateInstId">#requestTemplateInstId#</isNotNull>
+	    <isNotNull prepend="," property="objectType">#objectType#</isNotNull>
+	    <isNotNull prepend="," property="objectCode">#objectCode#</isNotNull>
+	    <isNotNull prepend="," property="objectName">#objectName#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+	
+	<select id="selectRequestObject" parameterClass="com.ailk.eaap.op2.bo.RequestObject" resultClass="com.ailk.eaap.op2.bo.RequestObject">
+	  SELECT REQUEST_OBJECT_ID requestObjectId,
+	         REQUEST_TEMPLATE_INST_ID requestTemplateInstId,
+	         OBJECT_TYPE objectType,
+	         OBJECT_CODE objectCode,
+	         OBJECT_NAME objectName
+ 	    FROM REQUEST_OBJECT
+	  <dynamic prepend="WHERE">
+	    <isNotNull prepend="AND" property="requestTemplateInstId"> REQUEST_TEMPLATE_INST_ID=#requestTemplateInstId#</isNotNull>
+	  </dynamic>
+	</select>
+	
+</sqlMap>

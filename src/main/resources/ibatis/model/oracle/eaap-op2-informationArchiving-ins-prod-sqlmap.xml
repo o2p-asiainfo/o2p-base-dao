@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ins_prod" >
+  <resultMap id="BaseResultMap" class="com.ailk.eaap.op2.bo.informationArchiving.InsProd" >
+    <result column="EFFECTIVE_DATE" property="effectiveDate" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+    <result column="PROD_INST_ID" property="prodInstId" jdbcType="DECIMAL" />
+    <result column="OFFER_USER_RELAT_ID" property="offerUserRelatId" jdbcType="DECIMAL" />
+    <result column="OFFER_INST_ID" property="offerInstId" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="PROD_ID" property="prodId" jdbcType="DECIMAL" />
+    <result column="PROD_TYPE" property="prodType" jdbcType="VARCHAR" />
+    <result column="EXPIRE_PROCESS_TYPE" property="expireProcessType" jdbcType="DECIMAL" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="DONE_DATE" property="doneDate" jdbcType="TIMESTAMP" />
+    <result column="SRC_SYSTEM_TYPE" property="srcSystemType" jdbcType="DECIMAL" />
+    <result column="SRC_SYSTEM_EXT_CODE" property="srcSystemExtCode" jdbcType="VARCHAR" />
+    <result column="BUSI_TYPE" property="busiType" jdbcType="VARCHAR" />
+    <result column="ACT_TYPE" property="actType" jdbcType="VARCHAR" />
+    <result column="main_server_id" property="mainServerId"/>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    EFFECTIVE_DATE, EXPIRE_DATE, PROD_INST_ID, OFFER_USER_RELAT_ID, OFFER_INST_ID, USER_ID, 
+    PROD_ID, PROD_TYPE, EXPIRE_PROCESS_TYPE, STATE, CREATE_DATE, DONE_DATE, SRC_SYSTEM_TYPE, 
+    SRC_SYSTEM_EXT_CODE, BUSI_TYPE,ACT_TYPE,main_server_id
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsProd" >
+    select 
+    <include refid="ins_prod.Base_Column_List" />
+    from ins_prod
+     where USER_ID = #userId:DECIMAL#
+      and PROD_ID = #prodId:DECIMAL#
+      and tenant_id=#tenantId#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsProd" >
+    delete from ins_prod
+    where  PROD_INST_ID = #prodInstId:DECIMAL#
+    and tenant_id=#tenantId#
+  </delete>
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsProd" >
+    insert into ins_prod
+     (EFFECTIVE_DATE,CREATE_DATE,DONE_DATE
+    <dynamic >
+      <isNotNull prepend="," property="expireDate" >
+        EXPIRE_DATE
+      </isNotNull>
+      <isNotNull prepend="," property="prodInstId" >
+        PROD_INST_ID
+      </isNotNull>
+      <isNotNull prepend="," property="offerUserRelatId" >
+        OFFER_USER_RELAT_ID
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        OFFER_INST_ID
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        USER_ID
+      </isNotNull>
+      <isNotNull prepend="," property="prodId" >
+        PROD_ID
+      </isNotNull>
+      <isNotNull prepend="," property="prodType" >
+        PROD_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="expireProcessType" >
+        EXPIRE_PROCESS_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE
+      </isNotNull>
+      <isNotNull prepend="," property="srcSystemType" >
+        SRC_SYSTEM_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="srcSystemExtCode" >
+        SRC_SYSTEM_EXT_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="busiType" >
+        BUSI_TYPE
+      </isNotNull>
+       <isNotNull prepend="," property="actType" >
+        ACT_TYPE
+      </isNotNull>
+      <isNotNull prepend="," property="mainServerId" >
+        main_server_id
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+      )
+    </dynamic>
+    values
+    (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+    <dynamic >
+      <isNotNull prepend="," property="expireDate" >
+        #expireDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="prodInstId" >
+        #prodInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerUserRelatId" >
+        #offerUserRelatId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        #offerInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        #userId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="prodId" >
+        #prodId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="prodType" >
+        #prodType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="expireProcessType" >
+        #expireProcessType:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        #state:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="srcSystemType" >
+        #srcSystemType:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="srcSystemExtCode" >
+        #srcSystemExtCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="busiType" >
+        #busiType:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="actType" >
+        #actType:VARCHAR#
+      </isNotNull>
+        <isNotNull prepend="," property="mainServerId" >
+        #mainServerId#
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsProd" >
+    update ins_prod
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="offerUserRelatId" >
+        OFFER_USER_RELAT_ID = #offerUserRelatId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="offerInstId" >
+        OFFER_INST_ID = #offerInstId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="prodType" >
+        PROD_TYPE = #prodType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="expireProcessType" >
+        EXPIRE_PROCESS_TYPE = #expireProcessType:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE = #state:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="expireDate" >
+        EXPIRE_DATE = #expireDate:TIMESTAMP#
+      </isNotNull>
+        ,DONE_DATE = SYS_EXTRACT_UTC(current_timestamp)+0
+      <isNotNull prepend="," property="srcSystemType" >
+        SRC_SYSTEM_TYPE = #srcSystemType:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="srcSystemExtCode" >
+        SRC_SYSTEM_EXT_CODE = #srcSystemExtCode:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="busiType" >
+        BUSI_TYPE = #busiType:VARCHAR#
+      </isNotNull>
+       <isNotNull prepend="," property="actType" >
+        ACT_TYPE = #actType:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="mainServerId" >
+        main_server_id = #mainServerId#
+      </isNotNull>
+    </dynamic>
+    where 
+     USER_ID = #userId:DECIMAL#
+      and PROD_ID = #prodId:DECIMAL#
+      and tenant_id=#tenantId#
+  </update>
+</sqlMap>

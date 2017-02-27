@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="proofValues">
+	
+ 	 <select id="selectProofValuesSeq" resultClass="java.lang.String">
+		   SELECT SEQ_PROOF_VALUES.NEXTVAL FROM DUAL
+	 </select>
+	 
+	 <insert id="insertProofValues" parameterClass="com.ailk.eaap.op2.bo.ProofValues">
+	  INSERT INTO PROOF_VALUES
+	  (CREATE_TIME,LASTEST_TIME
+	  <dynamic>
+	 	<isNotNull prepend="," property="pvId">PV_ID</isNotNull>
+	    <isNotNull prepend="," property="proofeId">PROOFE_ID</isNotNull>
+	    <isNotNull prepend="," property="prAtrSpecCd">PR_ATR_SPEC_CD</isNotNull>
+	    <isNotNull prepend="," property="attrValue">ATTR_VALUE</isNotNull>
+	    <isNotNull prepend="," property="state">STATE</isNotNull>
+	    <isNotNull prepend="," property="tenantId"> TENANT_ID</isNotNull>
+	  </dynamic>
+	  )
+	  VALUES
+	  (utc_timestamp(),utc_timestamp()
+	  <dynamic>
+	  	<isNotNull prepend="," property="pvId">#pvId#</isNotNull>
+	    <isNotNull prepend="," property="proofeId">#proofeId#</isNotNull>
+	    <isNotNull prepend="," property="prAtrSpecCd">#prAtrSpecCd#</isNotNull>
+	    <isNotNull prepend="," property="attrValue">#attrValue#</isNotNull>
+	    <isNotNull prepend="," property="state">#state#</isNotNull>
+	    <isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+	  </dynamic>
+	  )
+	</insert>
+
+	<update id="updateProofValues" parameterClass="com.ailk.eaap.op2.bo.ProofValues">
+	  
+	  UPDATE PROOF_VALUES  
+		  <dynamic prepend="SET">
+		    <isNotNull prepend="," property="attrValue">ATTR_VALUE=#attrValue#</isNotNull>
+		    <isNotNull prepend="," property="state">STATE=#state#</isNotNull>
+		  </dynamic>
+		   , LASTEST_TIME = utc_timestamp() 
+		  <dynamic prepend="WHERE">
+		    <isNotNull prepend="AND" property="pvId"> PV_ID=#pvId#</isNotNull>
+		    <isNotNull prepend="AND" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+		  </dynamic>
+	</update>
+	
+</sqlMap>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="regStatRecent">
+	
+	<!-- 按秒插入日志统计表-->
+	<insert id="insertRegStaRecent" parameterClass="com.ailk.eaap.op2.bo.RegStatRecent" >
+		INSERT INTO reg_stat_recent(date_tran_id, date_type, biz_code, intf_code, reg_ser_version, dst_code, 
+		  	total_trans, total_biz_err, total_sys_err, avg_using_dst, avg_using, count_time)
+	    SELECT #dateTranId#, #dateType#, #bizCode#, #intfCode#, #regSerVersion#, #dstCode#, 
+		  	#totalTrans#, #totalBizErr#, #totalSysErr#, #avgUsingDst#, #avgUsing#, #countTime# FROM dual WHERE not exists 
+		(select 1 from reg_stat_recent where biz_code=#bizCode# and intf_code=#intfCode#
+		and reg_ser_version=#regSerVersion# and dst_code=#dstCode# and date_tran_id=#dateTranId#);
+		
+		update reg_stat_recent set date_type=#dateType#, total_trans=#totalTrans#, total_biz_err=#totalBizErr#, 
+		total_sys_err=#totalSysErr# , avg_using_dst=#avgUsingDst# , avg_using=#avgUsing# , count_time=#countTime# 
+		 where biz_code=#bizCode# and intf_code=#intfCode#
+		and reg_ser_version=#regSerVersion# and dst_code=#dstCode# and date_tran_id=#dateTranId#;
+	</insert>
+	
+	<update id="updateStaticNormalByMeasureMemcache" parameterClass="com.ailk.eaap.op2.bo.RegStatRecent">
+		UPDATE reg_stat_recent SET total_trans = #totalTrans#,avg_using_dst=#avgUsingDst#,
+		avg_using = #avgUsing#,count_time=now()
+	where biz_code=#bizCode#
+		and intf_code=#intfCode#
+		and reg_ser_version=#regSerVersion#
+		and dst_code=#dstCode#
+		and date_tran_id=#dateTranId#
+	</update>
+	
+	
+	<!-- 按秒更新日志统计表-->
+	<update id="updateStaticExceptionByMeasure" parameterClass="com.ailk.eaap.op2.bo.RegStatRecent">
+		UPDATE reg_stat_recent SET total_trans = total_trans+1,total_biz_err = total_biz_err+1,count_time=now()
+		where biz_code=#bizCode#
+			and intf_code=#intfCode#
+			and reg_ser_version=#regSerVersion#
+			and dst_code=#dstCode#
+			and date_tran_id=#dateTranId#
+	</update>
+	
+	<!-- 按秒更新日志统计表-->
+	<update id="updateStaticSystemErrorByMeasure" parameterClass="com.ailk.eaap.op2.bo.RegStatRecent">
+		UPDATE reg_stat_recent SET total_trans = total_trans+1,total_sys_err = total_sys_err+1,count_time=now(),total_biz_err = #totalBizErr#,total_sys_err = #totalSysErr#
+		where biz_code=#bizCode#
+			and intf_code=#intfCode#
+			and reg_ser_version=#regSerVersion#
+			and dst_code=#dstCode#
+			and date_tran_id=#dateTranId#
+	</update>		
+	
+	
+	<!-- 按秒插入或更新日志统计表-->
+	<update id="insertOrUpdateStaticByMeasure" parameterClass="com.ailk.eaap.op2.bo.RegStatRecent"> 
+	   MERGE INTO reg_stat_recent reg_stat_new 
+	   USING (
+			select #bizCode# as biz_code,#intfCode# as intf_code ,#regSerVersion# as reg_ser_version ,#dstCode# as dst_code ,#dateTranId# as date_tran_id
+			   from dual
+	   ) reg_stat_former
+	   ON ( reg_stat_new.biz_code = reg_stat_former.biz_code
+	   		and reg_stat_new.intf_code=reg_stat_former.intf_code 
+	        and reg_stat_new.reg_ser_version=reg_stat_former.reg_ser_version
+	        and reg_stat_new.dst_code=reg_stat_former.dst_code
+	        and reg_stat_new.date_tran_id=reg_stat_former.date_tran_id) 
+	   WHEN MATCHED THEN 
+	        UPDATE SET reg_stat_new.total_trans = total_trans+1 
+	   WHEN NOT MATCHED THEN   
+			insert
+			  (usingtsr_id, date_tran_id, date_type, biz_code, intf_code, reg_ser_version, dst_code, 
+			  	total_trans, total_biz_err, total_sys_err, avg_using_dst, avg_using, count_time)
+			values
+			  (SEQ_REG_STAT_REC.nextval, #dateTranId#, #dateType#, #bizCode#, #intfCode#, #regSerVersion#, #dstCode#, 
+			  	1, #totalBizErr#, #totalSysErr#, #avgUsingDst#, #avgUsing#, now())	       
+	 </update>	
+	 
+</sqlMap>

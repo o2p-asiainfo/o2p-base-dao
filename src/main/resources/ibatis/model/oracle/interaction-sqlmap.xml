@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="interaction">
+	
+	<!-- 获取CONTRACT_INTERACTION序列 -->
+	<select id="getInteractionSequence" resultClass="String" >
+		SELECT to_char(SYS_EXTRACT_UTC(current_timestamp)+0,'YYYYMMDD')||lpad(SEQ_INTERACTION.nextval, 10, '0') FROM DUAL
+	</select>	
+	
+	<insert id="insertInteraction" parameterClass="com.ailk.eaap.op2.bo.Interaction">
+	  insert into INTERACTION$tabSuffix$
+	  (CONTRACT_INTERACTION_ID ,CREATETIME,STATE,STATE_TIME)
+	  values
+	  (#contractInteractionId#,SYS_EXTRACT_UTC(current_timestamp)+0,'A',SYS_EXTRACT_UTC(current_timestamp)+0)
+	</insert>
+</sqlMap>

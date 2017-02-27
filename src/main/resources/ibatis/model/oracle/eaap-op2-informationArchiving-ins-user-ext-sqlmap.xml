@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ins_user_ext" >
+  <resultMap id="BaseResultMap" class="com.ailk.eaap.op2.bo.informationArchiving.InsUserExt" >
+    <result column="INS_USER_EXT_ID" property="insUserExtId" jdbcType="DECIMAL" />
+    <result column="USER_ID" property="userId" jdbcType="DECIMAL" />
+    <result column="ATTR_CODE" property="attrCode" jdbcType="DECIMAL" />
+    <result column="ATTR_VALUE" property="attrValue" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="DECIMAL" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="DONE_DATE" property="doneDate" jdbcType="TIMESTAMP" />
+    <result column="EFFECTIVE_DATE" property="effectiveDate" jdbcType="TIMESTAMP" />
+    <result column="EXPIRE_DATE" property="expireDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    INS_USER_EXT_ID, USER_ID, ATTR_CODE, ATTR_VALUE, STATE, CREATE_DATE, DONE_DATE, EFFECTIVE_DATE, 
+    EXPIRE_DATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsUserExt" >
+    select 
+    <include refid="ins_user_ext.Base_Column_List" />
+    from ins_user_ext
+    where INS_USER_EXT_ID = #insUserExtId:DECIMAL#
+    and tenant_id=#tenantId#
+  </select>
+  <delete id="deleteByPrimaryKey" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsUserExt" >
+    delete from ins_user_ext
+    where INS_USER_EXT_ID = #insUserExtId:DECIMAL#
+    and tenant_id=#tenantId#
+  </delete>
+  <insert id="insertSelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsUserExt" >
+  <selectKey resultClass="int" keyProperty="insUserExtId">
+		 SELECT  SEQ_INS_USER_EXT.NEXTVAL FROM DUAL
+    </selectKey>
+    insert into ins_user_ext
+    (CREATE_DATE,DONE_DATE,EFFECTIVE_DATE
+    <dynamic >
+      <isNotNull prepend="," property="insUserExtId" >
+        INS_USER_EXT_ID
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        USER_ID
+      </isNotNull>
+      <isNotNull prepend="," property="attrCode" >
+        ATTR_CODE
+      </isNotNull>
+      <isNotNull prepend="," property="attrValue" >
+        ATTR_VALUE
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE
+      </isNotNull>
+      <isNotNull prepend="," property="expireDate" >
+        EXPIRE_DATE
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> tenant_id</isNotNull>
+      )
+    </dynamic>
+    values
+    (SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0,SYS_EXTRACT_UTC(current_timestamp)+0
+    <dynamic prepend="(" >
+      <isNotNull prepend="," property="insUserExtId" >
+        #insUserExtId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="userId" >
+        #userId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="attrCode" >
+        #attrCode:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="attrValue" >
+        #attrValue:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        #state:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="expireDate" >
+        #expireDate:TIMESTAMP#
+      </isNotNull>
+      <isNotNull prepend="," property="tenantId"> #tenantId#</isNotNull>
+      )
+    </dynamic>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterClass="com.ailk.eaap.op2.bo.informationArchiving.InsUserExt" >
+    update ins_user_ext
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="userId" >
+        USER_ID = #userId:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="attrCode" >
+        ATTR_CODE = #attrCode:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="attrValue" >
+        ATTR_VALUE = #attrValue:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="state" >
+        STATE = #state:DECIMAL#
+      </isNotNull>
+        ,DONE_DATE = SYS_EXTRACT_UTC(current_timestamp)+0
+      <isNotNull prepend="," property="expireDate" >
+        EXPIRE_DATE = #expireDate:TIMESTAMP#
+      </isNotNull>
+    </dynamic>
+    where INS_USER_EXT_ID = #insUserExtId:DECIMAL#
+    and tenant_id=#tenantId#
+  </update>
+</sqlMap>

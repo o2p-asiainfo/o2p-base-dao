@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "http://ibatis.apache.org/dtd/sql-map-2.dtd" "-//ibatis.apache.org//DTD SQL Map 2.0//EN">
+
+<sqlMap namespace="serTechImpl">
+ <!-- 获取表序列 -->
+ <select id="selectSerTechImplSeq" resultClass="java.lang.String">
+   SELECT SEQ_SER_TECH_IMPL.NEXTVAL FROM DUAL
+</select>
+
+<update id="updateSerTechImpl" parameterClass="com.ailk.eaap.op2.bo.SerTechImpl">
+  UPDATE SER_TECH_IMPL
+  <dynamic prepend="SET">
+     <isNotNull prepend="," property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="," property="state"> STATE=#state#</isNotNull>
+    <isNotNull prepend="," property="lastestTime"> LASTEST_TIME=#lastestTime#</isNotNull>
+  </dynamic>
+  <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="serTechImplId"> SER_TECH_IMPL_ID=#serTechImplId#</isNotNull>
+    <isNotNull prepend="and" property="serviceId"> SERVICE_ID=#serviceId#</isNotNull> 
+    <isNotNull prepend="and" property="tenantId"> TENANT_ID = #tenantId#</isNotNull> 
+  </dynamic>
+</update>
+
+<insert id="insertSerTechImpl" parameterClass="com.ailk.eaap.op2.bo.SerTechImpl">
+ INSERT INTO SER_TECH_IMPL
+ (CREATE_TIME,LASTEST_TIME
+ <dynamic>
+	 <isNotNull prepend="," property="serTechImplId">SER_TECH_IMPL_ID</isNotNull>
+	 <isNotNull prepend="," property="serviceId">SERVICE_ID</isNotNull>
+	 <isNotNull prepend="," property="techImplId">TECH_IMPL_ID</isNotNull>
+	 <isNotNull prepend="," property="state">STATE</isNotNull>
+	 <isNotNull prepend="," property="tenantId">TENANT_ID</isNotNull>
+ </dynamic>
+  )
+  VALUES
+  (utc_timestamp(),utc_timestamp()
+  <dynamic>
+	  <isNotNull prepend="," property="serTechImplId">#serTechImplId#</isNotNull>
+	  <isNotNull prepend="," property="serviceId">#serviceId#</isNotNull>
+	  <isNotNull prepend="," property="techImplId">#techImplId#</isNotNull>
+	  <isNotNull prepend="," property="state">#state#</isNotNull>
+	  <isNotNull prepend="," property="tenantId">#tenantId#</isNotNull>
+  </dynamic>
+   )
+</insert>
+
+<select id="selectSerTechImpl" parameterClass="com.ailk.eaap.op2.bo.SerTechImpl" resultClass="com.ailk.eaap.op2.bo.SerTechImpl">
+ SELECT SER_TECH_IMPL_ID serTechImplId,SERVICE_ID serviceId,TECH_IMPL_ID techImplId,CREATE_TIME createTime,STATE state,LASTEST_TIME lastestTime FROM SER_TECH_IMPL
+  <dynamic prepend="WHERE">
+    <isNotNull prepend="and" property="serTechImplId"> SER_TECH_IMPL_ID=#serTechImplId#</isNotNull>
+    <isNotNull prepend="and" property="techImplId"> TECH_IMPL_ID=#techImplId#</isNotNull>
+    <isNotNull prepend="and" property="tenantId"> TENANT_ID = #tenantId#</isNotNull>
+  </dynamic>
+</select>
+</sqlMap>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="attrValue">
+	<select id="queryAttrValueSeq" resultClass="java.lang.String">
+		SELECT SEQ_ATTR_VALUE.NEXTVAL FROM DUAL
+	 </select>
+	 <select id="queryAttrValue" resultClass="com.ailk.eaap.op2.bo.AttrValue" parameterClass="com.ailk.eaap.op2.bo.AttrValue">
+		SELECT * FROM ATTR_VALUE
+		<dynamic prepend="where">
+		  <isNotNull property="productId">PRODUCT_ID</isNotNull>
+		</dynamic>
+	 </select>
+	 <insert id="insertAttrValue" parameterClass="com.ailk.eaap.op2.bo.AttrValue">
+		INSERT INTO ATTR_VALUE
+		(
+		<dynamic>
+			<isNotNull  property="attrValueId">ATTR_VALUE_ID</isNotNull>
+			<isNotNull prepend="," property="attrDesc">ATTR_DESC</isNotNull>
+			<isNotNull prepend="," property="attrValue">ATTR_VALUE</isNotNull>
+		</dynamic>
+		)
+		VALUES
+        (
+		<dynamic>
+			<isNotNull  property="attrValueId">#attrValueId#</isNotNull>
+			<isNotNull prepend="," property="attrDesc">#attrDesc#</isNotNull>
+			<isNotNull prepend="," property="attrValue">#attrValue#</isNotNull>
+		</dynamic>
+		)
+	</insert>
+    <delete id="deleteAttrValue" parameterClass="com.ailk.eaap.op2.bo.AttrValue">
+		delete PRODUCT_ATTR
+		<dynamic prepend="where">
+			<isNotNull prepend="and" property="attrSpecId">ATTR_SPEC_ID=#attrSpecId#
+			</isNotNull>
+		</dynamic>
+		<dynamic>
+			<isNotNull prepend="and" property="productId">PRODUCT_ID=#productId#
+			</isNotNull>
+		</dynamic>
+		<dynamic>
+			<isNotNull prepend="and" property="displayType">DISPLAY_TYPE=#displayType#
+			</isNotNull>
+		</dynamic>
+	</delete>
+</sqlMap>
